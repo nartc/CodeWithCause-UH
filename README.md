@@ -8,4 +8,4 @@ Author:
 - Justin Reusnow
 - Kyle Hopfer
 - Karl Nutzel
-- Cassie
+- Cassie Short
