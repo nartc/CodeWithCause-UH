@@ -4,16 +4,18 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 import * as passport from 'passport';
-import * as path from 'path';
 import * as config from 'config';
 import * as swaggerUI from 'swagger-ui-express';
-import {Application} from 'express';
+import {Application, Request, Response} from 'express';
 import {Mongoose} from 'mongoose';
 import {MongoError} from 'mongodb';
 import {winstonLogger, setupLogging} from './middleware/common/winstonLogger';
 
+import {APIDocsRouter} from './middleware/common/Swagger';
+
 class App {
     public app: Application;
+    private apiDocsRoutes: APIDocsRouter = new APIDocsRouter();
     private environmentHost: string = process.env.NODE_ENV || 'Development';
 
     constructor() {
@@ -53,6 +55,18 @@ class App {
         this.app.use(passport.session());
 
         // SwaggerUI: TODO
+        this.app.use('/', this.apiDocsRoutes.getRouter());
+        this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
+            explorer: true,
+            swaggerUrl: this.environmentHost === 'Development'
+                ? 'http://localhost:8080/api/docs/swagger.json'
+                : 'https://codewithcause.herokuapp.com/api/docs/swagger.json'
+        }));
+
+        // Test Index
+        this.app.get('/', (req: Request, res: Response) => {
+           res.send('Code with a Cause started');
+        });
     }
 
     private static onMongoConnection() {
