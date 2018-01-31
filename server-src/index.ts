@@ -41,6 +41,7 @@ function onServerError(error: NodeJS.ErrnoException): void {
 
 function onServerListening() {
     const addr = server.address();
+    console.log(addr);
     const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
     winstonLogger.info(
         `-------------
