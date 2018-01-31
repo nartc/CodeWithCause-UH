@@ -15,8 +15,8 @@
     "swagger-copy": "cp ./server-src/swagger.json ./server-build/swagger.json",
     "clean": "rimraf ./server-build && rimraf ./server-src/routes.ts && rimraf ./server-src/swagger.json",
     "start-gen": "npm run clean && npm run swagger-gen && tsc && npm run swagger-copy",
-    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; heroku config:set APP_URL=$(heroku apps:info -s  | grep web_url | cut -d= -f2)",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev --dev",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;",
     "start-dev": "concurrently --kill-others-on-fail \"tsc -w\" \"nodemon ./server-build/index.js\"",
     "start": "tsc && cp ./server-src/swagger.json ./server-build/swagger.json && node ./server-build/index.js"
   },

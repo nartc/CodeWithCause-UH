@@ -62,7 +62,6 @@ class App {
                 ? `http://${config.get('express.host')}:${config.get('express.port')}/api/docs/swagger.json`
                 : 'https://codewithcause.herokuapp.com/api/docs/swagger.json'
         }));
-        console.log(process.env);
 
         // Test Index
         this.app.get('/', (req: Request, res: Response) => {
