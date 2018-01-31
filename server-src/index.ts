@@ -14,7 +14,6 @@ server.listen(port);
 server.on('error', onServerError);
 server.on('listening', onServerListening);
 
-
 function normalizePort(param: number | string): number | string | boolean {
     const portNumber: number = typeof param === 'string' ? parseInt(param, 10) : param;
     if (isNaN(portNumber)) return param;
@@ -41,12 +40,14 @@ function onServerError(error: NodeJS.ErrnoException): void {
 
 function onServerListening() {
     const addr = server.address();
-    console.log(process.env.host);
-    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    const host = process.env.NODE_ENV === 'production'
+        ? 'https://codewithcause.herokuapp.com/'
+        : `http://localhost:${addr.port}/`;
     winstonLogger.info(
         `-------------
-       Express Server started on ${bind}
-      
+       Express Server started on: ${host}
+       
+       Swagger API Documentation on: ${host}api/docs
         `
     );
 }
