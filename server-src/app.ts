@@ -59,9 +59,10 @@ class App {
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
             explorer: true,
             swaggerUrl: this.environmentHost === 'Development'
-                ? 'http://localhost:8080/api/docs/swagger.json'
+                ? `http://${config.get('express.host')}:${config.get('express.port')}/api/docs/swagger.json`
                 : 'https://codewithcause.herokuapp.com/api/docs/swagger.json'
         }));
+        console.log(process.env);
 
         // Test Index
         this.app.get('/', (req: Request, res: Response) => {
