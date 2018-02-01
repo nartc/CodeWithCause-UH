@@ -5,12 +5,9 @@
 	],
 	"definitions": {},
 	"info": {
-		"title": "codewithcause",
+		"description": "CodeWithCause-NodeExpress Documentation",
 		"version": "1.0.0",
-		"description": "Code with a Cause Node Backend",
-		"license": {
-			"name": "MIT"
-		}
+		"title": "CodeWithCause-Node Express"
 	},
 	"paths": {},
 	"produces": [
