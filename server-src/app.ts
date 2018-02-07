@@ -4,16 +4,18 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 import * as passport from 'passport';
-import * as config from 'config';
 import * as swaggerUI from 'swagger-ui-express';
+
 import {Application, Request, Response} from 'express';
-import {Mongoose} from 'mongoose';
+import {Connection, Mongoose} from 'mongoose';
+import {get} from 'config';
 import {MongoError} from 'mongodb';
-import {winstonLogger, setupLogging} from './middleware/common/winstonLogger';
+import {setupLogging, winstonLogger} from './middleware/common/winstonLogger';
 
 import {APIDocsRouter} from './middleware/common/Swagger';
 
 class App {
+    public mongooseConnection: Connection;
     public app: Application;
     private apiDocsRoutes: APIDocsRouter = new APIDocsRouter();
     private environmentHost: string = process.env.NODE_ENV || 'Development';
@@ -30,9 +32,11 @@ class App {
         // Connect to MongoDB
         (mongoose as Mongoose).Promise = global.Promise;
 
-        mongoose
-            .connect(process.env.MONGO_URI || config.get('mongo.mongo_uri'))
-            .then(App.onMongoConnection)
+        mongoose.connect(process.env.MONGO_URI || get('mongo.mongo_uri'))
+            .then(() => {
+                this.mongooseConnection = mongoose.connection;
+                App.onMongoConnection();
+            })
             .catch(App.onMongoConnectionError);
 
         // CORS MW
@@ -59,13 +63,13 @@ class App {
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
             explorer: true,
             swaggerUrl: this.environmentHost === 'Development'
-                ? `http://${config.get('express.host')}:${config.get('express.port')}/api/docs/swagger.json`
-                : 'https://codewithcause.herokuapp.com/api/docs/swagger.json'
+                ? `http://${get('express.host')}:${get('express.port')}/api/docs/swagger.json`
+                : `https://${get('express.host')}/api/docs/swagger.json`
         }));
 
         // Test Index
         this.app.get('/', (req: Request, res: Response) => {
-           res.send('Code with a Cause started');
+            res.send('Code with a Cause started');
         });
     }
 
@@ -86,4 +90,4 @@ class App {
     }
 }
 
-export default new App().app;
+export default new App();

@@ -31,7 +31,6 @@
     "entryFile": "./server-src/app.ts",
     "routesDir": "./server-src",
     "middleware": "express",
-    "middlewareTemplate": "custom-template.ts",
-    "authenticationModule": "./server-src/middleware/security/passport.ts"
+    "middlewareTemplate": "custom-template.ts"
   }
 }

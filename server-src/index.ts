@@ -1,14 +1,14 @@
 import * as http from 'http';
-import * as config from 'config';
+import {get} from 'config';
 
 import App from './app';
 import {winstonLogger} from './middleware/common/winstonLogger';
 
-const port = normalizePort(process.env.PORT || config.get('express.port'));
+const port = normalizePort(process.env.PORT || get('express.port'));
 
 winstonLogger.info(`Listening on port: ${port}`);
 
-const server = http.createServer(App);
+const server = http.createServer(App.app);
 server.listen(port);
 
 server.on('error', onServerError);
