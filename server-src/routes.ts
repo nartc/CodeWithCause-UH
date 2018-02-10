@@ -4,6 +4,8 @@ import { error } from 'util';
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { UserController } from './controllers/UserController';
 import { EntryController } from './controllers/EntryController';
+import { FarmController } from './controllers/FarmController';
+import { CropController } from './controllers/CropController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -51,6 +53,38 @@ const models: TsoaRoute.Models = {
             "recipient": { "dataType": "string", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "IFarmVm": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "long": { "dataType": "double", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "INewFarmParams": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "long": { "dataType": "double", "required": true },
+        },
+    },
+    "ICropVm": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "variety": { "dataType": "double", "required": true },
+            "pricePerPound": { "dataType": "double", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "INewCropParams": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "variety": { "dataType": "double", "required": true },
+            "pricePerPound": { "dataType": "double", "required": true },
         },
     },
 };
@@ -126,6 +160,80 @@ export function RegisterRoutes(app: any) {
             }
 
             const controller = new EntryController();
+
+
+            const promise = controller.getAll.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/farms/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new FarmController();
+
+
+            const promise = controller.registerFarm.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/farms/getAll',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new FarmController();
+
+
+            const promise = controller.getAll.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/crops/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newCropParams: { "in": "body", "name": "newCropParams", "required": true, "ref": "INewCropParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CropController();
+
+
+            const promise = controller.registerCrop.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/crops/getAll',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CropController();
 
 
             const promise = controller.getAll.apply(controller, validatedArgs);

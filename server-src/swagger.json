@@ -144,6 +144,110 @@
 				"updatedOn"
 			],
 			"type": "object"
+		},
+		"IFarmVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewFarmParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long"
+			],
+			"type": "object"
+		},
+		"ICropVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "number",
+					"format": "double"
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewCropParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "number",
+					"format": "double"
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound"
+			],
+			"type": "object"
 		}
 	},
 	"info": {
@@ -254,6 +358,108 @@
 						"description": "Ok",
 						"schema": {
 							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/farms/create": {
+			"post": {
+				"operationId": "RegisterFarm",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewFarmParams"
+						}
+					}
+				]
+			}
+		},
+		"/farms/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/crops/create": {
+			"post": {
+				"operationId": "RegisterCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newCropParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewCropParams"
+						}
+					}
+				]
+			}
+		},
+		"/crops/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
 						}
 					}
 				},

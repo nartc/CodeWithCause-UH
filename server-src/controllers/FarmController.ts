@@ -6,7 +6,7 @@ import {FarmRepository} from '../repositories/FarmRepository';
 import {IFarm, Farm, IFarmVm} from '../models/Farm';
 import {INewFarmParams} from '../models/requests/index.requests';
 
-@Route('entries')
+@Route('farms')
 export class FarmController extends Controller {
     private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
         return {

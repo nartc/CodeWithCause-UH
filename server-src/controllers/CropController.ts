@@ -7,7 +7,7 @@ import {ICrop, Crop, ICropVm} from '../models/Crop';
 import {INewCropParams} from '../models/requests/index.requests';
 import {genSalt, hash} from 'bcryptjs';
 
-@Route('entries')
+@Route('crops')
 export class CropController extends Controller {
     private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
         return {
