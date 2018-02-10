@@ -1,4 +1,4 @@
-import {IHarvest} from '../models/harvest';
+import {IHarvest} from '../models/Harvest';
 
 export interface IHarvestRepository {
     createHarvest(crop: IHarvest);
