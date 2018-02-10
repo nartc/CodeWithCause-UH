@@ -278,6 +278,45 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.delete('/api/farms/:slug',
+        function(request: any, response: any, next: any) {
+            const args = {
+                slug: { "in": "path", "name": "slug", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new FarmController();
+
+
+            const promise = controller.deleteById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.put('/api/farms/:slug',
+        function(request: any, response: any, next: any) {
+            const args = {
+                slug: { "in": "path", "name": "slug", "required": true, "dataType": "string" },
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new FarmController();
+
+
+            const promise = controller.updateById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/crops/create',
         function(request: any, response: any, next: any) {
             const args = {

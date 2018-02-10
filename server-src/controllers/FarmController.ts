@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Get, Path, Post, Route, Tags, Delete, Put} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IFarmRepository} from '../repositories/IFarmRepository';
@@ -45,5 +45,27 @@ export class FarmController extends Controller {
     public async getAll(): Promise<IFarmVm[]> {
         const result: IFarm[] = await this._farmRepository.findAll();
         return <IFarmVm[]>result;
+    }
+
+    @Delete('{slug}')
+    @Tags('Farm')
+    public async deleteById(@Path() slug: string): Promise<IFarmVm[]> {
+        const result: IFarm[] = await this._farmRepository.delete(slug);
+        return <IFarmVm[]>result;
+    }
+
+    @Put('{slug}')
+    @Tags('Farm')
+    public async updateById(@Path() slug: string, @Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {
+        console.log(newFarmParams);
+        const updateFarm: IFarm = new Farm();
+        updateFarm._id = slug;
+        // updateFarm._id = newFarmParams.id;
+        updateFarm.name = newFarmParams.name;
+        updateFarm.lat = newFarmParams.lat;
+        updateFarm.long = newFarmParams.long;
+
+        const result: IFarm = await this._farmRepository.update(slug, updateFarm);
+        return <IFarmVm>result;
     }
 }

@@ -608,6 +608,71 @@
 				"parameters": []
 			}
 		},
+		"/farms/{slug}": {
+			"delete": {
+				"operationId": "DeleteById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "slug",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "slug",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "newFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewFarmParams"
+						}
+					}
+				]
+			}
+		},
 		"/crops/create": {
 			"post": {
 				"operationId": "RegisterCrop",
