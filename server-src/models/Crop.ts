@@ -7,7 +7,7 @@ export const CropSchema = new Schema({
     },
     variety: {
         type: [String],
-        default: []
+        default: ['unknown']
     },
     pricePerPound: {
         type: Number

@@ -19,6 +19,7 @@ import './controllers/FarmController';
 import './controllers/CropController';
 import './controllers/HarvesterController';
 import './controllers/OrganizationController';
+import './controllers/HarvestController';
 import {RegisterRoutes} from './routes';
 
 class App {

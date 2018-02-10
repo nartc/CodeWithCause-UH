@@ -26,10 +26,6 @@ export const EntrySchema = new Schema({
         type: String,
         required: true
     },
-    farm: {
-        type: Schema.Types.ObjectId,
-        ref: 'Farm'
-    },
     recipient: {
         type: Schema.Types.ObjectId,
         ref: 'Organization'
@@ -50,7 +46,6 @@ export interface IEntry extends Document {
     priceTotal: number;
     harvester: string;
     comments: string;
-    farm: string;
     recipient: string;
     createdOn: Date;
     updatedOn: Date;
@@ -62,7 +57,6 @@ export interface IEntryVm {
     priceTotal: number;
     harvester: IHarvesterVm;
     comments: string;
-    farm: IFarmVm;
     recipient: IOrganizationVm;
     createdOn: Date;
     updatedOn: Date;

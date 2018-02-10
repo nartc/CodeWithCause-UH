@@ -8,6 +8,7 @@ import { FarmController } from './controllers/FarmController';
 import { CropController } from './controllers/CropController';
 import { HarvesterController } from './controllers/HarvesterController';
 import { OrganizationController } from './controllers/OrganizationController';
+import { HarvestController } from './controllers/HarvestController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -48,15 +49,6 @@ const models: TsoaRoute.Models = {
             "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
-    "IFarmVm": {
-        "properties": {
-            "name": { "dataType": "string", "required": true },
-            "lat": { "dataType": "double", "required": true },
-            "long": { "dataType": "double", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
-        },
-    },
     "IOrganizationVm": {
         "properties": {
             "purchase": { "dataType": "boolean" },
@@ -75,7 +67,6 @@ const models: TsoaRoute.Models = {
             "priceTotal": { "dataType": "double", "required": true },
             "harvester": { "ref": "IHarvesterVm", "required": true },
             "comments": { "dataType": "string", "required": true },
-            "farm": { "ref": "IFarmVm", "required": true },
             "recipient": { "ref": "IOrganizationVm", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
@@ -90,6 +81,15 @@ const models: TsoaRoute.Models = {
             "comments": { "dataType": "string", "required": true },
             "farm": { "dataType": "string", "required": true },
             "recipient": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "IFarmVm": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "long": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
         },
@@ -122,6 +122,20 @@ const models: TsoaRoute.Models = {
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
             "phoneNumber": { "dataType": "double", "required": true },
+        },
+    },
+    "IHarvestVm": {
+        "properties": {
+            "farm": { "dataType": "string", "required": true },
+            "entries": { "dataType": "any", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "INewHarvestParams": {
+        "properties": {
+            "entries": { "dataType": "string", "required": true },
+            "farm": { "dataType": "string", "required": true },
         },
     },
 };
@@ -330,6 +344,43 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.registerUser.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/harvests/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newHarvestParams: { "in": "body", "name": "newHarvestParams", "required": true, "ref": "INewHarvestParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.registerHarvest.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/harvests/getAll',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

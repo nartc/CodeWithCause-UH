@@ -33,7 +33,6 @@ export class EntryController extends Controller {
         newEntry.pounds = newEntryParams.pounds;
         newEntry.priceTotal = newEntryParams.priceTotal;
         newEntry.comments = newEntryParams.comments;
-        newEntry.farm = newEntryParams.farm;
         newEntry.harvester = newEntryParams.harvester;
         newEntry.recipient = newEntryParams.recipient;
 

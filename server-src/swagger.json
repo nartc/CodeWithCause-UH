@@ -106,37 +106,6 @@
 			],
 			"type": "object"
 		},
-		"IFarmVm": {
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"lat": {
-					"type": "number",
-					"format": "double"
-				},
-				"long": {
-					"type": "number",
-					"format": "double"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				}
-			},
-			"required": [
-				"name",
-				"lat",
-				"long",
-				"createdOn",
-				"updatedOn"
-			],
-			"type": "object"
-		},
 		"IOrganizationVm": {
 			"properties": {
 				"purchase": {
@@ -188,9 +157,6 @@
 				"comments": {
 					"type": "string"
 				},
-				"farm": {
-					"$ref": "#/definitions/IFarmVm"
-				},
 				"recipient": {
 					"$ref": "#/definitions/IOrganizationVm"
 				},
@@ -209,7 +175,6 @@
 				"priceTotal",
 				"harvester",
 				"comments",
-				"farm",
 				"recipient",
 				"createdOn",
 				"updatedOn"
@@ -258,6 +223,37 @@
 				"comments",
 				"farm",
 				"recipient",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IFarmVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long",
 				"createdOn",
 				"updatedOn"
 			],
@@ -352,12 +348,55 @@
 				"phoneNumber"
 			],
 			"type": "object"
+		},
+		"IHarvestVm": {
+			"properties": {
+				"farm": {
+					"type": "string"
+				},
+				"entries": {
+					"type": "object"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"farm",
+				"entries",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewHarvestParams": {
+			"properties": {
+				"entries": {
+					"type": "string"
+				},
+				"farm": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"entries",
+				"farm"
+			],
+			"type": "object"
 		}
 	},
 	"info": {
-		"description": "CodeWithCause-NodeExpress Documentation",
+		"title": "codewithcause",
 		"version": "1.0.0",
-		"title": "CodeWithCause-Node Express"
+		"description": "Code with a Cause Node Backend",
+		"license": {
+			"name": "MIT"
+		}
 	},
 	"paths": {
 		"/users/create": {
@@ -654,6 +693,57 @@
 					}
 				]
 			}
+		},
+		"/harvests/create": {
+			"post": {
+				"operationId": "RegisterHarvest",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newHarvestParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewHarvestParams"
+						}
+					}
+				]
+			}
+		},
+		"/harvests/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": []
+			}
 		}
 	},
 	"produces": [
@@ -666,31 +756,5 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	},
-	"tags": [
-		{
-			"name": "System",
-			"description": "System/Authentication APIs"
-		},
-		{
-			"name": "Harvester",
-			"description": "Harvester APIs"
-		},
-		{
-			"name": "Entry",
-			"description": "Entry APIs"
-		},
-		{
-			"name": "Crop",
-			"description": "Crop APIs"
-		},
-		{
-			"name": "Farm",
-			"description": "Farm APIs"
-		},
-		{
-			"name": "Organization",
-			"description": "Organization APIs"
-		}
-	]
+	}
 }
