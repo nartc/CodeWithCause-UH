@@ -6,4 +6,5 @@ export interface INewEntryParams {
     comments?: string;
     farm?: string;
     recipient?: string;
+    selectedVariety?: string;
 }

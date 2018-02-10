@@ -35,6 +35,7 @@ export const EntrySchema = new Schema({
         type: Date,
         default: Date.now()
     },
+    selectedVariety: String
 });
 
 export interface IEntry extends Document {
@@ -46,6 +47,7 @@ export interface IEntry extends Document {
     recipient: string;
     createdOn: Date;
     updatedOn: Date;
+    selectedVariety: string;
 }
 
 export interface IEntryVm {
@@ -57,6 +59,8 @@ export interface IEntryVm {
     recipient: IOrganizationVm;
     createdOn: Date;
     updatedOn: Date;
+    selectedVariety: string;
+    _id?: string;
 }
 
 

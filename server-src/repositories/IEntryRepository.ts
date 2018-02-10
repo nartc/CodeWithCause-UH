@@ -3,9 +3,7 @@ import {IEntry} from '../models/Entry';
 export interface IEntryRepository {
     createEntry(entry: IEntry);
     findAll();
-    // getUserByUsername(username: string);
-    //
-    // getUserById(id: string);
-    //
-    // updateUser(id: string, updatedUser: IUser);
+    getEntryById(id: string);
+    update(id: string, updatedEntry: IEntry);
+    delete(id: string);
 }

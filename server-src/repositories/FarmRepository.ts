@@ -23,4 +23,8 @@ export class FarmRepository implements IFarmRepository {
     public async update(id: string, newFarm: IFarm): Promise<IFarm> {
         return await this._farmModel.findByIdAndUpdate(id, newFarm, {new: true});
     }
+
+    public async getFarmById(id: string): Promise<IFarm> {
+        return await this._farmModel.findById(id);
+    }
 }

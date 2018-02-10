@@ -47,25 +47,24 @@ export class FarmController extends Controller {
         return <IFarmVm[]>result;
     }
 
-    @Delete('{slug}')
+    @Delete('{id}')
     @Tags('Farm')
-    public async deleteById(@Path() slug: string): Promise<IFarmVm[]> {
-        const result: IFarm[] = await this._farmRepository.delete(slug);
+    public async deleteById(@Path() id: string): Promise<IFarmVm[]> {
+        const result: IFarm[] = await this._farmRepository.delete(id);
         return <IFarmVm[]>result;
     }
 
-    @Put('{slug}')
+    @Put('{id}')
     @Tags('Farm')
-    public async updateById(@Path() slug: string, @Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {
-        console.log(newFarmParams);
+    public async updateById(@Path() id: string, @Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {
         const updateFarm: IFarm = new Farm();
-        updateFarm._id = slug;
+        updateFarm._id = id;
         // updateFarm._id = newFarmParams.id;
         updateFarm.name = newFarmParams.name;
         updateFarm.lat = newFarmParams.lat;
         updateFarm.lng = newFarmParams.lng;
 
-        const result: IFarm = await this._farmRepository.update(slug, updateFarm);
+        const result: IFarm = await this._farmRepository.update(id, updateFarm);
         return <IFarmVm>result;
     }
 }

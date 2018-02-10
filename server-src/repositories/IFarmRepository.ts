@@ -5,4 +5,5 @@ export interface IFarmRepository {
     findAll();
     update(id: string, newFarm: IFarm);
     delete(slug: string);
+    getFarmById(id: string);
 }

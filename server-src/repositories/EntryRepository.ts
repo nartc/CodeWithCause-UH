@@ -15,4 +15,19 @@ export class EntryRepository implements IEntryRepository {
     public async findAll(): Promise<IEntry[]> {
         return await this._entryModel.find().populate('farm').populate('harvester').populate('recipient');
     }
+
+    public async getEntryById(id: string): Promise<IEntry> {
+        return await this._entryModel.findById(id)
+            .populate('crop')
+            .populate('harvester')
+            .populate('recipient');
+    }
+
+    public async update(id: string, updatedEntry: IEntry): Promise<IEntry> {
+        return await this._entryModel.findByIdAndUpdate(id, updatedEntry, {new: true});
+    }
+
+    public async delete(id: string): Promise<IEntry> {
+        return await this._entryModel.findByIdAndRemove(id);
+    }
 }

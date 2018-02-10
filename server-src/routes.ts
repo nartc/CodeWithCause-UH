@@ -56,6 +56,7 @@ const models: TsoaRoute.Models = {
             "lastName": { "dataType": "string", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "IOrganizationVm": {
@@ -66,7 +67,7 @@ const models: TsoaRoute.Models = {
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "phoneNumber": { "dataType": "double" },
-            "_id": { "dataType": "string", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "IEntryVm": {
@@ -79,6 +80,8 @@ const models: TsoaRoute.Models = {
             "recipient": { "ref": "IOrganizationVm", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+            "selectedVariety": { "dataType": "string", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "INewEntryParams": {
@@ -90,6 +93,7 @@ const models: TsoaRoute.Models = {
             "comments": { "dataType": "string" },
             "farm": { "dataType": "string" },
             "recipient": { "dataType": "string" },
+            "selectedVariety": { "dataType": "string" },
         },
     },
     "IFarmVm": {
@@ -99,6 +103,7 @@ const models: TsoaRoute.Models = {
             "lng": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "INewFarmParams": {
@@ -137,6 +142,7 @@ const models: TsoaRoute.Models = {
             "entries": { "dataType": "array", "array": { "ref": "IEntryVm" }, "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "INewHarvestParams": {
@@ -242,6 +248,25 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.get('/api/entries/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new EntryController();
+
+
+            const promise = controller.getSingleEntry.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/farms/create',
         function(request: any, response: any, next: any) {
             const args = {
@@ -279,10 +304,10 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.delete('/api/farms/:slug',
+    app.delete('/api/farms/:id',
         function(request: any, response: any, next: any) {
             const args = {
-                slug: { "in": "path", "name": "slug", "required": true, "dataType": "string" },
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -298,10 +323,10 @@ export function RegisterRoutes(app: any) {
             const promise = controller.deleteById.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.put('/api/farms/:slug',
+    app.put('/api/farms/:id',
         function(request: any, response: any, next: any) {
             const args = {
-                slug: { "in": "path", "name": "slug", "required": true, "dataType": "string" },
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
                 newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
             };
 

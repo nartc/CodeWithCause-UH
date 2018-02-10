@@ -122,6 +122,9 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -159,9 +162,6 @@
 					"type": "string"
 				}
 			},
-			"required": [
-				"_id"
-			],
 			"type": "object"
 		},
 		"IEntryVm": {
@@ -193,6 +193,12 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
+				},
+				"selectedVariety": {
+					"type": "string"
+				},
+				"_id": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -203,7 +209,8 @@
 				"comments",
 				"recipient",
 				"createdOn",
-				"updatedOn"
+				"updatedOn",
+				"selectedVariety"
 			],
 			"type": "object"
 		},
@@ -230,6 +237,9 @@
 					"type": "string"
 				},
 				"recipient": {
+					"type": "string"
+				},
+				"selectedVariety": {
 					"type": "string"
 				}
 			},
@@ -258,6 +268,9 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -380,6 +393,9 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -557,6 +573,34 @@
 				"parameters": []
 			}
 		},
+		"/entries/{id}": {
+			"get": {
+				"operationId": "GetSingleEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/farms/create": {
 			"post": {
 				"operationId": "RegisterFarm",
@@ -611,7 +655,7 @@
 				"parameters": []
 			}
 		},
-		"/farms/{slug}": {
+		"/farms/{id}": {
 			"delete": {
 				"operationId": "DeleteById",
 				"produces": [
@@ -635,7 +679,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "slug",
+						"name": "id",
 						"required": true,
 						"type": "string"
 					}
@@ -661,7 +705,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "slug",
+						"name": "id",
 						"required": true,
 						"type": "string"
 					},

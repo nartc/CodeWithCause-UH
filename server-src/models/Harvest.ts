@@ -35,6 +35,7 @@ export interface IHarvestVm {
     entries: IEntryVm[];
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
 
 export type HarvestModel = Model<IHarvest>;
