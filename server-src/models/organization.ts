@@ -8,7 +8,7 @@ const OrganizationSchema = new Schema({
         type: String,
     },
     phoneNumber:{
-        type:Number,
+        type:String,
     },
     contactName: {
         type: String,
@@ -29,16 +29,16 @@ export interface IOrganization extends Document {
     contactName?:string;
     createdOn?: Date;
     updatedOn?: Date;
-    phoneNumber?:Number;
+    phoneNumber?:string;
 }
 
 export interface IOrganizationVm {
     purchase?: boolean;
     name?: string;
-    contactName?:string;
     createdOn?: Date;
     updatedOn?: Date;
-    phoneNumber?:number;
+    contactName?:string;
+    phoneNumber?:string;
     _id?:string;
 }
 

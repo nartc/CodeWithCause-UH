@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Path, Post, Route, Tags, Put } from 'tsoa';
+import { Body, Controller, Get, Path, Post, Route, Tags, Put, Delete } from 'tsoa';
 import { MongoError } from 'mongodb';
 import { IErrorResponse } from '../models/responses/index.responses';
 import { IOrganizationRepository } from '../repositories/IOrganizationRepository';
@@ -26,7 +26,7 @@ export class OrganizationController extends Controller {
      */
     @Post('create')
     @Tags('Organization')
-    public async registerUser( @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
+    public async registerOrganization( @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
         const contactName: string = newOrganizationParams.contactName
         const name: string = newOrganizationParams.name;
         const phoneNumber: number = newOrganizationParams.phoneNumber;
@@ -64,6 +64,13 @@ export class OrganizationController extends Controller {
         updateOrganization.name = newOrganizationParams.name;
 
         const result: IOrganizationVm = await this._organizationRepository.updateOrganization(id, updateOrganization);
+        return result;
+    }
+
+    @Delete('{id}')
+    @Tags ('Organization')
+    public async deleteOrganization (@Path() id:string):Promise<IOrganizationVm> {
+        const result: IOrganizationVm = await this._organizationRepository.deleteOrganization(id);
         return result;
     }
 }

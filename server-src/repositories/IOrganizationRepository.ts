@@ -8,4 +8,6 @@ export interface IOrganizationRepository {
     updateOrganization(id: string, updatedOrganization: IOrganization); 
 
     getAllOrganization();
+
+    deleteOrganization(id:string);
 }

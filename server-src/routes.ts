@@ -63,10 +63,10 @@ const models: TsoaRoute.Models = {
         "properties": {
             "purchase": { "dataType": "boolean" },
             "name": { "dataType": "string" },
-            "contactName": { "dataType": "string" },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
-            "phoneNumber": { "dataType": "double" },
+            "contactName": { "dataType": "string" },
+            "phoneNumber": { "dataType": "string" },
             "_id": { "dataType": "string" },
         },
     },
@@ -131,9 +131,7 @@ const models: TsoaRoute.Models = {
             "purchase": { "dataType": "boolean", "required": true },
             "name": { "dataType": "string", "required": true },
             "contactName": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
-            "phoneNumber": { "dataType": "double", "required": true },
+            "phoneNumber": { "dataType": "string", "required": true },
         },
     },
     "IHarvestVm": {
@@ -433,7 +431,7 @@ export function RegisterRoutes(app: any) {
             const controller = new OrganizationController();
 
 
-            const promise = controller.registerUser.apply(controller, validatedArgs);
+            const promise = controller.registerOrganization.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/organization/getAll',
@@ -472,6 +470,25 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.updateOrganization.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.delete('/api/organization/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new OrganizationController();
+
+
+            const promise = controller.deleteOrganization.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/harvests/create',
