@@ -53,9 +53,12 @@
 		}
 	},
 	"info": {
-		"description": "CodeWithCause-NodeExpress Documentation",
+		"title": "codewithcause",
 		"version": "1.0.0",
-		"title": "CodeWithCause-Node Express"
+		"description": "Code with a Cause Node Backend",
+		"license": {
+			"name": "MIT"
+		}
 	},
 	"paths": {
 		"/users/create": {
@@ -127,11 +130,5 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	},
-	"tags": [
-		{
-			"name": "System",
-			"description": "System/Authentication APIs"
-		}
-	]
+	}
 }
