@@ -30,7 +30,7 @@ export class FarmController extends Controller {
         const newFarm: IFarm = new Farm();
         newFarm.name = newFarmParams.name;
         newFarm.lat = newFarmParams.lat;
-        newFarm.long = newFarmParams.long;
+        newFarm.long = newFarmParams.lng;
 
         return await <IFarmVm>this._farmRepository.createFarm(newFarm);
     }
@@ -63,7 +63,7 @@ export class FarmController extends Controller {
         // updateFarm._id = newFarmParams.id;
         updateFarm.name = newFarmParams.name;
         updateFarm.lat = newFarmParams.lat;
-        updateFarm.long = newFarmParams.long;
+        updateFarm.long = newFarmParams.lng;
 
         const result: IFarm = await this._farmRepository.update(slug, updateFarm);
         return <IFarmVm>result;

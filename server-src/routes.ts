@@ -105,7 +105,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "lat": { "dataType": "double", "required": true },
-            "long": { "dataType": "double", "required": true },
+            "lng": { "dataType": "double", "required": true },
         },
     },
     "INewCropParams": {
