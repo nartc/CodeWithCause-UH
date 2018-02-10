@@ -58,7 +58,7 @@ class App {
         this.app.use(passport.initialize());
         this.app.use(passport.session());
 
-        // SwaggerUI: TODO
+        // SwaggerUI
         this.app.use('/', this.apiDocsRoutes.getRouter());
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
             explorer: true,
