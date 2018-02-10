@@ -5,5 +5,7 @@ export interface IOrganizationRepository {
 
     getOrganizationByName(name: string);
 
-    updateOrganization(id: string, updatedOrganization: IOrganization);
+    updateOrganization(id: string, updatedOrganization: IOrganization); 
+
+    getAllOrganization();
 }

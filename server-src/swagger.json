@@ -855,6 +855,66 @@
 				]
 			}
 		},
+		"/organization/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IOrganizationVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/organization/{id}": {
+			"put": {
+				"operationId": "UpdateOrganization",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "newOrganizationParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewOrganizationParams"
+						}
+					}
+				]
+			}
+		},
 		"/harvests/create": {
 			"post": {
 				"operationId": "RegisterHarvest",
