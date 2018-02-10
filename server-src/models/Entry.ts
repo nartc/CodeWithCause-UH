@@ -1,4 +1,8 @@
 import {Document, model, Model, Schema} from 'mongoose';
+import {ICropVm} from './Crop';
+import {IHarvesterVm} from './Harvester';
+import {IFarmVm} from './Farm';
+import {IOrganizationVm} from './organization';
 // import {Crop} from '';
 
 export const EntrySchema = new Schema({
@@ -53,13 +57,13 @@ export interface IEntry extends Document {
 }
 
 export interface IEntryVm {
-    crop: string;
+    crop: ICropVm;
     pounds: number;
     priceTotal: number;
-    harvester: string;
+    harvester: IHarvesterVm;
     comments: string;
-    farm: string;
-    recipient: string;
+    farm: IFarmVm;
+    recipient: IOrganizationVm;
     createdOn: Date;
     updatedOn: Date;
 }

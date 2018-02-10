@@ -51,10 +51,128 @@
 			],
 			"type": "object"
 		},
+		"ICropVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "string"
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IHarvesterVm": {
+			"properties": {
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"firstName",
+				"lastName",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IFarmVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IOrganizationVm": {
+			"properties": {
+				"purchase": {
+					"type": "boolean"
+				},
+				"name": {
+					"type": "string"
+				},
+				"contactName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"phoneNumber": {
+					"type": "number",
+					"format": "double"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"_id"
+			],
+			"type": "object"
+		},
 		"IEntryVm": {
 			"properties": {
 				"crop": {
-					"type": "string"
+					"$ref": "#/definitions/ICropVm"
 				},
 				"pounds": {
 					"type": "number",
@@ -65,16 +183,16 @@
 					"format": "double"
 				},
 				"harvester": {
-					"type": "string"
+					"$ref": "#/definitions/IHarvesterVm"
 				},
 				"comments": {
 					"type": "string"
 				},
 				"farm": {
-					"type": "string"
+					"$ref": "#/definitions/IFarmVm"
 				},
 				"recipient": {
-					"type": "string"
+					"$ref": "#/definitions/IOrganizationVm"
 				},
 				"createdOn": {
 					"type": "string",
@@ -145,37 +263,6 @@
 			],
 			"type": "object"
 		},
-		"IFarmVm": {
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"lat": {
-					"type": "number",
-					"format": "double"
-				},
-				"long": {
-					"type": "number",
-					"format": "double"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				}
-			},
-			"required": [
-				"name",
-				"lat",
-				"long",
-				"createdOn",
-				"updatedOn"
-			],
-			"type": "object"
-		},
 		"INewFarmParams": {
 			"properties": {
 				"name": {
@@ -197,45 +284,13 @@
 			],
 			"type": "object"
 		},
-		"ICropVm": {
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"variety": {
-					"type": "number",
-					"format": "double"
-				},
-				"pricePerPound": {
-					"type": "number",
-					"format": "double"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				}
-			},
-			"required": [
-				"name",
-				"variety",
-				"pricePerPound",
-				"createdOn",
-				"updatedOn"
-			],
-			"type": "object"
-		},
 		"INewCropParams": {
 			"properties": {
 				"name": {
 					"type": "string"
 				},
 				"variety": {
-					"type": "number",
-					"format": "double"
+					"type": "string"
 				},
 				"pricePerPound": {
 					"type": "number",
@@ -246,31 +301,6 @@
 				"name",
 				"variety",
 				"pricePerPound"
-			],
-			"type": "object"
-		},
-		"IHarvesterVm": {
-			"properties": {
-				"firstName": {
-					"type": "string"
-				},
-				"lastName": {
-					"type": "string"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				}
-			},
-			"required": [
-				"firstName",
-				"lastName",
-				"createdOn",
-				"updatedOn"
 			],
 			"type": "object"
 		},
@@ -286,38 +316,6 @@
 			"required": [
 				"lastName",
 				"firstName"
-			],
-			"type": "object"
-		},
-		"IOrganizationVm": {
-			"properties": {
-				"purchase": {
-					"type": "boolean"
-				},
-				"name": {
-					"type": "string"
-				},
-				"contactName": {
-					"type": "string"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"phoneNumber": {
-					"type": "number",
-					"format": "double"
-				},
-				"_id": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"_id"
 			],
 			"type": "object"
 		},
@@ -357,12 +355,9 @@
 		}
 	},
 	"info": {
-		"title": "codewithcause",
+		"description": "CodeWithCause-NodeExpress Documentation",
 		"version": "1.0.0",
-		"description": "Code with a Cause Node Backend",
-		"license": {
-			"name": "MIT"
-		}
+		"title": "CodeWithCause-Node Express"
 	},
 	"paths": {
 		"/users/create": {
@@ -438,7 +433,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Entry"
 				],
 				"security": [],
 				"parameters": [
@@ -463,12 +458,15 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IEntryVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IEntryVm"
+							}
 						}
 					}
 				},
 				"tags": [
-					"System"
+					"Entry"
 				],
 				"security": [],
 				"parameters": []
@@ -489,7 +487,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Farm"
 				],
 				"security": [],
 				"parameters": [
@@ -519,7 +517,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Farm"
 				],
 				"security": [],
 				"parameters": []
@@ -540,7 +538,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Crop"
 				],
 				"security": [],
 				"parameters": [
@@ -570,7 +568,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Crop"
 				],
 				"security": [],
 				"parameters": []
@@ -591,7 +589,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Harvester"
 				],
 				"security": [],
 				"parameters": [
@@ -621,7 +619,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Harvester"
 				],
 				"security": [],
 				"parameters": []
@@ -642,7 +640,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Organization"
 				],
 				"security": [],
 				"parameters": [
@@ -668,5 +666,31 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	}
+	},
+	"tags": [
+		{
+			"name": "System",
+			"description": "System/Authentication APIs"
+		},
+		{
+			"name": "Harvester",
+			"description": "Harvester APIs"
+		},
+		{
+			"name": "Entry",
+			"description": "Entry APIs"
+		},
+		{
+			"name": "Crop",
+			"description": "Crop APIs"
+		},
+		{
+			"name": "Farm",
+			"description": "Farm APIs"
+		},
+		{
+			"name": "Organization",
+			"description": "Organization APIs"
+		}
+	]
 }

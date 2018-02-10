@@ -25,7 +25,7 @@ export class HarvesterController extends Controller {
      * @returns {Promise<IHarvesterVm>}
      */
     @Post('create')
-    @Tags('System')
+    @Tags('Harvester')
     public async registerHarvester(@Body() newHarvesterParams: INewHarvesterParams): Promise<IHarvesterVm> {
 
         const newHarvester: IHarvester = new Harvester();
@@ -41,7 +41,7 @@ export class HarvesterController extends Controller {
      * @returns {Promise<IHarvesterVm>}
      */
     @Get('getAll')
-    @Tags('System')
+    @Tags('Harvester')
     public async getAll(): Promise<IHarvesterVm> {
         const result: IHarvester = await this._harvesterRepository.findAll();
         return <IHarvesterVm>result;

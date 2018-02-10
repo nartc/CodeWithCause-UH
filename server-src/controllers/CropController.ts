@@ -25,7 +25,7 @@ export class CropController extends Controller {
      * @returns {Promise<ICropVm>}
      */
     @Post('create')
-    @Tags('System')
+    @Tags('Crop')
     public async registerCrop(@Body() newCropParams: INewCropParams): Promise<ICropVm> {
 
         const newCrop: ICrop = new Crop();
@@ -42,7 +42,7 @@ export class CropController extends Controller {
      * @returns {Promise<ICropVm>}
      */
     @Get('getAll')
-    @Tags('System')
+    @Tags('Crop')
     public async getAll(): Promise<ICropVm> {
         const result: ICrop = await this._cropRepository.findAll();
         return <ICropVm>result;

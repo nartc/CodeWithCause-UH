@@ -8,11 +8,11 @@ export class FarmRepository implements IFarmRepository {
         this._cropModel = cropModel;
     }
 
-    public async createFarm(newFarm: IFarm): Promise<any> {
+    public async createFarm(newFarm: IFarm): Promise<IFarm> {
         return await this._cropModel.create(newFarm);
     }
 
-    public async findAll(): Promise<any> {
+    public async findAll(): Promise<IFarm[]> {
         return await this._cropModel.find();
     }
 }

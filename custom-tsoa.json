@@ -13,6 +13,26 @@
       {
         "name": "System",
         "description": "System/Authentication APIs"
+      },
+      {
+        "name": "Harvester",
+        "description": "Harvester APIs"
+      },
+      {
+        "name": "Entry",
+        "description": "Entry APIs"
+      },
+      {
+        "name": "Crop",
+        "description": "Crop APIs"
+      },
+      {
+        "name": "Farm",
+        "description": "Farm APIs"
+      },
+      {
+        "name": "Organization",
+        "description": "Organization APIs"
       }
     ],
     "securityDefinitions": {

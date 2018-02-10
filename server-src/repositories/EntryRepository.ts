@@ -1,5 +1,5 @@
 import {IEntryRepository} from './IEntryRepository';
-import {IEntry, EntryModel} from '../models/Entry';
+import {EntryModel, IEntry} from '../models/Entry';
 
 export class EntryRepository implements IEntryRepository {
     private _entryModel: EntryModel;
@@ -8,11 +8,11 @@ export class EntryRepository implements IEntryRepository {
         this._entryModel = entryModel;
     }
 
-    public async createEntry(newEntry: IEntry): Promise<any> {
+    public async createEntry(newEntry: IEntry): Promise<IEntry> {
         return await this._entryModel.create(newEntry);
     }
 
-    public async findAll(): Promise<any> {
-        return await this._entryModel.find();
+    public async findAll(): Promise<IEntry[]> {
+        return await this._entryModel.find().populate('farm').populate('harvester').populate('recipient');
     }
 }

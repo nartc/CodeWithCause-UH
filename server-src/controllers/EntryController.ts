@@ -25,7 +25,7 @@ export class EntryController extends Controller {
      * @returns {Promise<IEntryVm>}
      */
     @Post('create')
-    @Tags('System')
+    @Tags('Entry')
     public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<IEntryVm> {
 
         const newEntry: IEntry = new Entry();
@@ -43,12 +43,11 @@ export class EntryController extends Controller {
     /**
      *
      * @param {string} username
-     * @returns {Promise<IEntryVm>}
+     * @returns {Promise<IEntryVm[]>}
      */
     @Get('getAll')
-    @Tags('System')
-    public async getAll(): Promise<IEntryVm> {
-        const result: IEntry = await this._entryRepository.findAll();
-        return <IEntryVm>result;
+    @Tags('Entry')
+    public async getAll(): Promise<IEntryVm[]> {
+        return await <IEntryVm[]>this._entryRepository.findAll();
     }
 }

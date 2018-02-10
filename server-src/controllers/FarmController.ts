@@ -24,7 +24,7 @@ export class FarmController extends Controller {
      * @returns {Promise<IFarmVm>}
      */
     @Post('create')
-    @Tags('System')
+    @Tags('Farm')
     public async registerFarm(@Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {
 
         const newFarm: IFarm = new Farm();
@@ -41,7 +41,7 @@ export class FarmController extends Controller {
      * @returns {Promise<IFarmVm>}
      */
     @Get('getAll')
-    @Tags('System')
+    @Tags('Farm')
     public async getAll(): Promise<IFarmVm> {
         const result: IFarm = await this._farmRepository.findAll();
         return <IFarmVm>result;

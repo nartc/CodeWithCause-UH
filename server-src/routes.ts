@@ -31,15 +31,52 @@ const models: TsoaRoute.Models = {
             "password": { "dataType": "string", "required": true },
         },
     },
+    "ICropVm": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "variety": { "dataType": "string", "required": true },
+            "pricePerPound": { "dataType": "double", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "IHarvesterVm": {
+        "properties": {
+            "firstName": { "dataType": "string", "required": true },
+            "lastName": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "IFarmVm": {
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "long": { "dataType": "double", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "IOrganizationVm": {
+        "properties": {
+            "purchase": { "dataType": "boolean" },
+            "name": { "dataType": "string" },
+            "contactName": { "dataType": "string" },
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "phoneNumber": { "dataType": "double" },
+            "_id": { "dataType": "string", "required": true },
+        },
+    },
     "IEntryVm": {
         "properties": {
-            "crop": { "dataType": "string", "required": true },
+            "crop": { "ref": "ICropVm", "required": true },
             "pounds": { "dataType": "double", "required": true },
             "priceTotal": { "dataType": "double", "required": true },
-            "harvester": { "dataType": "string", "required": true },
+            "harvester": { "ref": "IHarvesterVm", "required": true },
             "comments": { "dataType": "string", "required": true },
-            "farm": { "dataType": "string", "required": true },
-            "recipient": { "dataType": "string", "required": true },
+            "farm": { "ref": "IFarmVm", "required": true },
+            "recipient": { "ref": "IOrganizationVm", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
         },
@@ -57,15 +94,6 @@ const models: TsoaRoute.Models = {
             "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
-    "IFarmVm": {
-        "properties": {
-            "name": { "dataType": "string", "required": true },
-            "lat": { "dataType": "double", "required": true },
-            "long": { "dataType": "double", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
-        },
-    },
     "INewFarmParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -73,45 +101,17 @@ const models: TsoaRoute.Models = {
             "long": { "dataType": "double", "required": true },
         },
     },
-    "ICropVm": {
-        "properties": {
-            "name": { "dataType": "string", "required": true },
-            "variety": { "dataType": "double", "required": true },
-            "pricePerPound": { "dataType": "double", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
-        },
-    },
     "INewCropParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
-            "variety": { "dataType": "double", "required": true },
+            "variety": { "dataType": "string", "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
-        },
-    },
-    "IHarvesterVm": {
-        "properties": {
-            "firstName": { "dataType": "string", "required": true },
-            "lastName": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
     "INewHarvesterParams": {
         "properties": {
             "lastName": { "dataType": "string", "required": true },
             "firstName": { "dataType": "string", "required": true },
-        },
-    },
-    "IOrganizationVm": {
-        "properties": {
-            "purchase": { "dataType": "boolean" },
-            "name": { "dataType": "string" },
-            "contactName": { "dataType": "string" },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "phoneNumber": { "dataType": "double" },
-            "_id": { "dataType": "string", "required": true },
         },
     },
     "INewOrganizationParams": {

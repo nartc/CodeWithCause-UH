@@ -1,5 +1,5 @@
 import {IHarvesterRepository} from './IHarvesterRepository';
-import {IHarvester, HarvesterModel} from '../models/Harvester';
+import {HarvesterModel, IHarvester} from '../models/Harvester';
 
 export class HarvesterRepository implements IHarvesterRepository {
     private _harvesterModel: HarvesterModel;
@@ -8,11 +8,11 @@ export class HarvesterRepository implements IHarvesterRepository {
         this._harvesterModel = harvesterModel;
     }
 
-    public async createHarvester(newHarvester: IHarvester): Promise<any> {
+    public async createHarvester(newHarvester: IHarvester): Promise<IHarvester> {
         return await this._harvesterModel.create(newHarvester);
     }
 
-    public async findAll(): Promise<any> {
+    public async findAll(): Promise<IHarvester[]> {
         return await this._harvesterModel.find();
     }
 }

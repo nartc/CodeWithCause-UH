@@ -25,7 +25,7 @@ export class OrganizationController extends Controller {
      * @returns {Promise<IOrganizationVm>}
      */ 
     @Post('create')
-    @Tags('System')
+    @Tags('Organization')
     public async registerUser(@Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
         const contactName: string = newOrganizationParams.contactName
         const name: string = newOrganizationParams.name;
