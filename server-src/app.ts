@@ -14,6 +14,7 @@ import {setupLogging, winstonLogger} from './middleware/common/winstonLogger';
 
 import {APIDocsRouter} from './middleware/common/Swagger';
 import './controllers/UserController';
+import './controllers/OrganizationController';
 import {RegisterRoutes} from './routes';
 
 class App {

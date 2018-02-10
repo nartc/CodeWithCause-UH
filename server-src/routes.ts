@@ -3,6 +3,7 @@ import { error } from 'util';
 
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { UserController } from './controllers/UserController';
+import { OrganizationController } from './controllers/OrganizationController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -24,6 +25,27 @@ const models: TsoaRoute.Models = {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
+        },
+    },
+    "IOrganizationVm": {
+        "properties": {
+            "purchase": { "dataType": "boolean" },
+            "name": { "dataType": "string" },
+            "contactName": { "dataType": "string" },
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "phoneNumber": { "dataType": "double" },
+            "_id": { "dataType": "string", "required": true },
+        },
+    },
+    "INewOrganizationParams": {
+        "properties": {
+            "purchase": { "dataType": "boolean", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "contactName": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+            "phoneNumber": { "dataType": "double", "required": true },
         },
     },
 };
@@ -65,6 +87,25 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getUserByUsername.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/organization/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "INewOrganizationParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new OrganizationController();
+
+
+            const promise = controller.registerUser.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

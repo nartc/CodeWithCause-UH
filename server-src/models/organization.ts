@@ -3,19 +3,15 @@ import {Document, Model, model, Schema} from 'mongoose';
 const OrganizationSchema = new Schema({
     purchase: {
         type: Boolean,
-        required: true
     },
     name: {
         type: String,
-        required: true
     },
     phoneNumber:{
         type:Number,
-        required:true
     },
     contactName: {
         type: String,
-        required: true
     },
     createdOn: {
         type: Date,
@@ -42,7 +38,7 @@ export interface IOrganizationVm {
     contactName?:string;
     createdOn?: Date;
     updatedOn?: Date;
-    phoneNumber?:Number;
+    phoneNumber?:number;
     _id:string;
 }
 

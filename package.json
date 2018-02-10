@@ -39,6 +39,7 @@
     "newrelic": "2.7.0",
     "passport": "0.4.0",
     "passport-jwt": "3.0.1",
+    "swagger-codegen": "^0.1.1",
     "swagger-ui-express": "2.0.15",
     "tsoa": "git+https://nartc@github.com/nartc/tsoa.git",
     "winston": "2.4.0"
