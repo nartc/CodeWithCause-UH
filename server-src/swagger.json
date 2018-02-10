@@ -248,6 +248,72 @@
 				"pricePerPound"
 			],
 			"type": "object"
+		},
+		"IOrganizationVm": {
+			"properties": {
+				"purchase": {
+					"type": "boolean"
+				},
+				"name": {
+					"type": "string"
+				},
+				"contactName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"phoneNumber": {
+					"type": "number",
+					"format": "double"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"_id"
+			],
+			"type": "object"
+		},
+		"INewOrganizationParams": {
+			"properties": {
+				"purchase": {
+					"type": "boolean"
+				},
+				"name": {
+					"type": "string"
+				},
+				"contactName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"phoneNumber": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"purchase",
+				"name",
+				"contactName",
+				"createdOn",
+				"updatedOn",
+				"phoneNumber"
+			],
+			"type": "object"
 		}
 	},
 	"info": {
@@ -468,6 +534,36 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/organization/create": {
+			"post": {
+				"operationId": "RegisterUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newOrganizationParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewOrganizationParams"
+						}
+					}
+				]
 			}
 		}
 	},

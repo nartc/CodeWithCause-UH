@@ -17,6 +17,7 @@ import './controllers/UserController';
 import './controllers/EntryController';
 import './controllers/FarmController';
 import './controllers/CropController';
+import './controllers/OrganizationController';
 import {RegisterRoutes} from './routes';
 
 class App {
