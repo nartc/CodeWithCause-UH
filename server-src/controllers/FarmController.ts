@@ -42,8 +42,8 @@ export class FarmController extends Controller {
      */
     @Get('getAll')
     @Tags('Farm')
-    public async getAll(): Promise<IFarmVm> {
-        const result: IFarm = await this._farmRepository.findAll();
-        return <IFarmVm>result;
+    public async getAll(): Promise<IFarmVm[]> {
+        const result: IFarm[] = await this._farmRepository.findAll();
+        return <IFarmVm[]>result;
     }
 }

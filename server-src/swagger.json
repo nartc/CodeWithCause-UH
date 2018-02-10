@@ -512,7 +512,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IFarmVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
 						}
 					}
 				},
@@ -614,7 +617,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvesterVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvesterVm"
+							}
 						}
 					}
 				},
