@@ -1,5 +1,5 @@
 export interface INewCropParams {
     name: string;
-    variety: number;
+    variety: string;
     pricePerPound: number;
 }

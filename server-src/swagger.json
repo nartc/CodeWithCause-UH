@@ -249,6 +249,46 @@
 			],
 			"type": "object"
 		},
+		"IHarvesterVm": {
+			"properties": {
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"firstName",
+				"lastName",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewHarvesterParams": {
+			"properties": {
+				"lastName": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"lastName",
+				"firstName"
+			],
+			"type": "object"
+		},
 		"IOrganizationVm": {
 			"properties": {
 				"purchase": {
@@ -526,6 +566,57 @@
 						"description": "Ok",
 						"schema": {
 							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/harvesters/create": {
+			"post": {
+				"operationId": "RegisterHarvester",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newHarvesterParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewHarvesterParams"
+						}
+					}
+				]
+			}
+		},
+		"/harvesters/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
 						}
 					}
 				},

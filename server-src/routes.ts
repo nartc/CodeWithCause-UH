@@ -6,6 +6,7 @@ import { UserController } from './controllers/UserController';
 import { EntryController } from './controllers/EntryController';
 import { FarmController } from './controllers/FarmController';
 import { CropController } from './controllers/CropController';
+import { HarvesterController } from './controllers/HarvesterController';
 import { OrganizationController } from './controllers/OrganizationController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
@@ -28,27 +29,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
-        },
-    },
-    "IOrganizationVm": {
-        "properties": {
-            "purchase": { "dataType": "boolean" },
-            "name": { "dataType": "string" },
-            "contactName": { "dataType": "string" },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "phoneNumber": { "dataType": "double" },
-            "_id": { "dataType": "string", "required": true },
-        },
-    },
-    "INewOrganizationParams": {
-        "properties": {
-            "purchase": { "dataType": "boolean", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "contactName": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
-            "phoneNumber": { "dataType": "double", "required": true },
         },
     },
     "IEntryVm": {
@@ -107,6 +87,41 @@ const models: TsoaRoute.Models = {
             "name": { "dataType": "string", "required": true },
             "variety": { "dataType": "double", "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
+        },
+    },
+    "IHarvesterVm": {
+        "properties": {
+            "firstName": { "dataType": "string", "required": true },
+            "lastName": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "INewHarvesterParams": {
+        "properties": {
+            "lastName": { "dataType": "string", "required": true },
+            "firstName": { "dataType": "string", "required": true },
+        },
+    },
+    "IOrganizationVm": {
+        "properties": {
+            "purchase": { "dataType": "boolean" },
+            "name": { "dataType": "string" },
+            "contactName": { "dataType": "string" },
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "phoneNumber": { "dataType": "double" },
+            "_id": { "dataType": "string", "required": true },
+        },
+    },
+    "INewOrganizationParams": {
+        "properties": {
+            "purchase": { "dataType": "boolean", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "contactName": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+            "phoneNumber": { "dataType": "double", "required": true },
         },
     },
 };
@@ -256,6 +271,43 @@ export function RegisterRoutes(app: any) {
             }
 
             const controller = new CropController();
+
+
+            const promise = controller.getAll.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/harvesters/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newHarvesterParams: { "in": "body", "name": "newHarvesterParams", "required": true, "ref": "INewHarvesterParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvesterController();
+
+
+            const promise = controller.registerHarvester.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/harvesters/getAll',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvesterController();
 
 
             const promise = controller.getAll.apply(controller, validatedArgs);
