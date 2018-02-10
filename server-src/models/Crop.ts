@@ -24,7 +24,7 @@ export const CropSchema = new Schema({
 
 export interface ICrop extends Document {
     name: string;
-    variety: string;
+    variety: string[];
     pricePerPound: number;
     createdOn: Date;
     updatedOn: Date;
@@ -32,10 +32,11 @@ export interface ICrop extends Document {
 
 export interface ICropVm {
     name: string;
-    variety: string;
+    variety: string[];
     pricePerPound: number;
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
 
 

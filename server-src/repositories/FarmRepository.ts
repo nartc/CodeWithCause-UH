@@ -16,11 +16,11 @@ export class FarmRepository implements IFarmRepository {
         return await this._farmModel.find();
     }
 
-    public async delete(slug: string): Promise<any> {
-        return await this._farmModel.findByIdAndRemove({_id:slug})
+    public async delete(slug: string): Promise<IFarm> {
+        return await this._farmModel.findByIdAndRemove(slug);
     }
 
-    public async update(id: string, newFarm: IFarm): Promise<any> {
+    public async update(id: string, newFarm: IFarm): Promise<IFarm> {
         return await this._farmModel.findByIdAndUpdate(id, newFarm, {new: true});
     }
 }
