@@ -12,11 +12,9 @@ export const EntrySchema = new Schema({
     },
     pounds: {
         type: Number,
-        required: true
     },
     priceTotal: {
         type: Number,
-        required: true
     },
     harvester: {
         type: Schema.Types.ObjectId,
@@ -24,7 +22,6 @@ export const EntrySchema = new Schema({
     },
     comments: {
         type: String,
-        required: true
     },
     recipient: {
         type: Schema.Types.ObjectId,
