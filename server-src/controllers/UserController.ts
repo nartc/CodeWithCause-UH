@@ -9,6 +9,7 @@ import {IUser, IUserVm, User, UserRole} from '../models/User';
 import {INewUserParams} from '../models/requests/index.requests';
 import {compare, genSalt, hash} from 'bcryptjs';
 import {ILoginVm} from '../models/Login';
+import {ILoginParams} from '../models/requests/ILoginParams';
 
 @Route('users')
 export class UserController extends Controller {
@@ -68,12 +69,12 @@ export class UserController extends Controller {
 
     /**
      *
-     * @param {INewUserParams} loginParams
+     * @param {ILoginParams} loginParams
      * @returns {Promise<ILoginVm>}
      */
     @Post('login')
     @Tags('System')
-    public async login(@Body() loginParams: INewUserParams): Promise<ILoginVm> {
+    public async login(@Body() loginParams: ILoginParams): Promise<ILoginVm> {
 
         const username: string = loginParams.username;
         const password: string = loginParams.password;

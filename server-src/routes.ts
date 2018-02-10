@@ -41,6 +41,12 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
+    "ILoginParams": {
+        "properties": {
+            "username": { "dataType": "string", "required": true },
+            "password": { "dataType": "string", "required": true },
+        },
+    },
     "ICropVm": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -194,7 +200,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/users/login',
         function(request: any, response: any, next: any) {
             const args = {
-                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "INewUserParams" },
+                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "ILoginParams" },
             };
 
             let validatedArgs: any[] = [];
