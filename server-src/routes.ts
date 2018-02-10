@@ -3,6 +3,7 @@ import { error } from 'util';
 
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { UserController } from './controllers/UserController';
+import { EntryController } from './controllers/EntryController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -24,6 +25,32 @@ const models: TsoaRoute.Models = {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
+        },
+    },
+    "IEntryVm": {
+        "properties": {
+            "crop": { "dataType": "string", "required": true },
+            "pounds": { "dataType": "double", "required": true },
+            "priceTotal": { "dataType": "double", "required": true },
+            "harvester": { "dataType": "string", "required": true },
+            "comments": { "dataType": "string", "required": true },
+            "farm": { "dataType": "string", "required": true },
+            "recipient": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
+        },
+    },
+    "INewEntryParams": {
+        "properties": {
+            "crop": { "dataType": "string", "required": true },
+            "pounds": { "dataType": "double", "required": true },
+            "priceTotal": { "dataType": "double", "required": true },
+            "harvester": { "dataType": "string", "required": true },
+            "comments": { "dataType": "string", "required": true },
+            "farm": { "dataType": "string", "required": true },
+            "recipient": { "dataType": "string", "required": true },
+            "createdOn": { "dataType": "datetime", "required": true },
+            "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
 };
@@ -65,6 +92,43 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getUserByUsername.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/entries/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newEntryParams: { "in": "body", "name": "newEntryParams", "required": true, "ref": "INewEntryParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new EntryController();
+
+
+            const promise = controller.registerEntry.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/entries/getAll',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new EntryController();
+
+
+            const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

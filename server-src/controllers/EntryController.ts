@@ -27,8 +27,6 @@ export class EntryController extends Controller {
     @Post('create')
     @Tags('System')
     public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<IEntryVm> {
-        const username: string = newEntryParams.crop;
-        const password: number = newEntryParams.pounds;
 
         const newEntry: IEntry = new Entry();
         newEntry.crop = newEntryParams.crop;
