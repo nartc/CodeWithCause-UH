@@ -7,7 +7,7 @@ import {IUserRepository} from '../repositories/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
 import {IUser, IUserVm, User} from '../models/User';
 import {INewUserParams} from '../models/requests/index.requests';
-import {genSalt, hash,compare} from 'bcryptjs';
+import {compare, genSalt, hash} from 'bcryptjs';
 import {ILoginVm} from '../models/Login';
 
 @Route('users')
@@ -64,43 +64,44 @@ export class UserController extends Controller {
         return <IUserVm>result;
     }
 
- /**
+    /**
      *
      * @param {INewUserParams} newUserParams
      * @returns {Promise<ILoginVm>}
      */
-@Post('login')
-@Tags('System')
-public async login(@Body() loginParams: INewUserParams): Promise<ILoginVm> {
+    @Post('login')
+    @Tags('System')
+    public async login(@Body() loginParams: INewUserParams): Promise<ILoginVm> {
 
-    const username: string = loginParams.username;
-    const password: string = loginParams.password;
+        const username: string = loginParams.username;
+        const password: string = loginParams.password;
 
-    const fetchedUser: IUser = await this._userRepository.getUserByUsername(username);
-    if (fetchedUser instanceof MongoError)
-        throw UserController.resolveErrorResponse(fetchedUser, fetchedUser.message);
+        const fetchedUser: IUser = await this._userRepository.getUserByUsername(username);
+        if (fetchedUser instanceof MongoError)
+            throw UserController.resolveErrorResponse(fetchedUser, fetchedUser.message);
 
-    if (!fetchedUser || fetchedUser === null) throw UserController.resolveErrorResponse(null, 'Does not exist');
+        if (!fetchedUser || fetchedUser === null) throw UserController.resolveErrorResponse(null, 'Does not exist');
 
-    const isMatched: boolean = await compare(password, fetchedUser.password);
-    if (!isMatched) throw UserController.resolveErrorResponse(null, 'Password does not match');
+        const isMatched: boolean = await compare(password, fetchedUser.password);
+        if (!isMatched) throw UserController.resolveErrorResponse(null, 'Password does not match');
 
-    const payload = {user: fetchedUser};
-    const token: string = sign(payload,config.get('auth.jwt-secret'), {expiresIn: '12h'});
-    if (!token) throw UserController.resolveErrorResponse(null, 'Error signing payload');
+        const payload = {user: fetchedUser};
+        const secret = process.env.JWT_SECRET || config.get('auth.jwt-secret');
+        const token: string = sign(payload, secret, {expiresIn: '12h'});
+        if (!token) throw UserController.resolveErrorResponse(null, 'Error signing payload');
 
-    try {
-        const result = await fetchedUser.save();
-        return {
-            authToken: `JWT ${token}`,
-            _id: result._id,
-            username: result.username,
-            role: result.role,
-        };
-    } catch (error) {
-        throw UserController.resolveErrorResponse(
-            error instanceof MongoError ? error : null,
-            error instanceof MongoError ? error.message : 'Unexpected Error');
+        try {
+            const result = await fetchedUser.save();
+            return {
+                authToken: `JWT ${token}`,
+                _id: result._id,
+                username: result.username,
+                role: result.role,
+            };
+        } catch (error) {
+            throw UserController.resolveErrorResponse(
+                error instanceof MongoError ? error : null,
+                error instanceof MongoError ? error.message : 'Unexpected Error');
+        }
     }
-}
 }
