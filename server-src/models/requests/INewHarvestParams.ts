@@ -1,4 +1,6 @@
+import {INewEntryParams} from './INewEntryParams';
+
 export interface INewHarvestParams {
-    entries: string;
+    entries: INewEntryParams[];
     farm: string;
 }

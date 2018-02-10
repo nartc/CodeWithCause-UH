@@ -89,8 +89,6 @@ const models: TsoaRoute.Models = {
             "comments": { "dataType": "string", "required": true },
             "farm": { "dataType": "string", "required": true },
             "recipient": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime", "required": true },
-            "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
     "IFarmVm": {
@@ -134,15 +132,15 @@ const models: TsoaRoute.Models = {
     },
     "IHarvestVm": {
         "properties": {
-            "farm": { "dataType": "string", "required": true },
-            "entries": { "dataType": "any", "required": true },
+            "farm": { "ref": "IFarmVm", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "IEntryVm" }, "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
         },
     },
     "INewHarvestParams": {
         "properties": {
-            "entries": { "dataType": "string", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "INewEntryParams" }, "required": true },
             "farm": { "dataType": "string", "required": true },
         },
     },

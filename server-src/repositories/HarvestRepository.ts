@@ -13,6 +13,8 @@ export class HarvestRepository implements IHarvestRepository {
     }
 
     public async findAll(): Promise<IHarvest[]> {
-        return await this._harvestModel.find();
+        return await this._harvestModel.find()
+            .populate('farm')
+            .populate('entries');
     }
 }

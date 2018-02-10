@@ -225,14 +225,6 @@
 				},
 				"recipient": {
 					"type": "string"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
 				}
 			},
 			"required": [
@@ -242,9 +234,7 @@
 				"harvester",
 				"comments",
 				"farm",
-				"recipient",
-				"createdOn",
-				"updatedOn"
+				"recipient"
 			],
 			"type": "object"
 		},
@@ -372,10 +362,13 @@
 		"IHarvestVm": {
 			"properties": {
 				"farm": {
-					"type": "string"
+					"$ref": "#/definitions/IFarmVm"
 				},
 				"entries": {
-					"type": "object"
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/IEntryVm"
+					}
 				},
 				"createdOn": {
 					"type": "string",
@@ -397,7 +390,10 @@
 		"INewHarvestParams": {
 			"properties": {
 				"entries": {
-					"type": "string"
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/INewEntryParams"
+					}
 				},
 				"farm": {
 					"type": "string"
@@ -411,12 +407,9 @@
 		}
 	},
 	"info": {
-		"title": "codewithcause",
+		"description": "CodeWithCause-NodeExpress Documentation",
 		"version": "1.0.0",
-		"description": "Code with a Cause Node Backend",
-		"license": {
-			"name": "MIT"
-		}
+		"title": "CodeWithCause-Node Express"
 	},
 	"paths": {
 		"/users/create": {
@@ -790,7 +783,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvestVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvestVm"
+							}
 						}
 					}
 				},
@@ -812,5 +808,31 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	}
+	},
+	"tags": [
+		{
+			"name": "System",
+			"description": "System/Authentication APIs"
+		},
+		{
+			"name": "Harvester",
+			"description": "Harvester APIs"
+		},
+		{
+			"name": "Entry",
+			"description": "Entry APIs"
+		},
+		{
+			"name": "Crop",
+			"description": "Crop APIs"
+		},
+		{
+			"name": "Farm",
+			"description": "Farm APIs"
+		},
+		{
+			"name": "Organization",
+			"description": "Organization APIs"
+		}
+	]
 }
