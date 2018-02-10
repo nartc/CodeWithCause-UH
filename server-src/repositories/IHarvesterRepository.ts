@@ -1,4 +1,4 @@
-import {IHarvester} from '../models/harvester';
+import {IHarvester} from '../models/Harvester';
 
 export interface IHarvesterRepository {
     createHarvester(harvester: IHarvester);

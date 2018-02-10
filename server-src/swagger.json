@@ -51,6 +51,26 @@
 			],
 			"type": "object"
 		},
+		"ILoginVm": {
+			"properties": {
+				"authToken": {
+					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"authToken"
+			],
+			"type": "object"
+		},
 		"ICropVm": {
 			"properties": {
 				"name": {
@@ -457,6 +477,36 @@
 				]
 			}
 		},
+		"/users/login": {
+			"post": {
+				"operationId": "Login",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ILoginVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "loginParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
+					}
+				]
+			}
+		},
 		"/entries/create": {
 			"post": {
 				"operationId": "RegisterEntry",
@@ -551,7 +601,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IFarmVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
 						}
 					}
 				},
@@ -653,7 +706,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvesterVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvesterVm"
+							}
 						}
 					}
 				},

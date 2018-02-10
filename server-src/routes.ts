@@ -32,6 +32,14 @@ const models: TsoaRoute.Models = {
             "password": { "dataType": "string", "required": true },
         },
     },
+    "ILoginVm": {
+        "properties": {
+            "authToken": { "dataType": "string", "required": true },
+            "username": { "dataType": "string" },
+            "role": { "ref": "UserRole" },
+            "_id": { "dataType": "string" },
+        },
+    },
     "ICropVm": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -177,6 +185,25 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getUserByUsername.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/users/login',
+        function(request: any, response: any, next: any) {
+            const args = {
+                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "INewUserParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.login.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/entries/create',

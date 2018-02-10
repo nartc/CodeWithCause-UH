@@ -42,8 +42,8 @@ export class HarvesterController extends Controller {
      */
     @Get('getAll')
     @Tags('Harvester')
-    public async getAll(): Promise<IHarvesterVm> {
-        const result: IHarvester = await this._harvesterRepository.findAll();
-        return <IHarvesterVm>result;
+    public async getAll(): Promise<IHarvesterVm[]> {
+        const result: IHarvester[] = await this._harvesterRepository.findAll();
+        return <IHarvesterVm[]>result;
     }
 }
