@@ -2,11 +2,71 @@
 import { error } from 'util';
 
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import { UserController } from './controllers/UserController';
+import * as passport from 'passport';
+import { expressAuthentication } from './middleware/security/passport';
 
 const models: TsoaRoute.Models = {
+    "UserRole": {
+        "enums": ["Admin", "User"],
+    },
+    "IUserVm": {
+        "properties": {
+            "username": { "dataType": "string" },
+            "password": { "dataType": "string" },
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "role": { "ref": "UserRole" },
+            "_id": { "dataType": "string" },
+        },
+    },
+    "INewUserParams": {
+        "properties": {
+            "username": { "dataType": "string", "required": true },
+            "password": { "dataType": "string", "required": true },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {
+    app.post('/api/users/create',
+        function(request: any, response: any, next: any) {
+            const args = {
+                newUserParams: { "in": "body", "name": "newUserParams", "required": true, "ref": "INewUserParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.registerUser.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/users/:username',
+        function(request: any, response: any, next: any) {
+            const args = {
+                username: { "in": "path", "name": "username", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.getUserByUsername.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
 
 
     function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {

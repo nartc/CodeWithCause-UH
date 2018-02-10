@@ -1,6 +1,6 @@
 import {Document, model, Model, Schema} from 'mongoose';
 
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
     username: {
         type: String,
         unique: true,
@@ -22,8 +22,7 @@ const UserSchema = new Schema({
         type: String,
         enum: ['Admin', 'User'],
         default: 'User'
-    },
-    nameLists: [String]
+    }
 });
 
 export interface IUser extends Document {
@@ -32,7 +31,15 @@ export interface IUser extends Document {
     createdOn?: Date;
     updatedOn?: Date;
     role?: UserRole;
-    nameLists?: string[];
+}
+
+export interface IUserVm {
+    username?: string;
+    password?: string;
+    createdOn?: Date;
+    updatedOn?: Date;
+    role?: UserRole;
+    _id?: string;
 }
 
 

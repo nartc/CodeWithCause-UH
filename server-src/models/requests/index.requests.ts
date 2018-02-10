@@ -1,0 +1,1 @@
+export {INewUserParams} from './INewUserParams';

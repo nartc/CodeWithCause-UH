@@ -3,13 +3,120 @@
 	"consumes": [
 		"application/json"
 	],
-	"definitions": {},
+	"definitions": {
+		"UserRole": {
+			"enum": [
+				"Admin",
+				"User"
+			],
+			"type": "string"
+		},
+		"IUserVm": {
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
+		"INewUserParams": {
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"username",
+				"password"
+			],
+			"type": "object"
+		}
+	},
 	"info": {
 		"description": "CodeWithCause-NodeExpress Documentation",
 		"version": "1.0.0",
 		"title": "CodeWithCause-Node Express"
 	},
-	"paths": {},
+	"paths": {
+		"/users/create": {
+			"post": {
+				"operationId": "RegisterUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newUserParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
+					}
+				]
+			}
+		},
+		"/users/{username}": {
+			"get": {
+				"operationId": "GetUserByUsername",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "username",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		}
+	},
 	"produces": [
 		"application/json"
 	],
@@ -20,5 +127,11 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	}
+	},
+	"tags": [
+		{
+			"name": "System",
+			"description": "System/Authentication APIs"
+		}
+	]
 }

@@ -1,0 +1,1 @@
+export {IErrorResponse} from './IErrorResponse';

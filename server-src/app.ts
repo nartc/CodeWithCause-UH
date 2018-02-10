@@ -13,6 +13,8 @@ import {MongoError} from 'mongodb';
 import {setupLogging, winstonLogger} from './middleware/common/winstonLogger';
 
 import {APIDocsRouter} from './middleware/common/Swagger';
+import './controllers/UserController';
+import {RegisterRoutes} from './routes';
 
 class App {
     public mongooseConnection: Connection;
@@ -71,6 +73,9 @@ class App {
         this.app.get('/', (req: Request, res: Response) => {
             res.send('Code with a Cause started');
         });
+
+        // Load Routes
+        RegisterRoutes(this.app);
     }
 
     private static onMongoConnection() {
