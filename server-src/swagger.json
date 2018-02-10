@@ -50,6 +50,100 @@
 				"password"
 			],
 			"type": "object"
+		},
+		"IEntryVm": {
+			"properties": {
+				"crop": {
+					"type": "string"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"type": "string"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"farm": {
+					"type": "string"
+				},
+				"recipient": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"crop",
+				"pounds",
+				"priceTotal",
+				"harvester",
+				"comments",
+				"farm",
+				"recipient",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewEntryParams": {
+			"properties": {
+				"crop": {
+					"type": "string"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"type": "string"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"farm": {
+					"type": "string"
+				},
+				"recipient": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"crop",
+				"pounds",
+				"priceTotal",
+				"harvester",
+				"comments",
+				"farm",
+				"recipient",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
 		}
 	},
 	"info": {
@@ -117,6 +211,57 @@
 						"type": "string"
 					}
 				]
+			}
+		},
+		"/entries/create": {
+			"post": {
+				"operationId": "RegisterEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewEntryParams"
+						}
+					}
+				]
+			}
+		},
+		"/entries/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},
