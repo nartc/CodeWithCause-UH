@@ -1,11 +1,11 @@
-import {Body, Controller, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
 import {sign} from 'jsonwebtoken'
 import * as config from 'config'
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IUserRepository} from '../repositories/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
-import {IUser, IUserVm, User} from '../models/User';
+import {IUser, IUserVm, User, UserRole} from '../models/User';
 import {INewUserParams} from '../models/requests/index.requests';
 import {compare, genSalt, hash} from 'bcryptjs';
 import {ILoginVm} from '../models/Login';
@@ -32,6 +32,7 @@ export class UserController extends Controller {
     public async registerUser(@Body() newUserParams: INewUserParams): Promise<IUserVm> {
         const username: string = newUserParams.username;
         const password: string = newUserParams.password;
+        const role: UserRole = newUserParams.role;
 
         const existUser: IUser = await this._userRepository.getUserByUsername(username);
 
@@ -41,6 +42,7 @@ export class UserController extends Controller {
 
         const newUser: IUser = new User();
         newUser.username = username;
+        newUser.role = role;
 
         const salt = await genSalt(10);
         newUser.password = await hash(password, salt);
@@ -66,7 +68,7 @@ export class UserController extends Controller {
 
     /**
      *
-     * @param {INewUserParams} newUserParams
+     * @param {INewUserParams} loginParams
      * @returns {Promise<ILoginVm>}
      */
     @Post('login')
@@ -103,5 +105,17 @@ export class UserController extends Controller {
                 error instanceof MongoError ? error : null,
                 error instanceof MongoError ? error.message : 'Unexpected Error');
         }
+    }
+
+    @Get('')
+    @Tags('System')
+    public async getAllUsers(): Promise<IUserVm[]> {
+        return await <IUserVm[]>this._userRepository.getAll();
+    }
+
+    @Delete('{id}')
+    @Tags('System')
+    public async deleteUserById(@Path() id: string): Promise<IUserVm> {
+        return await <IUserVm>this._userRepository.deleteUser(id);
     }
 }

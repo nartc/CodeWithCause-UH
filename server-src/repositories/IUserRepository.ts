@@ -8,4 +8,8 @@ export interface IUserRepository {
     getUserById(id: string);
 
     updateUser(id: string, updatedUser: IUser);
+
+    getAll();
+
+    deleteUser(id: string);
 }

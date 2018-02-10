@@ -15,4 +15,8 @@ export class HarvesterRepository implements IHarvesterRepository {
     public async findAll(): Promise<IHarvester[]> {
         return await this._harvesterModel.find();
     }
+
+    public async delete(id: string): Promise<IHarvester> {
+        return await this._harvesterModel.findByIdAndRemove(id);
+    }
 }

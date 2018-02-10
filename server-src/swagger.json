@@ -43,11 +43,15 @@
 				},
 				"password": {
 					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
 				}
 			},
 			"required": [
 				"username",
-				"password"
+				"password",
+				"role"
 			],
 			"type": "object"
 		},
@@ -519,6 +523,58 @@
 				]
 			}
 		},
+		"/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IUserVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/{id}": {
+			"delete": {
+				"operationId": "DeleteUserById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/entries/create": {
 			"post": {
 				"operationId": "RegisterEntry",
@@ -576,6 +632,66 @@
 		"/entries/{id}": {
 			"get": {
 				"operationId": "GetSingleEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updatedEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewEntryParams"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteEntry",
 				"produces": [
 					"application/json"
 				],
@@ -771,6 +887,34 @@
 				"parameters": []
 			}
 		},
+		"/crops/{id}": {
+			"get": {
+				"operationId": "GetSingleCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/harvesters/create": {
 			"post": {
 				"operationId": "RegisterHarvester",
@@ -823,6 +967,34 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/harvesters/{id}": {
+			"delete": {
+				"operationId": "DeleteHarvesterById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		},
 		"/organization/create": {

@@ -47,4 +47,10 @@ export class CropController extends Controller {
         const result: ICrop = await this._cropRepository.findAll();
         return <ICropVm>result;
     }
+
+    @Get('{id}')
+    @Tags('Crop')
+    public async getSingleCrop(@Path() id: string): Promise<ICropVm> {
+        return await <ICropVm>this._cropRepository.getCropById(id);
+    }
 }
