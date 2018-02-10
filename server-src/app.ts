@@ -14,6 +14,10 @@ import {setupLogging, winstonLogger} from './middleware/common/winstonLogger';
 
 import {APIDocsRouter} from './middleware/common/Swagger';
 import './controllers/UserController';
+import './controllers/EntryController';
+import './controllers/FarmController';
+import './controllers/CropController';
+import './controllers/HarvesterController';
 import './controllers/OrganizationController';
 import {RegisterRoutes} from './routes';
 

@@ -71,6 +71,92 @@
 			],
 			"type": "object"
 		},
+		"ICropVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "string"
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IHarvesterVm": {
+			"properties": {
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"firstName",
+				"lastName",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"IFarmVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
 		"IOrganizationVm": {
 			"properties": {
 				"purchase": {
@@ -100,6 +186,156 @@
 			},
 			"required": [
 				"_id"
+			],
+			"type": "object"
+		},
+		"IEntryVm": {
+			"properties": {
+				"crop": {
+					"$ref": "#/definitions/ICropVm"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"$ref": "#/definitions/IHarvesterVm"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"farm": {
+					"$ref": "#/definitions/IFarmVm"
+				},
+				"recipient": {
+					"$ref": "#/definitions/IOrganizationVm"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"crop",
+				"pounds",
+				"priceTotal",
+				"harvester",
+				"comments",
+				"farm",
+				"recipient",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewEntryParams": {
+			"properties": {
+				"crop": {
+					"type": "string"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"type": "string"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"farm": {
+					"type": "string"
+				},
+				"recipient": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"crop",
+				"pounds",
+				"priceTotal",
+				"harvester",
+				"comments",
+				"farm",
+				"recipient",
+				"createdOn",
+				"updatedOn"
+			],
+			"type": "object"
+		},
+		"INewFarmParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"long": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"long"
+			],
+			"type": "object"
+		},
+		"INewCropParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "string"
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound"
+			],
+			"type": "object"
+		},
+		"INewHarvesterParams": {
+			"properties": {
+				"lastName": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"lastName",
+				"firstName"
 			],
 			"type": "object"
 		},
@@ -232,6 +468,219 @@
 				]
 			}
 		},
+		"/entries/create": {
+			"post": {
+				"operationId": "RegisterEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewEntryParams"
+						}
+					}
+				]
+			}
+		},
+		"/entries/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IEntryVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/farms/create": {
+			"post": {
+				"operationId": "RegisterFarm",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewFarmParams"
+						}
+					}
+				]
+			}
+		},
+		"/farms/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/crops/create": {
+			"post": {
+				"operationId": "RegisterCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newCropParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewCropParams"
+						}
+					}
+				]
+			}
+		},
+		"/crops/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/harvesters/create": {
+			"post": {
+				"operationId": "RegisterHarvester",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newHarvesterParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewHarvesterParams"
+						}
+					}
+				]
+			}
+		},
+		"/harvesters/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvesterVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/organization/create": {
 			"post": {
 				"operationId": "RegisterUser",
@@ -247,7 +696,7 @@
 					}
 				},
 				"tags": [
-					"System"
+					"Organization"
 				],
 				"security": [],
 				"parameters": [
@@ -278,6 +727,26 @@
 		{
 			"name": "System",
 			"description": "System/Authentication APIs"
+		},
+		{
+			"name": "Harvester",
+			"description": "Harvester APIs"
+		},
+		{
+			"name": "Entry",
+			"description": "Entry APIs"
+		},
+		{
+			"name": "Crop",
+			"description": "Crop APIs"
+		},
+		{
+			"name": "Farm",
+			"description": "Farm APIs"
+		},
+		{
+			"name": "Organization",
+			"description": "Organization APIs"
 		}
 	]
 }
