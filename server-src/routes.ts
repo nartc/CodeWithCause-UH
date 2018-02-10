@@ -380,6 +380,7 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
     app.delete('/api/farms/:id',
+        authenticateMiddleware('jwt'),
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -472,6 +473,46 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getSingleCrop.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.put('/api/crops/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                updateCropParams: { "in": "body", "name": "updateCropParams", "required": true, "ref": "INewCropParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CropController();
+
+
+            const promise = controller.updateCrop.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.delete('/api/crops/:id',
+        authenticateMiddleware('jwt'),
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CropController();
+
+
+            const promise = controller.deleteCrop.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/harvesters/create',
@@ -644,6 +685,9 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
 
+    function authenticateMiddleware(strategy: string) {
+        return passport.authenticate(strategy, { session: false });
+    }
 
     function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {
         return Promise.resolve(promise)

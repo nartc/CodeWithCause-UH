@@ -1,11 +1,11 @@
-import {Body, Controller, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {ICropRepository} from '../repositories/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
-import {ICrop, Crop, ICropVm} from '../models/Crop';
+import {Crop, ICrop, ICropVm} from '../models/Crop';
 import {INewCropParams} from '../models/requests/index.requests';
-import {genSalt, hash} from 'bcryptjs';
+import moment = require('moment');
 
 @Route('crops')
 export class CropController extends Controller {
@@ -43,14 +43,36 @@ export class CropController extends Controller {
      */
     @Get('getAll')
     @Tags('Crop')
-    public async getAll(): Promise<ICropVm> {
-        const result: ICrop = await this._cropRepository.findAll();
-        return <ICropVm>result;
+    public async getAll(): Promise<ICropVm[]> {
+        const result: ICrop[] = await this._cropRepository.findAll();
+        return <ICropVm[]>result;
     }
 
     @Get('{id}')
     @Tags('Crop')
     public async getSingleCrop(@Path() id: string): Promise<ICropVm> {
         return await <ICropVm>this._cropRepository.getCropById(id);
+    }
+
+    @Put('{id}')
+    @Tags('Crop')
+    public async updateCrop(@Path() id: string, @Body() updateCropParams: INewCropParams): Promise<ICropVm> {
+        const existedCrop: ICrop = await this._cropRepository.getCropById(id);
+
+        const updatedCrop: ICrop = new Crop();
+        updatedCrop._id = existedCrop._id;
+        updatedCrop.updatedOn = moment().toDate();
+        updatedCrop.name = updateCropParams.name;
+        updatedCrop.pricePerPound = updateCropParams.pricePerPound;
+        updatedCrop.variety = updateCropParams.variety;
+
+        return await <ICropVm>this._cropRepository.update(id, updatedCrop);
+    }
+
+    @Delete('{id}')
+    @Tags('Crop')
+    @Security('JWT')
+    public async deleteCrop(@Path() id: string): Promise<ICropVm> {
+        return await <ICropVm>this._cropRepository.delete(id);
     }
 }

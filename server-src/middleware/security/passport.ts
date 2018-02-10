@@ -12,7 +12,7 @@ export const authenticateUser = (passport: PassportStatic) => {
 
     const options: StrategyOptions = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-        secretOrKey: process.env.JWT_SECRET || get('auth.jwt_secret')
+        secretOrKey: process.env.JWT_SECRET || get('auth.jwt-secret')
     };
 
     passport.use(new Strategy(options, async (jwtPayload: IJwtPayload, done: VerifiedCallback) => {

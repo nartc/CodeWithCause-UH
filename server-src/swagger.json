@@ -791,7 +791,11 @@
 				"tags": [
 					"Farm"
 				],
-				"security": [],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -876,7 +880,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ICropVm"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ICropVm"
+							}
 						}
 					}
 				},
@@ -905,6 +912,70 @@
 					"Crop"
 				],
 				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updateCropParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewCropParams"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

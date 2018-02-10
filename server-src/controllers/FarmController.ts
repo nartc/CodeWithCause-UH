@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Path, Post, Route, Tags, Delete, Put} from 'tsoa';
+import {Body, Controller, Get, Path, Post, Route, Tags, Delete, Put, Security} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IFarmRepository} from '../repositories/IFarmRepository';
@@ -49,6 +49,7 @@ export class FarmController extends Controller {
 
     @Delete('{id}')
     @Tags('Farm')
+    @Security('JWT')
     public async deleteById(@Path() id: string): Promise<IFarmVm[]> {
         const result: IFarm[] = await this._farmRepository.delete(id);
         return <IFarmVm[]>result;

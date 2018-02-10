@@ -1,13 +1,12 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
+import {Application, Request, Response} from 'express';
 import * as mongoose from 'mongoose';
+import {Connection, Mongoose} from 'mongoose';
 import * as logger from 'morgan';
 import * as passport from 'passport';
 import * as swaggerUI from 'swagger-ui-express';
-
-import {Application, Request, Response} from 'express';
-import {Connection, Mongoose} from 'mongoose';
 import {get} from 'config';
 import {MongoError} from 'mongodb';
 import {setupLogging, winstonLogger} from './middleware/common/winstonLogger';
@@ -21,6 +20,7 @@ import './controllers/HarvesterController';
 import './controllers/OrganizationController';
 import './controllers/HarvestController';
 import {RegisterRoutes} from './routes';
+import {authenticateUser} from './middleware/security/passport';
 
 class App {
     public mongooseConnection: Connection;
@@ -62,9 +62,10 @@ class App {
             parameterLimit: 5000
         }));
 
-        // Passport MW: TODO
+        // Passport MW
         this.app.use(passport.initialize());
         this.app.use(passport.session());
+        authenticateUser(passport);
 
         // SwaggerUI
         this.app.use('/', this.apiDocsRoutes.getRouter());
