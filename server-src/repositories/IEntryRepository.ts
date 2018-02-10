@@ -1,4 +1,4 @@
-import {IEntry} from '../models/entry';
+import {IEntry} from '../models/Entry';
 
 export interface IEntryRepository {
     createEntry(entry: IEntry);
