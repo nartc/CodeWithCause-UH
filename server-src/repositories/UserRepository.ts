@@ -2,6 +2,7 @@ import {IUserRepository} from './IUserRepository';
 import {IUser, UserModel} from '../models/User';
 
 export class UserRepository implements IUserRepository {
+
     private _userModel: UserModel;
 
     constructor(userModel: UserModel) {
@@ -23,5 +24,13 @@ export class UserRepository implements IUserRepository {
 
     public async updateUser(id: string, updatedUser: IUser): Promise<IUser> {
         return await this._userModel.findByIdAndUpdate(id, updatedUser);
+    }
+
+    public async getAll(): Promise<IUser[]> {
+        return await this._userModel.find();
+    }
+
+    public async deleteUser(id: string): Promise<IUser> {
+        return await this._userModel.findByIdAndRemove(id);
     }
 }

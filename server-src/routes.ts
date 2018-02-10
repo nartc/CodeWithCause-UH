@@ -30,6 +30,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
+            "role": { "ref": "UserRole", "required": true },
         },
     },
     "ILoginVm": {
@@ -211,6 +212,43 @@ export function RegisterRoutes(app: any) {
             const promise = controller.login.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.get('/api/users',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.getAllUsers.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.delete('/api/users/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.deleteUserById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/entries/create',
         function(request: any, response: any, next: any) {
             const args = {
@@ -265,6 +303,45 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getSingleEntry.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.put('/api/entries/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "INewEntryParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new EntryController();
+
+
+            const promise = controller.updateEntry.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.delete('/api/entries/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new EntryController();
+
+
+            const promise = controller.deleteEntry.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/farms/create',
@@ -380,6 +457,25 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getAll.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.get('/api/crops/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CropController();
+
+
+            const promise = controller.getSingleCrop.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/harvesters/create',
         function(request: any, response: any, next: any) {
             const args = {
@@ -415,6 +511,25 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getAll.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.delete('/api/harvesters/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvesterController();
+
+
+            const promise = controller.deleteHarvesterById.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/organization/create',

@@ -1,11 +1,10 @@
-import {Body, Controller, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
-import {IHarvester, Harvester, IHarvesterVm} from '../models/Harvester';
+import {Harvester, IHarvester, IHarvesterVm} from '../models/Harvester';
 import {INewHarvesterParams} from '../models/requests/index.requests';
-import {genSalt, hash} from 'bcryptjs';
 
 @Route('harvesters')
 export class HarvesterController extends Controller {
@@ -45,5 +44,11 @@ export class HarvesterController extends Controller {
     public async getAll(): Promise<IHarvesterVm[]> {
         const result: IHarvester[] = await this._harvesterRepository.findAll();
         return <IHarvesterVm[]>result;
+    }
+
+    @Delete('{id}')
+    @Tags('Harvester')
+    public async deleteHarvesterById(@Path() id: string): Promise<IHarvesterVm> {
+        return await <IHarvesterVm>this._harvesterRepository.delete(id);
     }
 }

@@ -1,10 +1,11 @@
-import {Body, Controller, Get, Path, Post, Put, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
-import {IEntry, Entry, IEntryVm} from '../models/Entry';
+import {Entry, IEntry, IEntryVm} from '../models/Entry';
 import {INewEntryParams} from '../models/requests/index.requests';
+import * as moment from 'moment';
 
 @Route('entries')
 export class EntryController extends Controller {
@@ -55,10 +56,29 @@ export class EntryController extends Controller {
         return await <IEntryVm>this._entryRepository.getEntryById(id);
     }
 
-    // @Put('{id}')
-    // @Tags('Entry')
-    // public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<IEntryVm> {
-    //     // const updatedFarm: IFarm = new Entr();
-    //
-    // }
+    @Put('{id}')
+    @Tags('Entry')
+    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<IEntryVm> {
+        const existedEntry: IEntry = await this._entryRepository.getEntryById(id);
+
+        const updatedEntry: IEntry = new Entry();
+        updatedEntry._id = existedEntry._id;
+        updatedEntry.comments = updatedEntryParams.comments;
+        updatedEntry.crop = updatedEntryParams.crop;
+        updatedEntry.harvester = updatedEntryParams.harvester;
+        updatedEntry.pounds = updatedEntryParams.pounds;
+        updatedEntry.recipient = updatedEntryParams.recipient;
+        updatedEntry.priceTotal = updatedEntryParams.priceTotal;
+        updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
+        updatedEntry.updatedOn = moment().toDate();
+        updatedEntry.createdOn = existedEntry.createdOn;
+
+        return await <IEntryVm>this._entryRepository.update(id, updatedEntry);
+    }
+
+    @Delete('{id}')
+    @Tags('Entry')
+    public async deleteEntry(@Path() id: string): Promise<IEntryVm> {
+        return await <IEntryVm>this._entryRepository.delete(id);
+    }
 }
