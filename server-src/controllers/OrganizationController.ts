@@ -41,7 +41,10 @@ export class OrganizationController extends Controller {
         console.log(OrganizationController);
 
         const newOrganization: IOrganization = new Organization();
-
+        newOrganization.contactName = contactName;
+        newOrganization.name = name;
+        newOrganization.phoneNumber = phoneNumber;
+        newOrganization.purchase = purchase;
 
         return await <IOrganizationVm>this._organizationRepository.createOrganization(newOrganization);
     }
