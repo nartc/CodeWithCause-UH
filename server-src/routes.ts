@@ -43,10 +43,11 @@ const models: TsoaRoute.Models = {
     "ICropVm": {
         "properties": {
             "name": { "dataType": "string", "required": true },
-            "variety": { "dataType": "string", "required": true },
+            "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime", "required": true },
             "updatedOn": { "dataType": "datetime", "required": true },
+            "_id": { "dataType": "string" },
         },
     },
     "IHarvesterVm": {
@@ -82,13 +83,13 @@ const models: TsoaRoute.Models = {
     },
     "INewEntryParams": {
         "properties": {
-            "crop": { "dataType": "string", "required": true },
             "pounds": { "dataType": "double", "required": true },
-            "priceTotal": { "dataType": "double", "required": true },
-            "harvester": { "dataType": "string", "required": true },
-            "comments": { "dataType": "string", "required": true },
-            "farm": { "dataType": "string", "required": true },
-            "recipient": { "dataType": "string", "required": true },
+            "crop": { "dataType": "string" },
+            "priceTotal": { "dataType": "double" },
+            "harvester": { "dataType": "string" },
+            "comments": { "dataType": "string" },
+            "farm": { "dataType": "string" },
+            "recipient": { "dataType": "string" },
         },
     },
     "IFarmVm": {
@@ -110,7 +111,7 @@ const models: TsoaRoute.Models = {
     "INewCropParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
-            "variety": { "dataType": "string", "required": true },
+            "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
         },
     },

@@ -77,7 +77,10 @@
 					"type": "string"
 				},
 				"variety": {
-					"type": "string"
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
 				},
 				"pricePerPound": {
 					"type": "number",
@@ -90,6 +93,9 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
 				}
 			},
 			"required": [
@@ -203,12 +209,12 @@
 		},
 		"INewEntryParams": {
 			"properties": {
-				"crop": {
-					"type": "string"
-				},
 				"pounds": {
 					"type": "number",
 					"format": "double"
+				},
+				"crop": {
+					"type": "string"
 				},
 				"priceTotal": {
 					"type": "number",
@@ -228,13 +234,7 @@
 				}
 			},
 			"required": [
-				"crop",
-				"pounds",
-				"priceTotal",
-				"harvester",
-				"comments",
-				"farm",
-				"recipient"
+				"pounds"
 			],
 			"type": "object"
 		},
@@ -296,7 +296,10 @@
 					"type": "string"
 				},
 				"variety": {
-					"type": "string"
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
 				},
 				"pricePerPound": {
 					"type": "number",
