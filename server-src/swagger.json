@@ -51,6 +51,26 @@
 			],
 			"type": "object"
 		},
+		"ILoginVm": {
+			"properties": {
+				"authToken": {
+					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"authToken"
+			],
+			"type": "object"
+		},
 		"IOrganizationVm": {
 			"properties": {
 				"purchase": {
@@ -178,6 +198,36 @@
 						"name": "username",
 						"required": true,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/users/login": {
+			"post": {
+				"operationId": "Login",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ILoginVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "loginParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
 					}
 				]
 			}
