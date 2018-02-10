@@ -22,11 +22,11 @@ export class OrganizationRepository implements IOrganizationRepository {
         return await this._organizationModel.findByIdAndUpdate(id, updatedOrganization);
     }
 
-    public async getAllOrganization():Promise<IOrganization[]>{
+    public async getAllOrganization(): Promise<IOrganization[]> {
         return await this._organizationModel.find();
     }
 
-    public async deleteOrganization(id:string):Promise<IOrganization>{
+    public async deleteOrganization(id: string): Promise<IOrganization> {
         return await this._organizationModel.findByIdAndRemove(id);
     }
 

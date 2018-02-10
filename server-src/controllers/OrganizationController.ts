@@ -29,7 +29,7 @@ export class OrganizationController extends Controller {
     public async registerOrganization( @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
         const contactName: string = newOrganizationParams.contactName
         const name: string = newOrganizationParams.name;
-        const phoneNumber: number = newOrganizationParams.phoneNumber;
+        const phoneNumber: string = newOrganizationParams.phoneNumber;
         const purchase: boolean = newOrganizationParams.purchase;
 
 

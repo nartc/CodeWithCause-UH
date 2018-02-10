@@ -147,9 +147,6 @@
 				"name": {
 					"type": "string"
 				},
-				"contactName": {
-					"type": "string"
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -158,9 +155,11 @@
 					"type": "string",
 					"format": "date-time"
 				},
+				"contactName": {
+					"type": "string"
+				},
 				"phoneNumber": {
-					"type": "number",
-					"format": "double"
+					"type": "string"
 				},
 				"_id": {
 					"type": "string"
@@ -356,25 +355,14 @@
 				"contactName": {
 					"type": "string"
 				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				},
 				"phoneNumber": {
-					"type": "number",
-					"format": "double"
+					"type": "string"
 				}
 			},
 			"required": [
 				"purchase",
 				"name",
 				"contactName",
-				"createdOn",
-				"updatedOn",
 				"phoneNumber"
 			],
 			"type": "object"
@@ -1070,7 +1058,7 @@
 		},
 		"/organization/create": {
 			"post": {
-				"operationId": "RegisterUser",
+				"operationId": "RegisterOrganization",
 				"produces": [
 					"application/json"
 				],
@@ -1154,6 +1142,32 @@
 						"schema": {
 							"$ref": "#/definitions/INewOrganizationParams"
 						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteOrganization",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
 					}
 				]
 			}
