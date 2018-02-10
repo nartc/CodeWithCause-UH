@@ -247,7 +247,7 @@
 					"type": "number",
 					"format": "double"
 				},
-				"long": {
+				"lng": {
 					"type": "number",
 					"format": "double"
 				},
@@ -263,7 +263,7 @@
 			"required": [
 				"name",
 				"lat",
-				"long",
+				"lng",
 				"createdOn",
 				"updatedOn"
 			],

@@ -8,7 +8,7 @@ export const FarmSchema = new Schema({
     lat: {
         type: Number
     },
-    long: {
+    lng: {
         type: Number
     },
     createdOn: {
@@ -24,7 +24,7 @@ export const FarmSchema = new Schema({
 export interface IFarm extends Document {
     name: string;
     lat: number;
-    long: number;
+    lng: number;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -32,7 +32,7 @@ export interface IFarm extends Document {
 export interface IFarmVm {
     name: string;
     lat: number;
-    long: number;
+    lng: number;
     createdOn: Date;
     updatedOn: Date;
 }
