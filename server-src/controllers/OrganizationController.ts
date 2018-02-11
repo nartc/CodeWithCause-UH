@@ -1,11 +1,10 @@
-import { Body, Controller, Get, Path, Post, Route, Tags, Put, Delete } from 'tsoa';
-import { MongoError } from 'mongodb';
-import { IErrorResponse } from '../models/responses/index.responses';
-import { IOrganizationRepository } from '../repositories/IOrganizationRepository';
-import { OrganizationRepository } from '../repositories/OrganizationRepository';
-import { IOrganization, IOrganizationVm, Organization } from '../models/organization';
-import { INewOrganizationParams } from '../models/requests/index.requests';
-import { genSalt, hash } from 'bcryptjs';
+import {Body, Controller, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
+import {MongoError} from 'mongodb';
+import {IErrorResponse} from '../models/responses/index.responses';
+import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
+import {OrganizationRepository} from '../repositories/OrganizationRepository';
+import {IOrganization, IOrganizationVm, Organization, OrganizationType} from '../models/Organization';
+import {INewOrganizationParams} from '../models/requests/index.requests';
 
 @Route('organization')
 export class OrganizationController extends Controller {
@@ -26,11 +25,9 @@ export class OrganizationController extends Controller {
      */
     @Post('create')
     @Tags('Organization')
-    public async registerOrganization( @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
-        const contactName: string = newOrganizationParams.contactName
+    public async registerOrganization(@Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
         const name: string = newOrganizationParams.name;
-        const phoneNumber: string = newOrganizationParams.phoneNumber;
-        const purchase: boolean = newOrganizationParams.purchase;
+        const orgType: OrganizationType = newOrganizationParams.orgType ? newOrganizationParams.orgType : null;
 
 
         const existOrganization: IOrganization = await this._organizationRepository.getOrganizationByName(name);
@@ -41,10 +38,8 @@ export class OrganizationController extends Controller {
         console.log(OrganizationController);
 
         const newOrganization: IOrganization = new Organization();
-        newOrganization.contactName = contactName;
         newOrganization.name = name;
-        newOrganization.phoneNumber = phoneNumber;
-        newOrganization.purchase = purchase;
+        newOrganization.orgType = orgType;
 
         return await <IOrganizationVm>this._organizationRepository.createOrganization(newOrganization);
     }
@@ -58,12 +53,10 @@ export class OrganizationController extends Controller {
 
     @Put('{id}')
     @Tags('Organization')
-    public async updateOrganization( @Path() id: string, @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
+    public async updateOrganization(@Path() id: string, @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
         const updateOrganization: IOrganization = new Organization();
         updateOrganization._id = id;
-        updateOrganization.purchase = newOrganizationParams.purchase;
-        updateOrganization.phoneNumber = newOrganizationParams.phoneNumber;
-        updateOrganization.contactName = newOrganizationParams.contactName;
+        updateOrganization.orgType = newOrganizationParams.orgType;
         updateOrganization.name = newOrganizationParams.name;
 
         const result: IOrganizationVm = await this._organizationRepository.updateOrganization(id, updateOrganization);
@@ -71,8 +64,8 @@ export class OrganizationController extends Controller {
     }
 
     @Delete('{id}')
-    @Tags ('Organization')
-    public async deleteOrganization (@Path() id:string):Promise<IOrganizationVm> {
+    @Tags('Organization')
+    public async deleteOrganization(@Path() id: string): Promise<IOrganizationVm> {
         const result: IOrganizationVm = await this._organizationRepository.deleteOrganization(id);
         return result;
     }

@@ -2,7 +2,7 @@ import {Document, model, Model, Schema} from 'mongoose';
 import {ICropVm} from './Crop';
 import {IHarvesterVm} from './Harvester';
 import {IFarmVm} from './Farm';
-import {IOrganizationVm} from './organization';
+import {IOrganizationVm} from './Organization';
 // import {Crop} from '';
 
 export const EntrySchema = new Schema({

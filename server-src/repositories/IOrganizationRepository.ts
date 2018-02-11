@@ -1,4 +1,4 @@
-import {IOrganization} from '../models/organization';
+import {IOrganization} from '../models/Organization';
 
 export interface IOrganizationRepository {
     createOrganization(newOrganization: IOrganization);

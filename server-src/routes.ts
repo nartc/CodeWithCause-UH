@@ -66,14 +66,15 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
+    "OrganizationType": {
+        "enums": ["Purchased", "Donated", "Internal"],
+    },
     "IOrganizationVm": {
         "properties": {
-            "purchase": { "dataType": "boolean" },
+            "orgType": { "ref": "OrganizationType" },
             "name": { "dataType": "string" },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
-            "contactName": { "dataType": "string" },
-            "phoneNumber": { "dataType": "string" },
             "_id": { "dataType": "string" },
         },
     },
@@ -135,10 +136,8 @@ const models: TsoaRoute.Models = {
     },
     "INewOrganizationParams": {
         "properties": {
-            "purchase": { "dataType": "boolean", "required": true },
             "name": { "dataType": "string", "required": true },
-            "contactName": { "dataType": "string", "required": true },
-            "phoneNumber": { "dataType": "string", "required": true },
+            "orgType": { "ref": "OrganizationType" },
         },
     },
     "IHarvestVm": {

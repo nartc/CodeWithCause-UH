@@ -1,16 +1,12 @@
 import {Document, Model, model, Schema} from 'mongoose';
 
 const OrganizationSchema = new Schema({
-    purchase: {
-        type: Boolean,
+    orgType: {
+        type: String,
+        enum: ['Purchased', 'Donated', 'Internal'],
+        default: 'Internal'
     },
     name: {
-        type: String,
-    },
-    phoneNumber:{
-        type:String,
-    },
-    contactName: {
         type: String,
     },
     createdOn: {
@@ -24,22 +20,24 @@ const OrganizationSchema = new Schema({
 });
 
 export interface IOrganization extends Document {
-    purchase?: boolean;
+    orgType?: OrganizationType;
     name?: string;
-    contactName?:string;
     createdOn?: Date;
     updatedOn?: Date;
-    phoneNumber?:string;
 }
 
 export interface IOrganizationVm {
-    purchase?: boolean;
+    orgType?: OrganizationType;
     name?: string;
     createdOn?: Date;
     updatedOn?: Date;
-    contactName?:string;
-    phoneNumber?:string;
     _id?:string;
+}
+
+export enum OrganizationType {
+    Purchased = 'Purchased' as any,
+    Donated = 'Donated' as any,
+    Internal = 'Internal' as any
 }
 
 export type OrganizationModel = Model<IOrganization>;

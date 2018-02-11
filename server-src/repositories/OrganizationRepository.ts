@@ -1,5 +1,5 @@
 import {IOrganizationRepository} from './IOrganizationRepository';
-import {IOrganization, OrganizationModel} from '../models/organization';
+import {IOrganization, OrganizationModel} from '../models/Organization';
 
 export class OrganizationRepository implements IOrganizationRepository {
 

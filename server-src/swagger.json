@@ -154,10 +154,18 @@
 			],
 			"type": "object"
 		},
+		"OrganizationType": {
+			"enum": [
+				"Purchased",
+				"Donated",
+				"Internal"
+			],
+			"type": "string"
+		},
 		"IOrganizationVm": {
 			"properties": {
-				"purchase": {
-					"type": "boolean"
+				"orgType": {
+					"$ref": "#/definitions/OrganizationType"
 				},
 				"name": {
 					"type": "string"
@@ -169,12 +177,6 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
-				},
-				"contactName": {
-					"type": "string"
-				},
-				"phoneNumber": {
-					"type": "string"
 				},
 				"_id": {
 					"type": "string"
@@ -361,24 +363,15 @@
 		},
 		"INewOrganizationParams": {
 			"properties": {
-				"purchase": {
-					"type": "boolean"
-				},
 				"name": {
 					"type": "string"
 				},
-				"contactName": {
-					"type": "string"
-				},
-				"phoneNumber": {
-					"type": "string"
+				"orgType": {
+					"$ref": "#/definitions/OrganizationType"
 				}
 			},
 			"required": [
-				"purchase",
-				"name",
-				"contactName",
-				"phoneNumber"
+				"name"
 			],
 			"type": "object"
 		},
