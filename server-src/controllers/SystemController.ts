@@ -36,8 +36,9 @@ export class SystemController extends Controller {
     @Tags('System')
     public async importCrops(): Promise<ICropVm[]> {
         // Check Crop collection
-        if (this._mongooseConnection.collection('crops')) {
-            await this._mongooseConnection.dropCollection('crops');
+        const cropCollection = await this._mongooseConnection.db.listCollections({name: 'crops'}).toArray();
+        if (cropCollection.length > 0) {
+            await this._mongooseConnection.db.dropCollection('crops');
         }
 
         const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
