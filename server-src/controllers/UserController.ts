@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Delete, Get, Path, Post, Route, Tags, Put} from 'tsoa';
 import {sign} from 'jsonwebtoken'
 import * as config from 'config'
 import {MongoError} from 'mongodb';
@@ -10,6 +10,7 @@ import {INewUserParams} from '../models/requests/index.requests';
 import {compare, genSalt, hash} from 'bcryptjs';
 import {ILoginVm} from '../models/Login';
 import {ILoginParams} from '../models/requests/ILoginParams';
+import * as moment from 'moment';
 
 @Route('users')
 export class UserController extends Controller {
@@ -118,5 +119,26 @@ export class UserController extends Controller {
     @Tags('System')
     public async deleteUserById(@Path() id: string): Promise<IUserVm> {
         return await <IUserVm>this._userRepository.deleteUser(id);
+    }
+
+    @Put('{id}')
+    @Tags('System')
+    public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<IUserVm> {
+        const existedUser: IUserVm = await <IUserVm>this._userRepository.getUserById(id);
+
+        if (!existedUser || existedUser === null) {
+            throw UserController.resolveErrorResponse(null, 'Not found');
+        }
+
+        const updatedUser: IUser = new User();
+        updatedUser._id = existedUser._id;
+        updatedUser.createdOn = existedUser.createdOn;
+        updatedUser.updatedOn = moment().toDate();
+        updatedUser.username = updateUserParams.username;
+        updatedUser.password = updateUserParams.password;
+        updatedUser.role = updateUserParams.role;
+
+        const result: IUserVm = await <IUserVm>this._userRepository.updateUser(id, updatedUser);
+        return result;
     }
 }

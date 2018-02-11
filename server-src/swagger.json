@@ -569,6 +569,40 @@
 						"type": "string"
 					}
 				]
+			},
+			"put": {
+				"operationId": "UdpateUserById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updateUserParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
+					}
+				]
 			}
 		},
 		"/entries/create": {

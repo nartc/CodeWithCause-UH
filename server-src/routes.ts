@@ -252,6 +252,26 @@ export function RegisterRoutes(app: any) {
             const promise = controller.deleteUserById.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.put('/api/users/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                updateUserParams: { "in": "body", "name": "updateUserParams", "required": true, "ref": "INewUserParams" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.udpateUserById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/entries/create',
         function(request: any, response: any, next: any) {
             const args = {
