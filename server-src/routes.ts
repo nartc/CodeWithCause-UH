@@ -157,6 +157,13 @@ const models: TsoaRoute.Models = {
             "harvestId": { "dataType": "string" },
         },
     },
+    "IPercentageReportResponse": {
+        "properties": {
+            "type": { "dataType": "string" },
+            "createdOn": { "dataType": "datetime" },
+            "percentage": { "dataType": "string" },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {

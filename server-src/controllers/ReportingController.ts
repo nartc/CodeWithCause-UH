@@ -13,6 +13,7 @@ import {Harvest, IHarvestVm} from '../models/Harvest';
 import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm, IFarmVm} from '../models/Farm';
+import {IPercentageReportResponse} from '../models/responses/IPercentageReportResponse';
 import moment = require('moment');
 
 @Route('reports')
@@ -33,9 +34,8 @@ export class ReportingController extends Controller {
 
     @Get('percentage')
     @Tags('Reporting')
-    public async getSalesPercentage(@Query() percentageType: string): Promise<any> {
+    public async getSalesPercentage(@Query() percentageType: string): Promise<IPercentageReportResponse> {
         const allEntries: IEntryVm[] = await <IEntryVm[]>this._entryRepository.findAll();
-        console.log(allEntries);
         let queried: IEntryVm[];
 
         if (percentageType === 'donated') {
@@ -46,10 +46,10 @@ export class ReportingController extends Controller {
 
         const percentage: string = ((queried.length / allEntries.length) * 100).toFixed(2);
 
-        return {
+        return <IPercentageReportResponse>{
             createdOn: moment().toDate(),
             type: percentageType,
-            percentage:percentage
+            percentage
         }
     };
 
@@ -59,7 +59,7 @@ export class ReportingController extends Controller {
         const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.findAll();
         const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.findAll();
         let farmWeightResults = {};
-        let farmValueResult ={};
+        let farmValueResult = {};
         console.log(allFarms);
         console.log(allHarvests);
         if (weightOrValue === 'weight') {
@@ -78,7 +78,7 @@ export class ReportingController extends Controller {
                 console.log(farmWeightResults);
                 return farmWeightResults;
             });
-        }else if (weightOrValue === 'value'){
+        } else if (weightOrValue === 'value') {
 
             console.log(allHarvests);
             allFarms.forEach(f => { //farm: ChauFarm
@@ -95,7 +95,7 @@ export class ReportingController extends Controller {
             console.log(farmValueResult)
             return farmValueResult;
         }
-        
-         return null;
+
+        return null;
     }
 }

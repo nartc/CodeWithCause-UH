@@ -422,6 +422,21 @@
 				"farm"
 			],
 			"type": "object"
+		},
+		"IPercentageReportResponse": {
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"percentage": {
+					"type": "string"
+				}
+			},
+			"type": "object"
 		}
 	},
 	"info": {
@@ -1337,7 +1352,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/IPercentageReportResponse"
 						}
 					}
 				},

@@ -37,7 +37,6 @@ export class EntryController extends Controller {
     @Post('create')
     @Tags('Entry')
     public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<IEntryVm> {
-
         const newEntry: IEntry = new Entry();
         newEntry.crop = newEntryParams.crop;
         newEntry.pounds = newEntryParams.pounds;
