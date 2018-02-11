@@ -38,7 +38,7 @@ class App {
         // Call Routes: TODO
     }
 
-    configure(): void {
+    configure(): void {  
         // Connect to MongoDB
         (mongoose as Mongoose).Promise = global.Promise;
 
