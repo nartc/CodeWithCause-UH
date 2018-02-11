@@ -48,7 +48,7 @@ export class ReportingController extends Controller {
         return {
             createdOn: moment().toDate(),
             type: percentageType,
-            percentage
+            percentage:percentage
         }
     };
 
@@ -58,25 +58,43 @@ export class ReportingController extends Controller {
         const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.findAll();
         const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.findAll();
         let farmWeightResults = {};
+        let farmValueResult ={};
         console.log(allFarms);
         console.log(allHarvests);
-        // if (weightOrValue === 'weight') {
-        //     console.log(allFarms);
-        //     console.log(allHarvests);
-        //     allFarms.forEach(f => { //farm: ChauFarm
-        //         console.log(f);
-        //         const queried: IHarvestVm[] = allHarvests.filter(h => h.farm._id === f._id);
-        //         let totalWeight = 0;
-        //         queried.forEach(element => {
-        //             element.entries.forEach(e => {
-        //                 totalWeight += e.pounds;
-        //             });
-        //         });
-        //         farmWeightResults[f.name] = totalWeight;
-        //     });
-        // }
-        //
-        // console.log(farmWeightResults);
-        // return farmWeightResults;
+        if (weightOrValue === 'weight') {
+            console.log(allFarms);
+            console.log(allHarvests);
+            allFarms.forEach(f => { //farm: ChauFarm
+                console.log(f);
+                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm._id === f._id);
+                let totalWeight = 0;
+                queried.forEach(element => {
+                    element.entries.forEach(e => {
+                        totalWeight += e.pounds;
+                    });
+                });
+                farmWeightResults[f.name] = totalWeight;
+                console.log(farmWeightResults);
+                return farmWeightResults;
+            });
+        }else if (weightOrValue === 'value'){
+
+            console.log(allHarvests);
+            allFarms.forEach(f => { //farm: ChauFarm
+                console.log(f);
+                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm._id === f._id);
+                let totalValue = 0;
+                queried.forEach(element => {
+                    element.entries.forEach(e => {
+                        totalValue += e.priceTotal;
+                    });
+                });
+                farmValueResult[f.name] = totalValue;
+            });
+            console.log(farmValueResult)
+            return farmValueResult;
+        }
+        
+         return null;
     }
 }

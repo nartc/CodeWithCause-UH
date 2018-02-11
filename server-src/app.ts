@@ -1,7 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import {Application, Request, Response} from 'express';
+import {Application, Request, Response, json} from 'express';
 import * as mongoose from 'mongoose';
 import {Connection, Mongoose} from 'mongoose';
 import * as logger from 'morgan';
@@ -23,6 +23,7 @@ import './controllers/ReportingController';
 import {RegisterRoutes} from './routes';
 import {authenticateUser} from './middleware/security/passport';
 
+const fs = require('fs')
 class App {
     public mongooseConnection: Connection;
     public app: Application;
@@ -33,6 +34,7 @@ class App {
         this.app = express();
         setupLogging(this.app);
         this.configure();
+        this.test();
 
         // Call Routes: TODO
     }
@@ -100,6 +102,11 @@ class App {
        Error on connection to database: ${error}
       `
         );
+    }
+
+    test(){
+        const cropData = JSON.parse(fs.readFileSync('./csvjson.json','utf8'))
+        console.log(cropData)
     }
 }
 
