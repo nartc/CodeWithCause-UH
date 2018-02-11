@@ -25,7 +25,7 @@ export class HarvestController extends Controller {
 
     /**
      *
-     * @param {INewHarvestParams} newHarvestParams
+     * @param {IHarvestParams} harvestParams
      * @returns {Promise<IHarvestVm>}
      */
     @Post('create')
@@ -35,7 +35,7 @@ export class HarvestController extends Controller {
         const newHarvest: IHarvest = new Harvest();
         newHarvest.farm = harvestParams.farm;
 
-        if (harvestParams.entries.length > 0 && harvestParams.harvestId) {
+        if ((harvestParams.entries && harvestParams.entries.length > 0) && harvestParams.harvestId) {
             const existedHarvest: IHarvestVm = await <IHarvestVm>this._harvestRepository.getHarvestById(harvestParams.harvestId);
 
             const updatedHarvest: IHarvest = new Harvest();
