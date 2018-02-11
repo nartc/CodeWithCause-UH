@@ -42,7 +42,6 @@ export class SystemController extends Controller {
         }
 
         const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
-        console.log(cropCSVData);
         const cropTypes: string[] = uniq(map(cropCSVData, 'Crop'));
         cropTypes.forEach(async type => {
             const variety = [...map(filter(cropCSVData, c => c.Crop === type), 'Variety')];
@@ -55,6 +54,9 @@ export class SystemController extends Controller {
             await this._cropRepository.createCrop(newCrop);
         });
 
-        return await <ICropVm[]>this._cropRepository.findAll();
+        const result: ICropVm[] = await <ICropVm[]>this._cropRepository.findAll();
+        console.log(result);
+
+        return await result;
     }
 }
