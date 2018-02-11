@@ -34,7 +34,6 @@ class App {
         this.app = express();
         setupLogging(this.app);
         this.configure();
-        this.test();
 
         // Call Routes: TODO
     }
@@ -104,10 +103,7 @@ class App {
         );
     }
 
-    test(){
-        const cropData = JSON.parse(fs.readFileSync('./csvjson.json','utf8'))
-        console.log(cropData)
-    }
+  
 }
 
 export default new App();
