@@ -35,6 +35,7 @@ export class ReportingController extends Controller {
     @Tags('Reporting')
     public async getSalesPercentage(@Query() percentageType: string): Promise<any> {
         const allEntries: IEntryVm[] = await <IEntryVm[]>this._entryRepository.findAll();
+        console.log(allEntries);
         let queried: IEntryVm[];
 
         if (percentageType === 'donated') {
