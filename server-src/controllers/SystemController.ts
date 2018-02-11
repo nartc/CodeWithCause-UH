@@ -36,7 +36,10 @@ export class SystemController extends Controller {
     @Tags('System')
     public async importCrops(): Promise<ICropVm[]> {
         // Check Crop collection
-        console.log(this._mongooseConnection.db.listCollections({name: 'crops'}));
+        const cropCollection = await this._mongooseConnection.db.listCollections({name: 'crops'}).toArray();
+        if (cropCollection.length > 0) {
+            await this._mongooseConnection.db.dropCollection('crops');
+        }
 
         const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
         const cropTypes: string[] = uniq(map(cropCSVData, 'Crop'));
@@ -51,9 +54,11 @@ export class SystemController extends Controller {
             await this._cropRepository.createCrop(newCrop);
         });
 
-        const result: ICropVm[] = await <ICropVm[]>this._cropRepository.findAll();
-        console.log(result);
-
-        return await result;
+        return new Promise<ICropVm[]>(((resolve, reject) => {
+            setTimeout(async () => {
+                resolve(await <ICropVm[]>this._cropRepository.findAll());
+            }, 500)
+        }));
     }
+
 }
