@@ -37,6 +37,10 @@
       {
         "name": "Reporting",
         "description": "Reporting APIs"
+      },
+      {
+        "name": "Harvest",
+        "description": "Harvest APIs"
       }
     ],
     "securityDefinitions": {

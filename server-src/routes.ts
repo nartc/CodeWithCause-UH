@@ -10,6 +10,7 @@ import { HarvesterController } from './controllers/HarvesterController';
 import { OrganizationController } from './controllers/OrganizationController';
 import { HarvestController } from './controllers/HarvestController';
 import { ReportingController } from './controllers/ReportingController';
+import { SystemController } from './controllers/SystemController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -784,6 +785,24 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/system/importCrops',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new SystemController();
+
+
+            const promise = controller.importCrops.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

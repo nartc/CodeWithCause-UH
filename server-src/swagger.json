@@ -1382,6 +1382,30 @@
 					}
 				]
 			}
+		},
+		"/system/importCrops": {
+			"get": {
+				"operationId": "ImportCrops",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ICropVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
 		}
 	},
 	"produces": [
@@ -1423,6 +1447,10 @@
 		{
 			"name": "Reporting",
 			"description": "Reporting APIs"
+		},
+		{
+			"name": "Harvest",
+			"description": "Harvest APIs"
 		}
 	]
 }
