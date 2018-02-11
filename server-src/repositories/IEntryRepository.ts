@@ -6,4 +6,5 @@ export interface IEntryRepository {
     getEntryById(id: string);
     update(id: string, updatedEntry: IEntry);
     delete(id: string);
+    findByQuery(farm?: string, recipient?: string);
 }

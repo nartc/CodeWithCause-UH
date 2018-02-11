@@ -27,4 +27,9 @@ export class FarmRepository implements IFarmRepository {
     public async getFarmById(id: string): Promise<IFarm> {
         return await this._farmModel.findById(id);
     }
+
+    public async getFarmByUsername(name: string): Promise<IFarm> {
+        const query = {name};
+        return await this._farmModel.findOne(query);
+    }
 }

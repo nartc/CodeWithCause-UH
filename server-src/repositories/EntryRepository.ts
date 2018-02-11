@@ -30,4 +30,20 @@ export class EntryRepository implements IEntryRepository {
     public async delete(id: string): Promise<IEntry> {
         return await this._entryModel.findByIdAndRemove(id);
     }
+
+    public async findByQuery(farm?: string, recipient?: string): Promise<IEntry[]> {
+        let query;
+        if (!farm && recipient) {
+            query = {recipient};
+        } else if (!recipient && farm) {
+            query = {farm};
+        } else if (recipient && farm) {
+            query = {$and: [{recipient}, {farm}]};
+        }
+
+        return await this._entryModel.find(query)
+            .populate('crop')
+            .populate('harvester')
+            .populate('recipient');
+    }
 }

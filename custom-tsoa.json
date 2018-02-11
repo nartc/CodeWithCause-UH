@@ -33,6 +33,10 @@
       {
         "name": "Organization",
         "description": "Organization APIs"
+      },
+      {
+        "name": "Reporting",
+        "description": "Reporting APIs"
       }
     ],
     "securityDefinitions": {

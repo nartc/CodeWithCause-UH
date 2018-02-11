@@ -19,6 +19,7 @@ import './controllers/CropController';
 import './controllers/HarvesterController';
 import './controllers/OrganizationController';
 import './controllers/HarvestController';
+import './controllers/ReportingController';
 import {RegisterRoutes} from './routes';
 import {authenticateUser} from './middleware/security/passport';
 

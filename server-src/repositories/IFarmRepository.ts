@@ -6,4 +6,5 @@ export interface IFarmRepository {
     update(id: string, newFarm: IFarm);
     delete(slug: string);
     getFarmById(id: string);
+    getFarmByUsername(farmName: string);
 }

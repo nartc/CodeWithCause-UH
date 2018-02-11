@@ -9,6 +9,7 @@ import { CropController } from './controllers/CropController';
 import { HarvesterController } from './controllers/HarvesterController';
 import { OrganizationController } from './controllers/OrganizationController';
 import { HarvestController } from './controllers/HarvestController';
+import { ReportingController } from './controllers/ReportingController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
 
@@ -99,7 +100,6 @@ const models: TsoaRoute.Models = {
             "priceTotal": { "dataType": "double" },
             "harvester": { "dataType": "string" },
             "comments": { "dataType": "string" },
-            "farm": { "dataType": "string" },
             "recipient": { "dataType": "string" },
             "selectedVariety": { "dataType": "string" },
         },
@@ -149,10 +149,11 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
-    "INewHarvestParams": {
+    "IHarvestParams": {
         "properties": {
-            "entries": { "dataType": "array", "array": { "ref": "INewEntryParams" }, "required": true },
             "farm": { "dataType": "string", "required": true },
+            "entries": { "dataType": "array", "array": { "dataType": "string" } },
+            "harvestId": { "dataType": "string" },
         },
     },
 };
@@ -675,7 +676,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/harvests/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newHarvestParams: { "in": "body", "name": "newHarvestParams", "required": true, "ref": "INewHarvestParams" },
+                harvestParams: { "in": "body", "name": "harvestParams", "required": true, "ref": "IHarvestParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -707,6 +708,82 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getAll.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/harvests/getQuery',
+        function(request: any, response: any, next: any) {
+            const args = {
+                date: { "in": "query", "name": "date", "required": true, "dataType": "datetime" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.getByDate.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/harvests/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.getHarvestById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/reports/percentage',
+        function(request: any, response: any, next: any) {
+            const args = {
+                percentageType: { "in": "query", "name": "percentageType", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getSalesPercentage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/reports/total',
+        function(request: any, response: any, next: any) {
+            const args = {
+                weightOrValue: { "in": "query", "name": "weightOrValue", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

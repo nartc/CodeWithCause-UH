@@ -1,14 +1,14 @@
-import {Body, Controller, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Controller, Get, Path, Post, Query, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IErrorResponse} from '../models/responses/index.responses';
 import {IHarvestRepository} from '../repositories/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
-import {IHarvest, Harvest, IHarvestVm} from '../models/Harvest';
-import {INewHarvestParams} from '../models/requests/index.requests';
-import {genSalt, hash} from 'bcryptjs';
-import {IEntry, Entry} from '../models/Entry';
+import {Harvest, IHarvest, IHarvestVm} from '../models/Harvest';
+import {IHarvestParams} from '../models/requests/index.requests';
+import {Entry} from '../models/Entry';
 import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
+import moment = require('moment');
 
 @Route('harvests')
 export class HarvestController extends Controller {
@@ -30,18 +30,23 @@ export class HarvestController extends Controller {
      */
     @Post('create')
     @Tags('Harvest')
-    public async registerHarvest(@Body() newHarvestParams: INewHarvestParams): Promise<IHarvestVm> {
+    public async registerHarvest(@Body() harvestParams: IHarvestParams): Promise<IHarvestVm> {
 
         const newHarvest: IHarvest = new Harvest();
-        newHarvest.farm = newHarvestParams.farm;
+        newHarvest.farm = harvestParams.farm;
 
-        newHarvestParams.entries.forEach(async (entry) => {
-           const newEntry: IEntry = new Entry();
-           newEntry.pounds = entry.pounds;
+        if (harvestParams.entries.length > 0 && harvestParams.harvestId) {
+            const existedHarvest: IHarvestVm = await <IHarvestVm>this._harvestRepository.getHarvestById(harvestParams.harvestId);
 
-           const savedEntry: IEntry = await this._entryRepository.createEntry(newEntry);
-           newHarvest.entries.push(savedEntry._id);
-        });
+            const updatedHarvest: IHarvest = new Harvest();
+            updatedHarvest._id = existedHarvest._id;
+            updatedHarvest.entries = harvestParams.entries;
+            updatedHarvest.createdOn = existedHarvest.createdOn;
+            updatedHarvest.updatedOn = moment().toDate();
+            updatedHarvest.farm = existedHarvest.farm._id;
+
+            return await <IHarvestVm>this._harvestRepository.update(harvestParams.harvestId, updatedHarvest);
+        }
 
         return await <IHarvestVm>this._harvestRepository.createHarvest(newHarvest);
     }
@@ -55,5 +60,17 @@ export class HarvestController extends Controller {
     @Tags('Harvest')
     public async getAll(): Promise<IHarvestVm[]> {
         return await <IHarvestVm[]>this._harvestRepository.findAll();
+    }
+
+    @Get('getQuery')
+    @Tags('Harvest')
+    public async getByDate(@Query() date: Date): Promise<IHarvestVm[]> {
+        return await <IHarvestVm[]>this._harvestRepository.findByDate(date);
+    }
+
+    @Get('{id}')
+    @Tags('Harvest')
+    public async getHarvestById(@Path() id: string): Promise<IHarvestVm> {
+        return await <IHarvestVm>this._harvestRepository.getHarvestById(id);
     }
 }

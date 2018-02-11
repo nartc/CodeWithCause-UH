@@ -253,9 +253,6 @@
 				"comments": {
 					"type": "string"
 				},
-				"farm": {
-					"type": "string"
-				},
 				"recipient": {
 					"type": "string"
 				},
@@ -406,20 +403,22 @@
 			],
 			"type": "object"
 		},
-		"INewHarvestParams": {
+		"IHarvestParams": {
 			"properties": {
+				"farm": {
+					"type": "string"
+				},
 				"entries": {
 					"type": "array",
 					"items": {
-						"$ref": "#/definitions/INewEntryParams"
+						"type": "string"
 					}
 				},
-				"farm": {
+				"harvestId": {
 					"type": "string"
 				}
 			},
 			"required": [
-				"entries",
 				"farm"
 			],
 			"type": "object"
@@ -1235,10 +1234,10 @@
 				"parameters": [
 					{
 						"in": "body",
-						"name": "newHarvestParams",
+						"name": "harvestParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewHarvestParams"
+							"$ref": "#/definitions/IHarvestParams"
 						}
 					}
 				]
@@ -1266,6 +1265,122 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/harvests/getQuery": {
+			"get": {
+				"operationId": "GetByDate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvestVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "date",
+						"required": true,
+						"format": "date-time",
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/harvests/{id}": {
+			"get": {
+				"operationId": "GetHarvestById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/reports/percentage": {
+			"get": {
+				"operationId": "GetSalesPercentage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "percentageType",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/reports/total": {
+			"get": {
+				"operationId": "GetTotalWeightOrValue",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "weightOrValue",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		}
 	},
@@ -1304,6 +1419,10 @@
 		{
 			"name": "Organization",
 			"description": "Organization APIs"
+		},
+		{
+			"name": "Reporting",
+			"description": "Reporting APIs"
 		}
 	]
 }

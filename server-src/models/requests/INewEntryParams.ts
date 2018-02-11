@@ -4,7 +4,6 @@ export interface INewEntryParams {
     priceTotal?: number;
     harvester?: string;
     comments?: string;
-    farm?: string;
     recipient?: string;
     selectedVariety?: string;
 }
