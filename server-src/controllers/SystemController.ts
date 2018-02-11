@@ -42,6 +42,7 @@ export class SystemController extends Controller {
         }
 
         const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
+        console.log(cropCSVData);
         const cropTypes: string[] = uniq(map(cropCSVData, 'Crop'));
         cropTypes.forEach(async type => {
             const variety = [...map(filter(cropCSVData, c => c.Crop === type), 'Variety')];
