@@ -1,19 +1,18 @@
 import * as http from 'http';
-import * as config from 'config';
+import {get} from 'config';
 
 import App from './app';
 import {winstonLogger} from './middleware/common/winstonLogger';
 
-const port = normalizePort(process.env.PORT || config.get('express.port'));
+const port = normalizePort(process.env.PORT || get('express.port'));
 
 winstonLogger.info(`Listening on port: ${port}`);
 
-const server = http.createServer(App);
+const server = http.createServer(App.app);
 server.listen(port);
 
 server.on('error', onServerError);
 server.on('listening', onServerListening);
-
 
 function normalizePort(param: number | string): number | string | boolean {
     const portNumber: number = typeof param === 'string' ? parseInt(param, 10) : param;
@@ -41,11 +40,14 @@ function onServerError(error: NodeJS.ErrnoException): void {
 
 function onServerListening() {
     const addr = server.address();
-    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    const host = process.env.NODE_ENV === 'production'
+        ? 'https://codewithcause.herokuapp.com/'
+        : `http://localhost:${addr.port}/`;
     winstonLogger.info(
         `-------------
-       Express Server started on ${bind}
-      
+       Express Server started on: ${host}
+       
+       Swagger API Documentation on: ${host}api/docs
         `
     );
 }

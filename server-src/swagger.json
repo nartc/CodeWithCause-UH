@@ -3,16 +3,1416 @@
 	"consumes": [
 		"application/json"
 	],
-	"definitions": {},
-	"info": {
-		"title": "codewithcause",
-		"version": "1.0.0",
-		"description": "Code with a Cause Node Backend",
-		"license": {
-			"name": "MIT"
+	"definitions": {
+		"UserRole": {
+			"enum": [
+				"Admin",
+				"User"
+			],
+			"type": "string"
+		},
+		"IUserVm": {
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
+		"INewUserParams": {
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				}
+			},
+			"required": [
+				"username",
+				"password",
+				"role"
+			],
+			"type": "object"
+		},
+		"ILoginVm": {
+			"properties": {
+				"authToken": {
+					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"authToken"
+			],
+			"type": "object"
+		},
+		"ILoginParams": {
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"username",
+				"password"
+			],
+			"type": "object"
+		},
+		"ICropVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound"
+			],
+			"type": "object"
+		},
+		"IHarvesterVm": {
+			"properties": {
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"firstName",
+				"lastName"
+			],
+			"type": "object"
+		},
+		"OrganizationType": {
+			"enum": [
+				"Purchased",
+				"Donated",
+				"Internal"
+			],
+			"type": "string"
+		},
+		"IOrganizationVm": {
+			"properties": {
+				"orgType": {
+					"$ref": "#/definitions/OrganizationType"
+				},
+				"name": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
+		"IEntryVm": {
+			"properties": {
+				"crop": {
+					"$ref": "#/definitions/ICropVm"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"$ref": "#/definitions/IHarvesterVm"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"recipient": {
+					"$ref": "#/definitions/IOrganizationVm"
+				},
+				"selectedVariety": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"crop",
+				"pounds",
+				"priceTotal",
+				"harvester",
+				"comments",
+				"recipient",
+				"selectedVariety"
+			],
+			"type": "object"
+		},
+		"INewEntryParams": {
+			"properties": {
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"crop": {
+					"type": "string"
+				},
+				"priceTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"harvester": {
+					"type": "string"
+				},
+				"comments": {
+					"type": "string"
+				},
+				"recipient": {
+					"type": "string"
+				},
+				"selectedVariety": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"pounds"
+			],
+			"type": "object"
+		},
+		"IFarmVm": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"lng": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"lng"
+			],
+			"type": "object"
+		},
+		"INewFarmParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"lng": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"lat",
+				"lng"
+			],
+			"type": "object"
+		},
+		"INewCropParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"variety": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"pricePerPound": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"variety",
+				"pricePerPound"
+			],
+			"type": "object"
+		},
+		"INewHarvesterParams": {
+			"properties": {
+				"lastName": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"lastName",
+				"firstName"
+			],
+			"type": "object"
+		},
+		"INewOrganizationParams": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"orgType": {
+					"$ref": "#/definitions/OrganizationType"
+				}
+			},
+			"required": [
+				"name"
+			],
+			"type": "object"
+		},
+		"IHarvestVm": {
+			"properties": {
+				"farm": {
+					"$ref": "#/definitions/IFarmVm"
+				},
+				"entries": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/IEntryVm"
+					}
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"farm",
+				"entries"
+			],
+			"type": "object"
+		},
+		"IHarvestParams": {
+			"properties": {
+				"farm": {
+					"type": "string"
+				},
+				"entries": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"harvestId": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"farm"
+			],
+			"type": "object"
+		},
+		"IPercentageReportResponse": {
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"percentage": {
+					"type": "string"
+				}
+			},
+			"type": "object"
 		}
 	},
-	"paths": {},
+	"info": {
+		"description": "CodeWithCause-NodeExpress Documentation",
+		"version": "1.0.0",
+		"title": "CodeWithCause-Node Express"
+	},
+	"paths": {
+		"/users/create": {
+			"post": {
+				"operationId": "RegisterUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newUserParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
+					}
+				]
+			}
+		},
+		"/users/{username}": {
+			"get": {
+				"operationId": "GetUserByUsername",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "username",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/users/login": {
+			"post": {
+				"operationId": "Login",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ILoginVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "loginParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ILoginParams"
+						}
+					}
+				]
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetAllUsers",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IUserVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/{id}": {
+			"delete": {
+				"operationId": "DeleteUserById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UdpateUserById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserVm"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updateUserParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewUserParams"
+						}
+					}
+				]
+			}
+		},
+		"/entries/create": {
+			"post": {
+				"operationId": "RegisterEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewEntryParams"
+						}
+					}
+				]
+			}
+		},
+		"/entries/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IEntryVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/entries/{id}": {
+			"get": {
+				"operationId": "GetSingleEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updatedEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewEntryParams"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IEntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/farms/create": {
+			"post": {
+				"operationId": "RegisterFarm",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewFarmParams"
+						}
+					}
+				]
+			}
+		},
+		"/farms/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/farms/{id}": {
+			"delete": {
+				"operationId": "DeleteById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IFarmVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IFarmVm"
+						}
+					}
+				},
+				"tags": [
+					"Farm"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "newFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewFarmParams"
+						}
+					}
+				]
+			}
+		},
+		"/crops/create": {
+			"post": {
+				"operationId": "RegisterCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newCropParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewCropParams"
+						}
+					}
+				]
+			}
+		},
+		"/crops/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ICropVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/crops/{id}": {
+			"get": {
+				"operationId": "GetSingleCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updateCropParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewCropParams"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCrop",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ICropVm"
+						}
+					}
+				},
+				"tags": [
+					"Crop"
+				],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/harvesters/create": {
+			"post": {
+				"operationId": "RegisterHarvester",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newHarvesterParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewHarvesterParams"
+						}
+					}
+				]
+			}
+		},
+		"/harvesters/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvesterVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/harvesters/{id}": {
+			"delete": {
+				"operationId": "DeleteHarvesterById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvesterVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvester"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/organization/create": {
+			"post": {
+				"operationId": "RegisterOrganization",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "newOrganizationParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewOrganizationParams"
+						}
+					}
+				]
+			}
+		},
+		"/organization/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IOrganizationVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/organization/{id}": {
+			"put": {
+				"operationId": "UpdateOrganization",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "newOrganizationParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/INewOrganizationParams"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteOrganization",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IOrganizationVm"
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/harvests/create": {
+			"post": {
+				"operationId": "RegisterHarvest",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "harvestParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IHarvestParams"
+						}
+					}
+				]
+			}
+		},
+		"/harvests/getAll": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvestVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/harvests/getQuery": {
+			"get": {
+				"operationId": "GetByDate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IHarvestVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "date",
+						"required": true,
+						"format": "date-time",
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/harvests/{id}": {
+			"get": {
+				"operationId": "GetHarvestById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IHarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/reports/percentage": {
+			"get": {
+				"operationId": "GetSalesPercentage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IPercentageReportResponse"
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "percentageType",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/reports/total": {
+			"get": {
+				"operationId": "GetTotalWeightOrValue",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "weightOrValue",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/system/importCrops": {
+			"get": {
+				"operationId": "ImportCrops",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ICropVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
 	"produces": [
 		"application/json"
 	],
@@ -23,5 +1423,39 @@
 			"name": "Authorization",
 			"in": "header"
 		}
-	}
+	},
+	"tags": [
+		{
+			"name": "System",
+			"description": "System/Authentication APIs"
+		},
+		{
+			"name": "Harvester",
+			"description": "Harvester APIs"
+		},
+		{
+			"name": "Entry",
+			"description": "Entry APIs"
+		},
+		{
+			"name": "Crop",
+			"description": "Crop APIs"
+		},
+		{
+			"name": "Farm",
+			"description": "Farm APIs"
+		},
+		{
+			"name": "Organization",
+			"description": "Organization APIs"
+		},
+		{
+			"name": "Reporting",
+			"description": "Reporting APIs"
+		},
+		{
+			"name": "Harvest",
+			"description": "Harvest APIs"
+		}
+	]
 }

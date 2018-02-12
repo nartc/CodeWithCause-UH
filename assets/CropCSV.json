@@ -1,0 +1,1184 @@
+[
+  {
+    "Crop": "Arugala",
+    "Variety": "Rocky",
+    "Unit": "1 lb",
+    "Price": "$16.00"
+  },
+  {
+    "Crop": "Asparagus",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$8.00"
+  },
+  {
+    "Crop": "Basil",
+    "Variety": "Genovese",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Basil",
+    "Variety": "Holy",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Basil",
+    "Variety": "Lemon",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Basil",
+    "Variety": "Sweet thai",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Basil",
+    "Variety": "Viva la dolce vita blend",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Tavera",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Black turtle",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Blue lake 274",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Blue Lake FM-1K",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Contender",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Gold rush",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Ideal market",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Painted lady",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Painted pony",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Rattlesnake pole",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Bean",
+    "Variety": "Royal Burgundy",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Beets",
+    "Variety": "Early wonder",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Beets",
+    "Variety": "Early wonder tall top",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Beets",
+    "Variety": "Gourmet blend",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Beets",
+    "Variety": "Touchstone gold",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Broccoli",
+    "Variety": "Di Cicco",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Cabbage",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Cantaloupe",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Carnival Blend",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Cosmic Purple",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Denver",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Gniff",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Little Finger",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Napoli F1",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Oxheart",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Scarlet Nantes",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Scarlet Nantes",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Carrots",
+    "Variety": "Starburst Blend",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Cauliflower",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$2.50"
+  },
+  {
+    "Crop": "Celery",
+    "Variety": "BROCCOLI Raab",
+    "Unit": "1 lb",
+    "Price": "$2.50"
+  },
+  {
+    "Crop": "Celery",
+    "Variety": "Rapini",
+    "Unit": "1 lb",
+    "Price": "$2.50"
+  },
+  {
+    "Crop": "Celery",
+    "Variety": "Utah",
+    "Unit": "1 lb",
+    "Price": "$2.50"
+  },
+  {
+    "Crop": "Chives",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Cilantro",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Collards",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$9.00"
+  },
+  {
+    "Crop": "Cucumber",
+    "Variety": "Marketmore",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Cucumber",
+    "Variety": "Straight eight",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Dill",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Edible Flowers",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Eggplant",
+    "Variety": "Black beauty",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Eggplant",
+    "Variety": "Listada de Gandia",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Garlic, Bulbs",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$10.00"
+  },
+  {
+    "Crop": "Garlic, Elephant",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Garlic, Scapes",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$9.00"
+  },
+  {
+    "Crop": "Gooseberry",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$5.00"
+  },
+  {
+    "Crop": "Husk Cherry",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$5.00"
+  },
+  {
+    "Crop": "Kale",
+    "Variety": "Dwarf blue curled",
+    "Unit": "1 lb",
+    "Price": "$8.00"
+  },
+  {
+    "Crop": "Kale",
+    "Variety": "Red winter",
+    "Unit": "1 lb",
+    "Price": "$8.00"
+  },
+  {
+    "Crop": "Kohlrabi",
+    "Variety": "Early Purple Vienna",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Kohlrabi",
+    "Variety": "Early White Vienna",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lavendar",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Leek",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Lemon Balm",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "(butterhead)",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "(mesclun)",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "(romaine)",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Black seed Simpson",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Buttercruch",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Chefs medley",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Five color silverbeet",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Gourmet baby greens",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Little Gem",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Lolla Rossa",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Marvel of four seasons",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Oak leaf blend",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Rouge d%u2019Hiver",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Ruby red rhubarb",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Salad bowl blend",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Lettuce (leaf)",
+    "Variety": "Swiss chard",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "lovage",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Microgreens",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$25.00"
+  },
+  {
+    "Crop": "Mint",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Mouse Melon",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Mustard Greens",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$9.00"
+  },
+  {
+    "Crop": "Okra",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Onion",
+    "Variety": "Cabernet",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Oregano",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Pak Choi",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$3.50"
+  },
+  {
+    "Crop": "Parsley",
+    "Variety": "Curly",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Parsley",
+    "Variety": "Flat",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Parsnip",
+    "Variety": "Turga",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peas",
+    "Variety": "Oregon sugar pod II (snow)",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peas",
+    "Variety": "Progress #9 (shelling)",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peas",
+    "Variety": "Sugar snap",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Carolina Reaper",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Early Jalapeno",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Habanero",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "India Jwala",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Jimmy Nardello",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Jolopeno Craigs Grande",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Lemon Drop",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Leutschauer Paprika",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Pepper Fish",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Pimineto De Padron",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Ring of Fire",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Scotch Bonnet",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Serrano Tampequino",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Trinidad Scorpion Red",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (hot)",
+    "Variety": "Trinidad Scorpion Yellow",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Albino Bullnose",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "California Wonder",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Chocolate Beauty",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Corno Di Toro Rosso",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Emerald Giant",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Golden Creek Pepperoncini",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Lively Italian Sweet Orange",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Marconi Red",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Ozark Giant",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Quadrato D%u2019Asti Giallo",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Spanish Mammoth",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Peppers (sweet)",
+    "Variety": "Yellow Monsters",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Potato",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Purslane",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Bartender",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Cherry belle",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Chinese green luobo",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "De 18 Jours",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Early Scarlet Globe",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "French breakfast",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Purple Plum",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Round black spanish",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "Saxa II",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Radish",
+    "Variety": "White hailstone",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Rhubarb",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Rosemary",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Sage",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$12.00"
+  },
+  {
+    "Crop": "Savory",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Sorrel",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$5.00"
+  },
+  {
+    "Crop": "Spinach",
+    "Variety": "Bloomsdale",
+    "Unit": "1 lb",
+    "Price": "$9.00"
+  },
+  {
+    "Crop": "Squash (summer)",
+    "Variety": "Black beauty zucchini",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (summer)",
+    "Variety": "Cocozelle",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (summer)",
+    "Variety": "early prolific straightneck",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (summer)",
+    "Variety": "Juane et Verte (patty pan)",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (winter)",
+    "Variety": "Delicata honey boat",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (winter)",
+    "Variety": "Spaghetii",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Squash (winter)",
+    "Variety": "Sweet Reba acorn",
+    "Unit": "1 lb",
+    "Price": "$2.00"
+  },
+  {
+    "Crop": "Strawberry",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$6.75"
+  },
+  {
+    "Crop": "Sweet Potato",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Sweet Potato Leaves",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$4.00"
+  },
+  {
+    "Crop": "Thyme",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$13.00"
+  },
+  {
+    "Crop": "Tomatillo",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Ace 55",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Amanaa Orange",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Amish Paste",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Artisan Bumble Bee Blend",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Beefsteak",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Black Cherry",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Black Icicle",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Black Prince",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Black Vernissage",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Blck Krim",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Brands Atomic Grape",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Cherokee Purple",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Chocolate Cherry",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Cour Di Bue",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Egg Yolk",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Flame",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Fox Cherry",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Golden Jubilee",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Green Giant",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Gypsy",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Happy's Heritage",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Hillbilly",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Italian Roma",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Michael Pollan",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Missouri Pink Love Apple",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Money Maker",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Mr. Stripey",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Mushroom Basket",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Orange Peach",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Orange Strawberry",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Oxheart",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Ozark Pink",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Pink Brandywine",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Red and Yellow Blend",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Red and Yellow Brandywine",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Red Zebra",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "San Marzano Lungo",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Sungold Select II",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Sunrise Bumble Bee",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Sweetie Cherry",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Ten Fingers of Naplels",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "White Beauty",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Tomatoes",
+    "Variety": "Yellow Pear",
+    "Unit": "1 lb",
+    "Price": "$4.50"
+  },
+  {
+    "Crop": "Toothache Plant",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$35.00"
+  },
+  {
+    "Crop": "Turnip",
+    "Variety": "Purple Top White Globe",
+    "Unit": "1 lb",
+    "Price": "$3.00"
+  },
+  {
+    "Crop": "Tato Soi",
+    "Variety": "",
+    "Unit": "1 lb",
+    "Price": "$8.00"
+  },
+  {
+    "Crop": "Watermelon",
+    "Variety": "Crimson sweet",
+    "Unit": "1 lb",
+    "Price": "$1.00"
+  },
+  {
+    "Crop": "Watermelon",
+    "Variety": "Ha ogen",
+    "Unit": "1 lb",
+    "Price": "$1.00"
+  },
+  {
+    "Crop": "Watermelon",
+    "Variety": "Sugar baby",
+    "Unit": "1 lb",
+    "Price": "$1.00"
+  }
+]
