@@ -1,4 +1,5 @@
-import {Document, model, Model, Schema} from 'mongoose';
+import {model, Model, Schema} from 'mongoose';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 
 export const UserSchema = new Schema({
     username: {
@@ -25,21 +26,16 @@ export const UserSchema = new Schema({
     }
 });
 
-export interface IUser extends Document {
+export interface IUser extends IBaseModel {
     username?: string;
     password?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
     role?: UserRole;
 }
 
-export interface IUserVm {
+export interface IUserVm extends IBaseModelVm {
     username?: string;
     password?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
     role?: UserRole;
-    _id?: string;
 }
 
 

@@ -1,10 +1,8 @@
 import {IEntry} from '../models/Entry';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface IEntryRepository {
-    createEntry(entry: IEntry);
+export interface IEntryRepository extends IBaseRepository<IEntry> {
     findAll();
     getEntryById(id: string);
-    update(id: string, updatedEntry: IEntry);
-    delete(id: string);
     findByQuery(farm?: string, recipient?: string);
 }

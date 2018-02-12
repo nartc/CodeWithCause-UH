@@ -3,6 +3,7 @@ import {ICropVm} from './Crop';
 import {IHarvesterVm} from './Harvester';
 import {IFarmVm} from './Farm';
 import {IOrganizationVm} from './Organization';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Crop} from '';
 
 export const EntrySchema = new Schema({
@@ -38,29 +39,24 @@ export const EntrySchema = new Schema({
     selectedVariety: String
 });
 
-export interface IEntry extends Document {
+export interface IEntry extends IBaseModel {
     crop: string;
     pounds: number;
     priceTotal: number;
     harvester: string;
     comments: string;
     recipient: string;
-    createdOn: Date;
-    updatedOn: Date;
     selectedVariety: string;
 }
 
-export interface IEntryVm {
+export interface IEntryVm extends IBaseModelVm {
     crop: ICropVm;
     pounds: number;
     priceTotal: number;
     harvester: IHarvesterVm;
     comments: string;
     recipient: IOrganizationVm;
-    createdOn: Date;
-    updatedOn: Date;
     selectedVariety: string;
-    _id?: string;
 }
 
 

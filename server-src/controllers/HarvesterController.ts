@@ -1,21 +1,12 @@
-import {Body, Controller, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Body, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
 import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
 import {Harvester, IHarvester, IHarvesterVm} from '../models/Harvester';
 import {INewHarvesterParams} from '../models/requests/index.requests';
+import {BaseController} from './BaseController';
 
 @Route('harvesters')
-export class HarvesterController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class HarvesterController extends BaseController {
     private readonly _harvesterRepository: IHarvesterRepository = new HarvesterRepository(Harvester);
 
     /**
@@ -31,7 +22,7 @@ export class HarvesterController extends Controller {
         newHarvester.firstName = newHarvesterParams.firstName;
         newHarvester.lastName = newHarvesterParams.lastName;
 
-        return await <IHarvesterVm>this._harvesterRepository.createHarvester(newHarvester);
+        return await <IHarvesterVm>this._harvesterRepository.create(newHarvester);
     }
 
     /**
@@ -42,7 +33,7 @@ export class HarvesterController extends Controller {
     @Get('getAll')
     @Tags('Harvester')
     public async getAll(): Promise<IHarvesterVm[]> {
-        const result: IHarvester[] = await this._harvesterRepository.findAll();
+        const result: IHarvester[] = await this._harvesterRepository.getAll();
         return <IHarvesterVm[]>result;
     }
 

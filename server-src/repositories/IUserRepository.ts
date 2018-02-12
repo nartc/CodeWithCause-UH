@@ -1,15 +1,7 @@
 import {IUser} from '../models/User';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface IUserRepository {
-    createUser(newUser: IUser);
-
+export interface IUserRepository extends IBaseRepository<IUser>{
     getUserByUsername(username: string);
 
-    getUserById(id: string);
-
-    updateUser(id: string, updatedUser: IUser);
-
-    getAll();
-
-    deleteUser(id: string);
 }

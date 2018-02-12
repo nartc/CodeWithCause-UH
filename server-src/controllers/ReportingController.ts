@@ -1,6 +1,4 @@
-import {Controller, Get, Query, Route, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Get, Query, Route, Tags} from 'tsoa';
 import {Entry, IEntryVm} from '../models/Entry';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
@@ -14,18 +12,12 @@ import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm, IFarmVm} from '../models/Farm';
 import {IPercentageReportResponse} from '../models/responses/IPercentageReportResponse';
+import {filter} from 'lodash';
+import {BaseController} from './BaseController';
 import moment = require('moment');
 
 @Route('reports')
-export class ReportingController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class ReportingController extends BaseController {
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
     private readonly _entryRepository: IEntryRepository = new EntryRepository(Entry);
     private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
@@ -57,17 +49,14 @@ export class ReportingController extends Controller {
     @Tags('Reporting')
     public async getTotalWeightOrValue(@Query() weightOrValue: string): Promise<any> {
         const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.findAll();
-        const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.findAll();
+        const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.getAll();
         let farmWeightResults = {};
         let farmValueResult = {};
-        console.log(allFarms);
-        console.log(allHarvests);
+        let result;
+
         if (weightOrValue === 'weight') {
-            console.log(allFarms);
-            console.log(allHarvests);
             allFarms.forEach(f => { //farm: ChauFarm
-                console.log(f);
-                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm._id === f._id);
+                const queried: IHarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
                 let totalWeight = 0;
                 queried.forEach(element => {
                     element.entries.forEach(e => {
@@ -75,15 +64,14 @@ export class ReportingController extends Controller {
                     });
                 });
                 farmWeightResults[f.name] = totalWeight;
-                console.log(farmWeightResults);
-                return farmWeightResults;
+                result = farmWeightResults;
             });
         } else if (weightOrValue === 'value') {
 
             console.log(allHarvests);
             allFarms.forEach(f => { //farm: ChauFarm
                 console.log(f);
-                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm._id === f._id);
+                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm.name === f.name);
                 let totalValue = 0;
                 queried.forEach(element => {
                     element.entries.forEach(e => {
@@ -93,9 +81,9 @@ export class ReportingController extends Controller {
                 farmValueResult[f.name] = totalValue;
             });
             console.log(farmValueResult)
-            return farmValueResult;
+            result = farmValueResult;
         }
 
-        return null;
+        return result;
     }
 }

@@ -1,22 +1,13 @@
-import {Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Security, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, ICrop, ICropVm} from '../models/Crop';
 import {INewCropParams} from '../models/requests/index.requests';
+import {BaseController} from './BaseController';
 import moment = require('moment');
 
 @Route('crops')
-export class CropController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class CropController extends BaseController {
     private readonly _cropRepository: ICropRepository = new CropRepository(Crop);
 
     /**
@@ -33,7 +24,7 @@ export class CropController extends Controller {
         newCrop.variety = newCropParams.variety;
         newCrop.pricePerPound = newCropParams.pricePerPound;
 
-        return await <ICropVm>this._cropRepository.createCrop(newCrop);
+        return await <ICropVm>this._cropRepository.create(newCrop);
     }
 
     /**
@@ -44,20 +35,20 @@ export class CropController extends Controller {
     @Get('getAll')
     @Tags('Crop')
     public async getAll(): Promise<ICropVm[]> {
-        const result: ICrop[] = await this._cropRepository.findAll();
+        const result: ICrop[] = await this._cropRepository.getAll();
         return <ICropVm[]>result;
     }
 
     @Get('{id}')
     @Tags('Crop')
     public async getSingleCrop(@Path() id: string): Promise<ICropVm> {
-        return await <ICropVm>this._cropRepository.getCropById(id);
+        return await <ICropVm>this._cropRepository.getResourceById(id);
     }
 
     @Put('{id}')
     @Tags('Crop')
     public async updateCrop(@Path() id: string, @Body() updateCropParams: INewCropParams): Promise<ICropVm> {
-        const existedCrop: ICrop = await this._cropRepository.getCropById(id);
+        const existedCrop: ICrop = await this._cropRepository.getResourceById(id);
 
         const updatedCrop: ICrop = new Crop();
         updatedCrop._id = existedCrop._id;

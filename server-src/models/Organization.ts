@@ -1,4 +1,5 @@
 import {Document, Model, model, Schema} from 'mongoose';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 
 const OrganizationSchema = new Schema({
     orgType: {
@@ -19,19 +20,14 @@ const OrganizationSchema = new Schema({
     }
 });
 
-export interface IOrganization extends Document {
+export interface IOrganization extends IBaseModel {
     orgType?: OrganizationType;
     name?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
 }
 
-export interface IOrganizationVm {
+export interface IOrganizationVm extends IBaseModelVm {
     orgType?: OrganizationType;
     name?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
-    _id?:string;
 }
 
 export enum OrganizationType {

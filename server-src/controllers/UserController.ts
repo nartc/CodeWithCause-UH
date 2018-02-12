@@ -1,8 +1,7 @@
-import {Body, Controller, Delete, Get, Path, Post, Route, Tags, Put} from 'tsoa';
+import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {sign} from 'jsonwebtoken'
 import * as config from 'config'
 import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
 import {IUserRepository} from '../repositories/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
 import {IUser, IUserVm, User, UserRole} from '../models/User';
@@ -11,18 +10,11 @@ import {compare, genSalt, hash} from 'bcryptjs';
 import {ILoginVm} from '../models/Login';
 import {ILoginParams} from '../models/requests/ILoginParams';
 import * as moment from 'moment';
+import {BaseController} from './BaseController';
 
 @Route('users')
-export class UserController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
-    private readonly _userRepository: IUserRepository = new UserRepository(User);
+export class UserController extends BaseController {
+    private _userRepository: IUserRepository = new UserRepository(User);
 
     /**
      *
@@ -49,7 +41,7 @@ export class UserController extends Controller {
         const salt = await genSalt(10);
         newUser.password = await hash(password, salt);
 
-        return await <IUserVm>this._userRepository.createUser(newUser);
+        return await <IUserVm>this._userRepository.create(newUser);
     }
 
     /**
@@ -118,13 +110,13 @@ export class UserController extends Controller {
     @Delete('{id}')
     @Tags('System')
     public async deleteUserById(@Path() id: string): Promise<IUserVm> {
-        return await <IUserVm>this._userRepository.deleteUser(id);
+        return await <IUserVm>this._userRepository.delete(id);
     }
 
     @Put('{id}')
     @Tags('System')
     public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<IUserVm> {
-        const existedUser: IUserVm = await <IUserVm>this._userRepository.getUserById(id);
+        const existedUser: IUserVm = await <IUserVm>this._userRepository.getResourceById(id);
 
         if (!existedUser || existedUser === null) {
             throw UserController.resolveErrorResponse(null, 'Not found');
@@ -138,7 +130,6 @@ export class UserController extends Controller {
         updatedUser.password = updateUserParams.password;
         updatedUser.role = updateUserParams.role;
 
-        const result: IUserVm = await <IUserVm>this._userRepository.updateUser(id, updatedUser);
-        return result;
+        return await <IUserVm>this._userRepository.update(id, updatedUser);
     }
 }

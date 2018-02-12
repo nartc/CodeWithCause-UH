@@ -1,13 +1,6 @@
 import {IOrganization} from '../models/Organization';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface IOrganizationRepository {
-    createOrganization(newOrganization: IOrganization);
-
+export interface IOrganizationRepository extends IBaseRepository<IOrganization> {
     getOrganizationByName(name: string);
-
-    updateOrganization(id: string, updatedOrganization: IOrganization); 
-
-    getAllOrganization();
-
-    deleteOrganization(id:string);
 }

@@ -16,7 +16,7 @@ export const authenticateUser = (passport: PassportStatic) => {
     };
 
     passport.use(new Strategy(options, async (jwtPayload: IJwtPayload, done: VerifiedCallback) => {
-        const result = await _userRepository.getUserById(jwtPayload.user._id);
+        const result = await _userRepository.getResourceById(jwtPayload.user._id);
 
         if (result instanceof MongoError) return done(result, false);
         if (!result) {

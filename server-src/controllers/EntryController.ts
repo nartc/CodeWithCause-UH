@@ -1,30 +1,19 @@
-import {Body, Controller, Delete, Get, Path, Post, Put, Query, Route, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {Entry, IEntry, IEntryVm} from '../models/Entry';
 import {INewEntryParams} from '../models/requests/index.requests';
 import * as moment from 'moment';
-import {ITotalWeightQuery} from '../models/requests/ITotalWeightQuery';
-import {ITotalWeightReport} from '../models/responses/ITotalWeightReport';
-import {Farm, IFarmVm} from '../models/Farm';
+import {Farm} from '../models/Farm';
 import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
-import {IOrganizationVm, Organization} from '../models/Organization';
+import {Organization} from '../models/Organization';
+import {BaseController} from './BaseController';
 
 @Route('entries')
-export class EntryController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class EntryController extends BaseController {
     private readonly _entryRepository: IEntryRepository = new EntryRepository(Entry);
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
@@ -45,7 +34,7 @@ export class EntryController extends Controller {
         newEntry.harvester = newEntryParams.harvester;
         newEntry.recipient = newEntryParams.recipient;
 
-        return await <IEntryVm>this._entryRepository.createEntry(newEntry);
+        return await <IEntryVm>this._entryRepository.create(newEntry);
     }
 
     /**

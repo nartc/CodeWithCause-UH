@@ -1,31 +1,13 @@
 import {IFarmRepository} from './IFarmRepository';
 import {IFarm, FarmModel} from '../models/Farm';
+import {BaseRepository} from './BaseRepository';
 
-export class FarmRepository implements IFarmRepository {
+export class FarmRepository extends BaseRepository<IFarm> implements IFarmRepository {
     private _farmModel: FarmModel;
 
     constructor(farmModel: FarmModel) {
+        super(farmModel);
         this._farmModel = farmModel;
-    }
-
-    public async createFarm(newFarm: IFarm): Promise<IFarm> {
-        return await this._farmModel.create(newFarm);
-    }
-
-    public async findAll(): Promise<IFarm[]> {
-        return await this._farmModel.find();
-    }
-
-    public async delete(slug: string): Promise<IFarm> {
-        return await this._farmModel.findByIdAndRemove(slug);
-    }
-
-    public async update(id: string, newFarm: IFarm): Promise<IFarm> {
-        return await this._farmModel.findByIdAndUpdate(id, newFarm, {new: true});
-    }
-
-    public async getFarmById(id: string): Promise<IFarm> {
-        return await this._farmModel.findById(id);
     }
 
     public async getFarmByUsername(name: string): Promise<IFarm> {

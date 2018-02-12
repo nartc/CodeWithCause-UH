@@ -1,10 +1,6 @@
 import {IFarm} from '../models/Farm';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface IFarmRepository {
-    createFarm(farm: IFarm);
-    findAll();
-    update(id: string, newFarm: IFarm);
-    delete(slug: string);
-    getFarmById(id: string);
+export interface IFarmRepository extends IBaseRepository<IFarm> {
     getFarmByUsername(farmName: string);
 }

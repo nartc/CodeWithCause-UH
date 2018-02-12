@@ -1,19 +1,20 @@
-import {IEntryRepository} from './IEntryRepository';
 import {EntryModel, IEntry} from '../models/Entry';
+import {BaseRepository} from './BaseRepository';
+import {IEntryRepository} from './IEntryRepository';
 
-export class EntryRepository implements IEntryRepository {
+export class EntryRepository extends BaseRepository<IEntry> implements IEntryRepository{
     private _entryModel: EntryModel;
 
     constructor(entryModel: EntryModel) {
+        super(entryModel);
         this._entryModel = entryModel;
     }
 
-    public async createEntry(newEntry: IEntry): Promise<IEntry> {
-        return await this._entryModel.create(newEntry);
-    }
-
     public async findAll(): Promise<IEntry[]> {
-        return await this._entryModel.find().populate('farm').populate('harvester').populate('recipient');
+        return await this._entryModel.find()
+            .populate('farm')
+            .populate('harvester')
+            .populate('recipient');
     }
 
     public async getEntryById(id: string): Promise<IEntry> {
@@ -21,14 +22,6 @@ export class EntryRepository implements IEntryRepository {
             .populate('crop')
             .populate('harvester')
             .populate('recipient');
-    }
-
-    public async update(id: string, updatedEntry: IEntry): Promise<IEntry> {
-        return await this._entryModel.findByIdAndUpdate(id, updatedEntry, {new: true});
-    }
-
-    public async delete(id: string): Promise<IEntry> {
-        return await this._entryModel.findByIdAndRemove(id);
     }
 
     public async findByQuery(farm?: string, recipient?: string): Promise<IEntry[]> {

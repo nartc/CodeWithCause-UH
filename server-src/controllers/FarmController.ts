@@ -1,21 +1,12 @@
-import {Body, Controller, Get, Path, Post, Route, Tags, Delete, Put, Security} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
 import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
-import {IFarm, Farm, IFarmVm} from '../models/Farm';
+import {Farm, IFarm, IFarmVm} from '../models/Farm';
 import {INewFarmParams} from '../models/requests/index.requests';
+import {BaseController} from './BaseController';
 
 @Route('farms')
-export class FarmController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class FarmController extends BaseController {
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
 
     /**
@@ -32,7 +23,7 @@ export class FarmController extends Controller {
         newFarm.lat = newFarmParams.lat;
         newFarm.lng = newFarmParams.lng;
 
-        return await <IFarmVm>this._farmRepository.createFarm(newFarm);
+        return await <IFarmVm>this._farmRepository.create(newFarm);
     }
 
     /**
@@ -43,7 +34,7 @@ export class FarmController extends Controller {
     @Get('getAll')
     @Tags('Farm')
     public async getAll(): Promise<IFarmVm[]> {
-        const result: IFarm[] = await this._farmRepository.findAll();
+        const result: IFarm[] = await this._farmRepository.getAll();
         return <IFarmVm[]>result;
     }
 
@@ -60,7 +51,6 @@ export class FarmController extends Controller {
     public async updateById(@Path() id: string, @Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {
         const updateFarm: IFarm = new Farm();
         updateFarm._id = id;
-        // updateFarm._id = newFarmParams.id;
         updateFarm.name = newFarmParams.name;
         updateFarm.lat = newFarmParams.lat;
         updateFarm.lng = newFarmParams.lng;

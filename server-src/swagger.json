@@ -19,6 +19,9 @@
 				"password": {
 					"type": "string"
 				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
+				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -26,9 +29,6 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
-				},
-				"role": {
-					"$ref": "#/definitions/UserRole"
 				},
 				"_id": {
 					"type": "string"
@@ -120,9 +120,7 @@
 			"required": [
 				"name",
 				"variety",
-				"pricePerPound",
-				"createdOn",
-				"updatedOn"
+				"pricePerPound"
 			],
 			"type": "object"
 		},
@@ -148,9 +146,7 @@
 			},
 			"required": [
 				"firstName",
-				"lastName",
-				"createdOn",
-				"updatedOn"
+				"lastName"
 			],
 			"type": "object"
 		},
@@ -206,6 +202,9 @@
 				"recipient": {
 					"$ref": "#/definitions/IOrganizationVm"
 				},
+				"selectedVariety": {
+					"type": "string"
+				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -213,9 +212,6 @@
 				"updatedOn": {
 					"type": "string",
 					"format": "date-time"
-				},
-				"selectedVariety": {
-					"type": "string"
 				},
 				"_id": {
 					"type": "string"
@@ -228,8 +224,6 @@
 				"harvester",
 				"comments",
 				"recipient",
-				"createdOn",
-				"updatedOn",
 				"selectedVariety"
 			],
 			"type": "object"
@@ -293,9 +287,7 @@
 			"required": [
 				"name",
 				"lat",
-				"lng",
-				"createdOn",
-				"updatedOn"
+				"lng"
 			],
 			"type": "object"
 		},
@@ -397,9 +389,7 @@
 			},
 			"required": [
 				"farm",
-				"entries",
-				"createdOn",
-				"updatedOn"
+				"entries"
 			],
 			"type": "object"
 		},

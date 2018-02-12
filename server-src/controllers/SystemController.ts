@@ -1,6 +1,4 @@
-import {Controller, Get, Route, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Get, Route, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, ICrop, ICropVm} from '../models/Crop';
@@ -16,17 +14,10 @@ import App from '../app';
 import {readFileSync} from 'fs';
 import {filter, map, uniq} from 'lodash';
 import {join} from 'path';
+import {BaseController} from './BaseController';
 
 @Route('system')
-export class SystemController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class SystemController extends BaseController {
     private readonly _cropRepository: ICropRepository = new CropRepository(Crop);
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
@@ -51,12 +42,12 @@ export class SystemController extends Controller {
             newCrop.variety = variety;
             newCrop.pricePerPound = parseFloat(pricePerPound);
 
-            await this._cropRepository.createCrop(newCrop);
+            await this._cropRepository.create(newCrop);
         });
 
         return new Promise<ICropVm[]>(((resolve, reject) => {
             setTimeout(async () => {
-                resolve(await <ICropVm[]>this._cropRepository.findAll());
+                resolve(await <ICropVm[]>this._cropRepository.getAll());
             }, 500)
         }));
     }

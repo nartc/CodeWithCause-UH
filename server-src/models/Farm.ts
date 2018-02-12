@@ -1,4 +1,5 @@
 import {Document, model, Model, Schema} from 'mongoose';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Farm} from '';
 
 export const FarmSchema = new Schema({
@@ -21,21 +22,16 @@ export const FarmSchema = new Schema({
     },
 });
 
-export interface IFarm extends Document {
+export interface IFarm extends IBaseModel {
     name: string;
     lat: number;
     lng: number;
-    createdOn: Date;
-    updatedOn: Date;
 }
 
-export interface IFarmVm {
+export interface IFarmVm extends IBaseModelVm {
     name: string;
     lat: number;
     lng: number;
-    createdOn: Date;
-    updatedOn: Date;
-    _id?: string;
 }
 
 

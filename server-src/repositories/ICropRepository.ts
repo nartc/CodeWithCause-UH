@@ -1,9 +1,5 @@
 import {ICrop} from '../models/Crop';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface ICropRepository {
-    createCrop(crop: ICrop);
-    findAll();
-    update(id: string, updatedCrop: ICrop);
-    delete(id: string);
-    getCropById(id: string);
+export interface ICropRepository extends IBaseRepository<ICrop> {
 }

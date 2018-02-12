@@ -1,4 +1,5 @@
 import {Document, model, Model, Schema} from 'mongoose';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Harvester} from '';
 
 export const HarvesterSchema = new Schema({
@@ -18,19 +19,14 @@ export const HarvesterSchema = new Schema({
     },
 });
 
-export interface IHarvester extends Document {
+export interface IHarvester extends IBaseModel {
     firstName: string;
     lastName: string;
-    createdOn: Date;
-    updatedOn: Date;
 }
 
-export interface IHarvesterVm {
+export interface IHarvesterVm extends IBaseModelVm {
     firstName: string;
     lastName: string;
-    createdOn: Date;
-    updatedOn: Date;
-    _id?: string;
 }
 
 

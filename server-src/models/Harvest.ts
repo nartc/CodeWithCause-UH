@@ -1,6 +1,7 @@
 import {Document, model, Model, Schema} from 'mongoose';
 import {Entry, IEntryVm} from './Entry';
 import {IFarmVm} from './Farm';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Harvest} from '';
 
 export const HarvestSchema = new Schema({
@@ -23,19 +24,14 @@ export const HarvestSchema = new Schema({
     },
 });
 
-export interface IHarvest extends Document {
+export interface IHarvest extends IBaseModel {
     farm: string;
     entries: string[];
-    createdOn: Date;
-    updatedOn: Date;
 }
 
-export interface IHarvestVm {
+export interface IHarvestVm extends IBaseModelVm {
     farm: IFarmVm;
     entries: IEntryVm[];
-    createdOn: Date;
-    updatedOn: Date;
-    _id?: string;
 }
 
 export type HarvestModel = Model<IHarvest>;

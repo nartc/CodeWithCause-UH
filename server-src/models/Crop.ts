@@ -1,4 +1,5 @@
 import {Document, model, Model, Schema} from 'mongoose';
+import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Crop} from '';
 
 export const CropSchema = new Schema({
@@ -22,21 +23,16 @@ export const CropSchema = new Schema({
     },
 });
 
-export interface ICrop extends Document {
+export interface ICrop extends IBaseModel {
     name: string;
     variety: string[];
     pricePerPound: number;
-    createdOn: Date;
-    updatedOn: Date;
 }
 
-export interface ICropVm {
+export interface ICropVm extends IBaseModelVm {
     name: string;
     variety: string[];
     pricePerPound: number;
-    createdOn: Date;
-    updatedOn: Date;
-    _id?: string;
 }
 
 

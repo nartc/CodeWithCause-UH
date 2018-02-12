@@ -1,9 +1,9 @@
 import {IHarvest} from '../models/Harvest';
+import {IBaseRepository} from './IBaseRepository';
 
-export interface IHarvestRepository {
-    createHarvest(crop: IHarvest);
+export interface IHarvestRepository extends IBaseRepository<IHarvest> {
     findAll();
     findByDate(date: Date);
-    update(id: string, updatedHarvest: IHarvest);
+    updateHarvest(id: string, updatedHarvest: IHarvest);
     getHarvestById(id: string);
 }

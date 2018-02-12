@@ -1,6 +1,4 @@
-import {Body, Controller, Get, Path, Post, Query, Route, Tags} from 'tsoa';
-import {MongoError} from 'mongodb';
-import {IErrorResponse} from '../models/responses/index.responses';
+import {Body, Get, Path, Post, Query, Route, Tags} from 'tsoa';
 import {IHarvestRepository} from '../repositories/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
 import {Harvest, IHarvest, IHarvestVm} from '../models/Harvest';
@@ -8,18 +6,11 @@ import {IHarvestParams} from '../models/requests/index.requests';
 import {Entry} from '../models/Entry';
 import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
+import {BaseController} from './BaseController';
 import moment = require('moment');
 
 @Route('harvests')
-export class HarvestController extends Controller {
-    private static resolveErrorResponse(error: MongoError | null, message: string): IErrorResponse {
-        return {
-            thrown: true,
-            error,
-            message
-        };
-    }
-
+export class HarvestController extends BaseController {
     private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
     private readonly _entryRepository: IEntryRepository = new EntryRepository(Entry);
 
@@ -35,6 +26,8 @@ export class HarvestController extends Controller {
         const newHarvest: IHarvest = new Harvest();
         newHarvest.farm = harvestParams.farm;
 
+        console.log(harvestParams.entries);
+
         if ((harvestParams.entries && harvestParams.entries.length > 0) && harvestParams.harvestId) {
             const existedHarvest: IHarvestVm = await <IHarvestVm>this._harvestRepository.getHarvestById(harvestParams.harvestId);
 
@@ -45,10 +38,11 @@ export class HarvestController extends Controller {
             updatedHarvest.updatedOn = moment().toDate();
             updatedHarvest.farm = existedHarvest.farm._id;
 
-            return await <IHarvestVm>this._harvestRepository.update(harvestParams.harvestId, updatedHarvest);
+            return await <IHarvestVm>this._harvestRepository.updateHarvest(harvestParams.harvestId, updatedHarvest);
+        } else {
+            return await <IHarvestVm>this._harvestRepository.create(newHarvest);
         }
 
-        return await <IHarvestVm>this._harvestRepository.createHarvest(newHarvest);
     }
 
     /**

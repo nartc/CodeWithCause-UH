@@ -1,15 +1,13 @@
 import {IHarvestRepository} from './IHarvestRepository';
 import {HarvestModel, IHarvest} from '../models/Harvest';
+import {BaseRepository} from './BaseRepository';
 
-export class HarvestRepository implements IHarvestRepository {
+export class HarvestRepository extends BaseRepository<IHarvest> implements IHarvestRepository {
     private _harvestModel: HarvestModel;
 
     constructor(harvestModel: HarvestModel) {
+        super(harvestModel);
         this._harvestModel = harvestModel;
-    }
-
-    public async createHarvest(newHarvest: IHarvest): Promise<IHarvest> {
-        return await this._harvestModel.create(newHarvest);
     }
 
     public async findAll(): Promise<IHarvest[]> {
@@ -31,7 +29,7 @@ export class HarvestRepository implements IHarvestRepository {
             .populate('entries');
     }
 
-    public async update(id: string, updatedHarvest: IHarvest): Promise<IHarvest> {
+    public async updateHarvest(id: string, updatedHarvest: IHarvest): Promise<IHarvest> {
         return await this._harvestModel.findByIdAndUpdate(id, updatedHarvest)
             .populate('farm')
             .populate('entries');
