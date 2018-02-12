@@ -414,7 +414,7 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
     app.delete('/api/farms/:id',
-        authenticateMiddleware('jwt'),
+        authenticateMiddleware([{ "name": "JWT" }]),
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -530,7 +530,7 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
     app.delete('/api/crops/:id',
-        authenticateMiddleware('jwt'),
+        authenticateMiddleware([{ "name": "JWT" }]),
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -795,8 +795,10 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/system/importCrops',
+        authenticateMiddleware([{ "name": "JWT" }]),
         function(request: any, response: any, next: any) {
             const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             let validatedArgs: any[] = [];
@@ -813,8 +815,8 @@ export function RegisterRoutes(app: any) {
             promiseHandler(controller, promise, response, next);
         });
 
-    function authenticateMiddleware(strategy: string) {
-        return passport.authenticate(strategy, { session: false });
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return expressAuthentication(security[0].name);
     }
 
     function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {
