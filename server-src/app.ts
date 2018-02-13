@@ -74,6 +74,9 @@ class App {
         this.app.use('/', this.apiDocsRoutes.getRouter());
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
             explorer: true,
+            swaggerOptions: {
+              docExpansion: 'none'
+            },
             swaggerUrl: this.environmentHost === 'Development'
                 ? `http://${get('express.host')}:${get('express.port')}/api/docs/swagger.json`
                 : `https://${get('express.host')}/api/docs/swagger.json`

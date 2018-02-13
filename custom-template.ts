@@ -46,7 +46,7 @@ export function RegisterRoutes(app: any) {
     {{#each actions}}
     app.{{method}}('{{../../basePath}}{{../path}}{{path}}',
     {{#if security.length}}
-    authenticateMiddleware('jwt'),
+    authenticateMiddleware({{json security}}),
     {{/if}}
     {{#if uploadFile}}
     upload.single('{{uploadFileName}}'),
@@ -79,8 +79,8 @@ export function RegisterRoutes(app: any) {
 {{/each}}
 
 {{#if useSecurity}}
-function authenticateMiddleware(strategy: string) {
-    return passport.authenticate(strategy, {session: false});
+function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+    return expressAuthentication(security[0].name);
 }
 {{/if}}
 

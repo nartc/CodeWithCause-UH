@@ -1408,7 +1408,11 @@
 				"tags": [
 					"System"
 				],
-				"security": [],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
 				"parameters": []
 			}
 		}

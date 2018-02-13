@@ -1,4 +1,4 @@
-import {Get, Route, Tags} from 'tsoa';
+import {Get, Request, Route, Security, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, ICrop, ICropVm} from '../models/Crop';
@@ -9,12 +9,14 @@ import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {Organization} from '../models/Organization';
 import {Connection} from 'mongoose';
+import {Request as ExpressRequest} from 'express';
 
 import App from '../app';
 import {readFileSync} from 'fs';
 import {filter, map, uniq} from 'lodash';
 import {join} from 'path';
 import {BaseController} from './BaseController';
+import {IUser, UserRole} from '../models/User';
 
 @Route('system')
 export class SystemController extends BaseController {
@@ -24,8 +26,14 @@ export class SystemController extends BaseController {
     private readonly _mongooseConnection: Connection = App.mongooseConnection;
 
     @Get('importCrops')
+    @Security('JWT')
     @Tags('System')
-    public async importCrops(): Promise<ICropVm[]> {
+    public async importCrops(@Request() request: ExpressRequest): Promise<ICropVm[]> {
+        const currentUser: IUser = request.user;
+
+        if (currentUser.role !== UserRole.Admin) {
+            throw SystemController.resolveErrorResponse(null, 'Unauthorized');
+        }
         // Check Crop collection
         const cropCollection = await this._mongooseConnection.db.listCollections({name: 'crops'}).toArray();
         if (cropCollection.length > 0) {
