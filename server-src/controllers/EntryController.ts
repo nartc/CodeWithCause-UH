@@ -9,14 +9,14 @@ import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
-import {Organization, IOrganization} from '../models/Organization';
+import {IOrganization, Organization} from '../models/Organization';
 import {BaseController} from './BaseController';
-import { ICrop, Crop } from '../models/Crop';
-import { ICropRepository } from '../repositories/ICropRepository';
-import { CropRepository } from '../repositories/CropRepository';
-import { IHarvester, Harvester } from '../models/Harvester';
-import { IHarvesterRepository } from '../repositories/IHarvesterRepository';
-import { HarvesterRepository } from '../repositories/HarvesterRepository';
+import {Crop, ICrop} from '../models/Crop';
+import {ICropRepository} from '../repositories/ICropRepository';
+import {CropRepository} from '../repositories/CropRepository';
+import {Harvester, IHarvester} from '../models/Harvester';
+import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
+import {HarvesterRepository} from '../repositories/HarvesterRepository';
 
 @Route('entries')
 export class EntryController extends BaseController {
@@ -47,10 +47,10 @@ export class EntryController extends BaseController {
         newEntry.harvester = harvester;
         newEntry.recipient = recipient;
         newEntry.pounds = newEntryParams.pounds;
-        newEntry.priceTotal = newEntryParams.priceTotal;
+        newEntry.priceTotal = crop.pricePerPound * newEntryParams.pounds;
         newEntry.comments = newEntryParams.comments;
         newEntry.selectedVariety = newEntryParams.selectedVariety;
-        
+
         return await <IEntryVm>this._entryRepository.create(newEntry);
     }
 
@@ -66,8 +66,8 @@ export class EntryController extends BaseController {
     }
 
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
     @Get('{id}')
     @Tags('Entry')
@@ -76,9 +76,9 @@ export class EntryController extends BaseController {
     }
 
     /**
-     * 
-     * @param id 
-     * @param updatedEntryParams 
+     *
+     * @param id
+     * @param updatedEntryParams
      */
     @Put('{id}')
     @Tags('Entry')
@@ -94,15 +94,15 @@ export class EntryController extends BaseController {
         updatedEntry.updatedOn = moment().toDate();
         updatedEntry.comments = updatedEntryParams.comments;
         updatedEntry.pounds = updatedEntryParams.pounds;
-        updatedEntry.priceTotal = updatedEntryParams.priceTotal;
+        updatedEntry.priceTotal = existedEntry.crop.pricePerPound * updatedEntryParams.pounds;
         updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
-       
+
         return await <IEntryVm>this._entryRepository.update(id, updatedEntry);
     }
 
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
     @Delete('{id}')
     @Tags('Entry')
