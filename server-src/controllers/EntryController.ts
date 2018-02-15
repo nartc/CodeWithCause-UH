@@ -9,14 +9,22 @@ import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
-import {Organization} from '../models/Organization';
+import {Organization, IOrganization} from '../models/Organization';
 import {BaseController} from './BaseController';
+import { ICrop, Crop } from '../models/Crop';
+import { ICropRepository } from '../repositories/ICropRepository';
+import { CropRepository } from '../repositories/CropRepository';
+import { IHarvester, Harvester } from '../models/Harvester';
+import { IHarvesterRepository } from '../repositories/IHarvesterRepository';
+import { HarvesterRepository } from '../repositories/HarvesterRepository';
 
 @Route('entries')
 export class EntryController extends BaseController {
     private readonly _entryRepository: IEntryRepository = new EntryRepository(Entry);
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
+    private readonly _cropRepository: ICropRepository = new CropRepository(Crop);
+    private readonly _harvesterRepository: IHarvesterRepository = new HarvesterRepository(Harvester);
 
     /**
      *
@@ -26,14 +34,23 @@ export class EntryController extends BaseController {
     @Post('create')
     @Tags('Entry')
     public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<IEntryVm> {
+        if (!newEntryParams.cropId || !newEntryParams.harvesterId || !newEntryParams.recipientId) {
+            throw EntryController.resolveErrorResponse(null, 'CropID, HarvesterID and RecipientID are REQUIRED');
+        }
+
         const newEntry: IEntry = new Entry();
-        newEntry.crop = newEntryParams.crop;
+        const crop: ICrop = await this._cropRepository.getResourceById(newEntryParams.cropId);
+        const harvester: IHarvester = await this._harvesterRepository.getResourceById(newEntryParams.harvesterId);
+        const recipient: IOrganization = await this._organizationRepository.getResourceById(newEntryParams.recipientId);
+
+        newEntry.crop = crop;
+        newEntry.harvester = harvester;
+        newEntry.recipient = recipient;
         newEntry.pounds = newEntryParams.pounds;
         newEntry.priceTotal = newEntryParams.priceTotal;
         newEntry.comments = newEntryParams.comments;
-        newEntry.harvester = newEntryParams.harvester;
-        newEntry.recipient = newEntryParams.recipient;
-
+        newEntry.selectedVariety = newEntryParams.selectedVariety;
+        
         return await <IEntryVm>this._entryRepository.create(newEntry);
     }
 
@@ -45,35 +62,48 @@ export class EntryController extends BaseController {
     @Get('getAll')
     @Tags('Entry')
     public async getAll(): Promise<IEntryVm[]> {
-        return await <IEntryVm[]>this._entryRepository.findAll();
+        return await <IEntryVm[]>this._entryRepository.getAll();
     }
 
+    /**
+     * 
+     * @param id 
+     */
     @Get('{id}')
     @Tags('Entry')
     public async getSingleEntry(@Path() id: string): Promise<IEntryVm> {
-        return await <IEntryVm>this._entryRepository.getEntryById(id);
+        return await <IEntryVm>this._entryRepository.getResourceById(id);
     }
 
+    /**
+     * 
+     * @param id 
+     * @param updatedEntryParams 
+     */
     @Put('{id}')
     @Tags('Entry')
     public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<IEntryVm> {
-        const existedEntry: IEntry = await this._entryRepository.getEntryById(id);
+        const existedEntry: IEntry = await this._entryRepository.getResourceById(id);
 
         const updatedEntry: IEntry = new Entry();
         updatedEntry._id = existedEntry._id;
+        updatedEntry.crop = existedEntry.crop;
+        updatedEntry.harvester = existedEntry.harvester;
+        updatedEntry.recipient = existedEntry.recipient;
+        updatedEntry.createdOn = existedEntry.createdOn;
+        updatedEntry.updatedOn = moment().toDate();
         updatedEntry.comments = updatedEntryParams.comments;
-        updatedEntry.crop = updatedEntryParams.crop;
-        updatedEntry.harvester = updatedEntryParams.harvester;
         updatedEntry.pounds = updatedEntryParams.pounds;
-        updatedEntry.recipient = updatedEntryParams.recipient;
         updatedEntry.priceTotal = updatedEntryParams.priceTotal;
         updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
-        updatedEntry.updatedOn = moment().toDate();
-        updatedEntry.createdOn = existedEntry.createdOn;
-
+       
         return await <IEntryVm>this._entryRepository.update(id, updatedEntry);
     }
 
+    /**
+     * 
+     * @param id 
+     */
     @Delete('{id}')
     @Tags('Entry')
     public async deleteEntry(@Path() id: string): Promise<IEntryVm> {

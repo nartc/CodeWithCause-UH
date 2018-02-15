@@ -1,19 +1,12 @@
 import {Document, model, Model, Schema} from 'mongoose';
-import {Entry, IEntryVm} from './Entry';
-import {IFarmVm} from './Farm';
+import {Entry, IEntryVm, EntrySchema, IEntry} from './Entry';
+import {IFarmVm, FarmSchema, IFarm} from './Farm';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Harvest} from '';
 
 export const HarvestSchema = new Schema({
-    farm: {
-        type: Schema.Types.ObjectId,
-        ref: 'Farm'
-    },
-    entries: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Entry',
-        default: []
-    }],
+    farm: FarmSchema,
+    entries: [EntrySchema],
     createdOn: {
         type: Date,
         default: Date.now()
@@ -25,8 +18,8 @@ export const HarvestSchema = new Schema({
 });
 
 export interface IHarvest extends IBaseModel {
-    farm: string;
-    entries: string[];
+    farm: IFarm;
+    entries: IEntry[];
 }
 
 export interface IHarvestVm extends IBaseModelVm {

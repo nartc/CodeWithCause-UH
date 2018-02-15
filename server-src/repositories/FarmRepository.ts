@@ -12,6 +12,6 @@ export class FarmRepository extends BaseRepository<IFarm> implements IFarmReposi
 
     public async getFarmByUsername(name: string): Promise<IFarm> {
         const query = {name};
-        return await this._farmModel.findOne(query);
+        return await this._farmModel.findOne(query).exec();
     }
 }

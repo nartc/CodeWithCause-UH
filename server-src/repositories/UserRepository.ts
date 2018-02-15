@@ -13,6 +13,6 @@ export class UserRepository extends BaseRepository<IUser> implements IUserReposi
 
     public async getUserByUsername(username: string): Promise<IUser> {
         const query = {username};
-        return await this._userModel.findOne(query);
+        return await this._userModel.findOne(query).exec();
     }
 }

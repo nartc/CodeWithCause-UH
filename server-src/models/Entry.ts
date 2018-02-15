@@ -1,33 +1,24 @@
 import {Document, model, Model, Schema} from 'mongoose';
-import {ICropVm} from './Crop';
-import {IHarvesterVm} from './Harvester';
+import {ICropVm, ICrop, CropSchema} from './Crop';
+import {IHarvesterVm, IHarvester, HarvesterSchema} from './Harvester';
 import {IFarmVm} from './Farm';
-import {IOrganizationVm} from './Organization';
+import {IOrganizationVm, IOrganization, OrganizationSchema} from './Organization';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Crop} from '';
 
 export const EntrySchema = new Schema({
-    crop: {
-        type: Schema.Types.ObjectId,
-        ref: 'Crop',
-    },
+    crop: CropSchema,
     pounds: {
         type: Number,
     },
     priceTotal: {
         type: Number,
     },
-    harvester: {
-        type: Schema.Types.ObjectId,
-        ref: 'Harvester'
-    },
+    harvester: HarvesterSchema,
     comments: {
         type: String,
     },
-    recipient: {
-        type: Schema.Types.ObjectId,
-        ref: 'Organization'
-    },
+    recipient: OrganizationSchema,
     createdOn: {
         type: Date,
         default: Date.now()
@@ -40,12 +31,12 @@ export const EntrySchema = new Schema({
 });
 
 export interface IEntry extends IBaseModel {
-    crop: string;
+    crop: ICrop;
     pounds: number;
     priceTotal: number;
-    harvester: string;
+    harvester: IHarvester;
     comments: string;
-    recipient: string;
+    recipient: IOrganization;
     selectedVariety: string;
 }
 

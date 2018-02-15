@@ -13,6 +13,6 @@ export class OrganizationRepository extends BaseRepository<IOrganization> implem
 
     public async getOrganizationByName(name: string): Promise<IOrganization> {
         const query = {name};
-        return await this._organizationModel.findOne(query);
+        return await this._organizationModel.findOne(query).exec();
     }
 }

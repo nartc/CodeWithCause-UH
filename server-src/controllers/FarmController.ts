@@ -38,6 +38,10 @@ export class FarmController extends BaseController {
         return <IFarmVm[]>result;
     }
 
+    /**
+     * 
+     * @param id 
+     */
     @Delete('{id}')
     @Tags('Farm')
     @Security('JWT')
@@ -46,6 +50,11 @@ export class FarmController extends BaseController {
         return <IFarmVm[]>result;
     }
 
+    /**
+     * 
+     * @param id 
+     * @param newFarmParams 
+     */
     @Put('{id}')
     @Tags('Farm')
     public async updateById(@Path() id: string, @Body() newFarmParams: INewFarmParams): Promise<IFarmVm> {

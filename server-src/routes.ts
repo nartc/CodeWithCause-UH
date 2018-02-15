@@ -97,11 +97,11 @@ const models: TsoaRoute.Models = {
     "INewEntryParams": {
         "properties": {
             "pounds": { "dataType": "double", "required": true },
-            "crop": { "dataType": "string" },
+            "cropId": { "dataType": "string" },
             "priceTotal": { "dataType": "double" },
-            "harvester": { "dataType": "string" },
+            "harvesterId": { "dataType": "string" },
             "comments": { "dataType": "string" },
-            "recipient": { "dataType": "string" },
+            "recipientId": { "dataType": "string" },
             "selectedVariety": { "dataType": "string" },
         },
     },
@@ -152,8 +152,8 @@ const models: TsoaRoute.Models = {
     },
     "IHarvestParams": {
         "properties": {
-            "farm": { "dataType": "string", "required": true },
-            "entries": { "dataType": "array", "array": { "dataType": "string" } },
+            "farmId": { "dataType": "string", "required": true },
+            "entriesIds": { "dataType": "array", "array": { "dataType": "string" } },
             "harvestId": { "dataType": "string" },
         },
     },
@@ -716,25 +716,6 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getAll.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
-    app.get('/api/harvests/getQuery',
-        function(request: any, response: any, next: any) {
-            const args = {
-                date: { "in": "query", "name": "date", "required": true, "dataType": "datetime" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new HarvestController();
-
-
-            const promise = controller.getByDate.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/harvests/:id',

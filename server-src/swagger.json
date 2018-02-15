@@ -234,20 +234,20 @@
 					"type": "number",
 					"format": "double"
 				},
-				"crop": {
+				"cropId": {
 					"type": "string"
 				},
 				"priceTotal": {
 					"type": "number",
 					"format": "double"
 				},
-				"harvester": {
+				"harvesterId": {
 					"type": "string"
 				},
 				"comments": {
 					"type": "string"
 				},
-				"recipient": {
+				"recipientId": {
 					"type": "string"
 				},
 				"selectedVariety": {
@@ -395,10 +395,10 @@
 		},
 		"IHarvestParams": {
 			"properties": {
-				"farm": {
+				"farmId": {
 					"type": "string"
 				},
-				"entries": {
+				"entriesIds": {
 					"type": "array",
 					"items": {
 						"type": "string"
@@ -409,7 +409,7 @@
 				}
 			},
 			"required": [
-				"farm"
+				"farmId"
 			],
 			"type": "object"
 		},
@@ -1270,38 +1270,6 @@
 				],
 				"security": [],
 				"parameters": []
-			}
-		},
-		"/harvests/getQuery": {
-			"get": {
-				"operationId": "GetByDate",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/IHarvestVm"
-							}
-						}
-					}
-				},
-				"tags": [
-					"Harvest"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "date",
-						"required": true,
-						"format": "date-time",
-						"type": "string"
-					}
-				]
 			}
 		},
 		"/harvests/{id}": {
