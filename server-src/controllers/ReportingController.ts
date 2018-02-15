@@ -27,7 +27,7 @@ export class ReportingController extends BaseController {
     @Get('percentage')
     @Tags('Reporting')
     public async getSalesPercentage(@Query() percentageType: string): Promise<IPercentageReportResponse> {
-        const allEntries: IEntryVm[] = await <IEntryVm[]>this._entryRepository.findAll();
+        const allEntries: IEntryVm[] = await <IEntryVm[]>this._entryRepository.getAll();
         let queried: IEntryVm[];
 
         if (percentageType === 'donated') {
@@ -48,7 +48,7 @@ export class ReportingController extends BaseController {
     @Get('total')
     @Tags('Reporting')
     public async getTotalWeightOrValue(@Query() weightOrValue: string): Promise<any> {
-        const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.findAll();
+        const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.getAll();
         const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.getAll();
         let farmWeightResults = {};
         let farmValueResult = {};
@@ -67,10 +67,7 @@ export class ReportingController extends BaseController {
                 result = farmWeightResults;
             });
         } else if (weightOrValue === 'value') {
-
-            console.log(allHarvests);
             allFarms.forEach(f => { //farm: ChauFarm
-                console.log(f);
                 const queried: IHarvestVm[] = allHarvests.filter(h => h.farm.name === f.name);
                 let totalValue = 0;
                 queried.forEach(element => {
@@ -80,7 +77,6 @@ export class ReportingController extends BaseController {
                 });
                 farmValueResult[f.name] = totalValue;
             });
-            console.log(farmValueResult)
             result = farmValueResult;
         }
 

@@ -1,5 +1,5 @@
 export interface IHarvestParams {
-    farm: string;
-    entries?: string[];
+    farmId: string;
+    entriesIds?: string[];
     harvestId?: string;
 }

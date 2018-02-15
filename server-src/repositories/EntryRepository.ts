@@ -10,20 +10,6 @@ export class EntryRepository extends BaseRepository<IEntry> implements IEntryRep
         this._entryModel = entryModel;
     }
 
-    public async findAll(): Promise<IEntry[]> {
-        return await this._entryModel.find()
-            .populate('farm')
-            .populate('harvester')
-            .populate('recipient');
-    }
-
-    public async getEntryById(id: string): Promise<IEntry> {
-        return await this._entryModel.findById(id)
-            .populate('crop')
-            .populate('harvester')
-            .populate('recipient');
-    }
-
     public async findByQuery(farm?: string, recipient?: string): Promise<IEntry[]> {
         let query;
         if (!farm && recipient) {
@@ -34,9 +20,6 @@ export class EntryRepository extends BaseRepository<IEntry> implements IEntryRep
             query = {$and: [{recipient}, {farm}]};
         }
 
-        return await this._entryModel.find(query)
-            .populate('crop')
-            .populate('harvester')
-            .populate('recipient');
+        return await this._entryModel.find(query).exec();
     }
 }

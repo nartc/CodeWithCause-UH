@@ -1,9 +1,8 @@
 export interface INewEntryParams {
     pounds: number;
-    crop?: string;
-    priceTotal?: number;
-    harvester?: string;
+    cropId?: string;
+    harvesterId?: string;
     comments?: string;
-    recipient?: string;
+    recipientId?: string;
     selectedVariety?: string;
 }

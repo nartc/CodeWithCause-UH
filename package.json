@@ -21,7 +21,8 @@
     "start": "tsc && cp ./server-src/swagger.json ./server-build/swagger.json && node ./server-build/index.js",
     "clean-swagger": "rimraf ../code-with-cause-web/src/app/swagger-api",
     "swagger-client": "npm run clean-swagger && swagger-codegen generate -i https://codewithcause.herokuapp.com/api/docs/swagger.json -o ../code-with-cause-web/src/app/swagger-api -l typescript-angular -c ./swagger-config.json",
-    "swagger-client-dev": "npm run clean-swagger && swagger-codegen generate -i http://localhost:8080/api/docs/swagger.json -o ../code-with-cause-web/src/app/swagger-api -l typescript-angular -c ./swagger-config.json"
+    "swagger-client-dev": "npm run clean-swagger && swagger-codegen generate -i http://localhost:8080/api/docs/swagger.json -o ../code-with-cause-web/src/app/swagger-api -l typescript-angular -c ./swagger-config.json",
+    "swagger-client-linux": "npm run clean-swagger && java -jar ../../swagger-codegen-cli.jar generate -i http://localhost:8080/api/docs/swagger.json -o ../code-with-cause-web/src/app/swagger-api -l typescript-angular -c ./swagger-config.json"
   },
   "author": "",
   "license": "MIT",

@@ -1,7 +1,7 @@
 import {Document, Model, model, Schema} from 'mongoose';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 
-const OrganizationSchema = new Schema({
+export const OrganizationSchema = new Schema({
     orgType: {
         type: String,
         enum: ['Purchased', 'Donated', 'Internal'],

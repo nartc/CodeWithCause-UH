@@ -116,7 +116,7 @@ export class UserController extends BaseController {
     @Put('{id}')
     @Tags('System')
     public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<IUserVm> {
-        const existedUser: IUserVm = await <IUserVm>this._userRepository.getResourceById(id);
+        const existedUser: IUser = await this._userRepository.getResourceById(id);
 
         if (!existedUser || existedUser === null) {
             throw UserController.resolveErrorResponse(null, 'Not found');

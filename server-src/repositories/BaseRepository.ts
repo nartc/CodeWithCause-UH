@@ -10,7 +10,7 @@ export class BaseRepository<T extends IBaseModel> implements IBaseRepository<T> 
     }
 
     public async getAll(): Promise<T[]> {
-        return await this._model.find();
+        return await this._model.find().exec();
     }
 
     public async create(newResource: T): Promise<T> {
@@ -18,14 +18,18 @@ export class BaseRepository<T extends IBaseModel> implements IBaseRepository<T> 
     }
 
     public async delete(resourceId: string): Promise<T> {
-        return await this._model.findByIdAndRemove(resourceId);
+        return await this._model.findByIdAndRemove(resourceId).exec();
     }
 
     public async update(resourceId: string, updatedResource: T): Promise<T> {
-        return await this._model.findByIdAndUpdate(resourceId, updatedResource);
+        return await this._model.findByIdAndUpdate(resourceId, updatedResource).exec();
     }
 
     public async getResourceById(resourceId: string): Promise<T> {
-        return await this._model.findById(resourceId);
+        return await this._model.findById(resourceId).exec();
+    }
+
+    public async getResourcesByIds(resourceIds: string[]): Promise<T[]> {
+        return await this._model.find({_id: resourceIds}).exec();
     }
 }
