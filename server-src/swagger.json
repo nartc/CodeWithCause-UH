@@ -237,10 +237,6 @@
 				"cropId": {
 					"type": "string"
 				},
-				"priceTotal": {
-					"type": "number",
-					"format": "double"
-				},
 				"harvesterId": {
 					"type": "string"
 				},

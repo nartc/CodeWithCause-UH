@@ -98,7 +98,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "pounds": { "dataType": "double", "required": true },
             "cropId": { "dataType": "string" },
-            "priceTotal": { "dataType": "double" },
             "harvesterId": { "dataType": "string" },
             "comments": { "dataType": "string" },
             "recipientId": { "dataType": "string" },
