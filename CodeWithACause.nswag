@@ -36,7 +36,7 @@
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": false,
       "baseUrlTokenName": "API_BASE_URL",
-      "output": "../code-with-cause-web/src/app/api.ts"
+      "output": "../code-with-cause-web/src/app/app.api.ts"
     }
   }
 }

@@ -1,20 +1,28 @@
-import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
+import {Body, Delete, FormFile, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {sign} from 'jsonwebtoken'
 import * as config from 'config'
 import {MongoError} from 'mongodb';
 import {IUserRepository} from '../repositories/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
-import {IUser, UserVm, User, UserRole} from '../models/User';
+import {IUser, User, UserRole, UserVm} from '../models/User';
 import {INewUserParams} from '../models/requests/index.requests';
 import {compare, genSalt, hash} from 'bcryptjs';
 import {LoginVm} from '../models/Login';
 import {ILoginParams} from '../models/requests/ILoginParams';
 import * as moment from 'moment';
 import {BaseController} from './BaseController';
+import {FileParameter} from '../models/requests/FileParameter';
 
 @Route('users')
 export class UserController extends BaseController {
     private _userRepository: IUserRepository = new UserRepository(User);
+
+    @Post('addImage')
+    @Tags('System')
+    public async addImage(@FormFile() image: FileParameter): Promise<any> {
+        console.log(image);
+        return;
+    }
 
     /**
      *

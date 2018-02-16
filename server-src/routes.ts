@@ -13,6 +13,8 @@ import { ReportingController } from './controllers/ReportingController';
 import { SystemController } from './controllers/SystemController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
+import * as multer from 'multer';
+const upload = multer();
 
 const models: TsoaRoute.Models = {
     "UserRole": {
@@ -20,12 +22,12 @@ const models: TsoaRoute.Models = {
     },
     "UserVm": {
         "properties": {
-            "username": { "dataType": "string" },
-            "password": { "dataType": "string" },
-            "role": { "ref": "UserRole" },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "username": { "dataType": "string" },
+            "password": { "dataType": "string" },
+            "role": { "ref": "UserRole" },
         },
     },
     "INewUserParams": {
@@ -51,21 +53,21 @@ const models: TsoaRoute.Models = {
     },
     "CropVm": {
         "properties": {
-            "name": { "dataType": "string", "required": true },
-            "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
-            "pricePerPound": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "name": { "dataType": "string", "required": true },
+            "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
+            "pricePerPound": { "dataType": "double", "required": true },
         },
     },
     "HarvesterVm": {
         "properties": {
-            "firstName": { "dataType": "string", "required": true },
-            "lastName": { "dataType": "string", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "firstName": { "dataType": "string", "required": true },
+            "lastName": { "dataType": "string", "required": true },
         },
     },
     "OrganizationType": {
@@ -73,15 +75,18 @@ const models: TsoaRoute.Models = {
     },
     "OrganizationVm": {
         "properties": {
-            "orgType": { "ref": "OrganizationType" },
-            "name": { "dataType": "string" },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "orgType": { "ref": "OrganizationType" },
+            "name": { "dataType": "string" },
         },
     },
     "EntryVm": {
         "properties": {
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "_id": { "dataType": "string" },
             "crop": { "ref": "CropVm", "required": true },
             "pounds": { "dataType": "double", "required": true },
             "priceTotal": { "dataType": "double", "required": true },
@@ -89,9 +94,6 @@ const models: TsoaRoute.Models = {
             "comments": { "dataType": "string", "required": true },
             "recipient": { "ref": "OrganizationVm", "required": true },
             "selectedVariety": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "_id": { "dataType": "string" },
         },
     },
     "INewEntryParams": {
@@ -106,12 +108,12 @@ const models: TsoaRoute.Models = {
     },
     "FarmVm": {
         "properties": {
-            "name": { "dataType": "string", "required": true },
-            "lat": { "dataType": "double", "required": true },
-            "lng": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "lng": { "dataType": "double", "required": true },
         },
     },
     "INewFarmParams": {
@@ -142,11 +144,11 @@ const models: TsoaRoute.Models = {
     },
     "HarvestVm": {
         "properties": {
-            "farm": { "ref": "FarmVm", "required": true },
-            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "farm": { "ref": "FarmVm", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
         },
     },
     "IHarvestParams": {
@@ -166,6 +168,26 @@ const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
+    app.post('/api/users/addImage',
+        upload.single('image'),
+        function(request: any, response: any, next: any) {
+            const args = {
+                image: { "in": "formData", "name": "image", "required": true, "dataType": "file" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.addImage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/users/create',
         function(request: any, response: any, next: any) {
             const args = {

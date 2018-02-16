@@ -13,15 +13,6 @@
 		},
 		"UserVm": {
 			"properties": {
-				"username": {
-					"type": "string"
-				},
-				"password": {
-					"type": "string"
-				},
-				"role": {
-					"$ref": "#/definitions/UserRole"
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -32,6 +23,15 @@
 				},
 				"_id": {
 					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"role": {
+					"$ref": "#/definitions/UserRole"
 				}
 			},
 			"type": "object"
@@ -92,6 +92,17 @@
 		},
 		"CropVm": {
 			"properties": {
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				},
 				"name": {
 					"type": "string"
 				},
@@ -104,17 +115,6 @@
 				"pricePerPound": {
 					"type": "number",
 					"format": "double"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"_id": {
-					"type": "string"
 				}
 			},
 			"required": [
@@ -126,12 +126,6 @@
 		},
 		"HarvesterVm": {
 			"properties": {
-				"firstName": {
-					"type": "string"
-				},
-				"lastName": {
-					"type": "string"
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -141,6 +135,12 @@
 					"format": "date-time"
 				},
 				"_id": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
 					"type": "string"
 				}
 			},
@@ -160,12 +160,6 @@
 		},
 		"OrganizationVm": {
 			"properties": {
-				"orgType": {
-					"$ref": "#/definitions/OrganizationType"
-				},
-				"name": {
-					"type": "string"
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -176,12 +170,29 @@
 				},
 				"_id": {
 					"type": "string"
+				},
+				"orgType": {
+					"$ref": "#/definitions/OrganizationType"
+				},
+				"name": {
+					"type": "string"
 				}
 			},
 			"type": "object"
 		},
 		"EntryVm": {
 			"properties": {
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				},
 				"crop": {
 					"$ref": "#/definitions/CropVm"
 				},
@@ -203,17 +214,6 @@
 					"$ref": "#/definitions/OrganizationVm"
 				},
 				"selectedVariety": {
-					"type": "string"
-				},
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"_id": {
 					"type": "string"
 				}
 			},
@@ -257,17 +257,6 @@
 		},
 		"FarmVm": {
 			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"lat": {
-					"type": "number",
-					"format": "double"
-				},
-				"lng": {
-					"type": "number",
-					"format": "double"
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -278,6 +267,17 @@
 				},
 				"_id": {
 					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"lat": {
+					"type": "number",
+					"format": "double"
+				},
+				"lng": {
+					"type": "number",
+					"format": "double"
 				}
 			},
 			"required": [
@@ -362,15 +362,6 @@
 		},
 		"HarvestVm": {
 			"properties": {
-				"farm": {
-					"$ref": "#/definitions/FarmVm"
-				},
-				"entries": {
-					"type": "array",
-					"items": {
-						"$ref": "#/definitions/EntryVm"
-					}
-				},
 				"createdOn": {
 					"type": "string",
 					"format": "date-time"
@@ -381,6 +372,15 @@
 				},
 				"_id": {
 					"type": "string"
+				},
+				"farm": {
+					"$ref": "#/definitions/FarmVm"
+				},
+				"entries": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/EntryVm"
+					}
 				}
 			},
 			"required": [
@@ -431,6 +431,37 @@
 		"title": "CodeWithCause-Node Express"
 	},
 	"paths": {
+		"/users/addImage": {
+			"post": {
+				"operationId": "User_AddImage",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"consumes": [
+					"multipart/form-data"
+				],
+				"tags": [
+					"System"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "formData",
+						"name": "image",
+						"required": true,
+						"type": "file"
+					}
+				]
+			}
+		},
 		"/users/create": {
 			"post": {
 				"operationId": "User_RegisterUser",
