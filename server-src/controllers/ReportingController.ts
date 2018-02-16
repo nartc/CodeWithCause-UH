@@ -1,5 +1,5 @@
 import {Get, Query, Route, Tags} from 'tsoa';
-import {Entry, IEntryVm} from '../models/Entry';
+import {Entry, EntryVm} from '../models/Entry';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {Organization, OrganizationType} from '../models/Organization';
@@ -7,11 +7,11 @@ import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {IHarvestRepository} from '../repositories/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
-import {Harvest, IHarvestVm} from '../models/Harvest';
+import {Harvest, HarvestVm} from '../models/Harvest';
 import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
-import {Farm, IFarmVm} from '../models/Farm';
-import {IPercentageReportResponse} from '../models/responses/IPercentageReportResponse';
+import {Farm, FarmVm} from '../models/Farm';
+import {PercentageReportResponse} from '../models/responses/IPercentageReportResponse';
 import {filter} from 'lodash';
 import {BaseController} from './BaseController';
 import moment = require('moment');
@@ -26,9 +26,9 @@ export class ReportingController extends BaseController {
 
     @Get('percentage')
     @Tags('Reporting')
-    public async getSalesPercentage(@Query() percentageType: string): Promise<IPercentageReportResponse> {
-        const allEntries: IEntryVm[] = await <IEntryVm[]>this._entryRepository.getAll();
-        let queried: IEntryVm[];
+    public async getSalesPercentage(@Query() percentageType: string): Promise<PercentageReportResponse> {
+        const allEntries: EntryVm[] = await <EntryVm[]>this._entryRepository.getAll();
+        let queried: EntryVm[];
 
         if (percentageType === 'donated') {
             queried = await allEntries.filter(e => e.recipient.orgType === OrganizationType.Donated || e.recipient.orgType === OrganizationType.Internal);
@@ -38,7 +38,7 @@ export class ReportingController extends BaseController {
 
         const percentage: string = ((queried.length / allEntries.length) * 100).toFixed(2);
 
-        return <IPercentageReportResponse>{
+        return <PercentageReportResponse>{
             createdOn: moment().toDate(),
             type: percentageType,
             percentage
@@ -48,15 +48,15 @@ export class ReportingController extends BaseController {
     @Get('total')
     @Tags('Reporting')
     public async getTotalWeightOrValue(@Query() weightOrValue: string): Promise<any> {
-        const allHarvests: IHarvestVm[] = await <IHarvestVm[]>this._harvestRepository.getAll();
-        const allFarms: IFarmVm[] = await <IFarmVm[]>this._farmRepository.getAll();
+        const allHarvests: HarvestVm[] = await <HarvestVm[]>this._harvestRepository.getAll();
+        const allFarms: FarmVm[] = await <FarmVm[]>this._farmRepository.getAll();
         let farmWeightResults = {};
         let farmValueResult = {};
         let result;
 
         if (weightOrValue === 'weight') {
             allFarms.forEach(f => { //farm: ChauFarm
-                const queried: IHarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
+                const queried: HarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
                 let totalWeight = 0;
                 queried.forEach(element => {
                     element.entries.forEach(e => {
@@ -68,7 +68,7 @@ export class ReportingController extends BaseController {
             });
         } else if (weightOrValue === 'value') {
             allFarms.forEach(f => { //farm: ChauFarm
-                const queried: IHarvestVm[] = allHarvests.filter(h => h.farm.name === f.name);
+                const queried: HarvestVm[] = allHarvests.filter(h => h.farm.name === f.name);
                 let totalValue = 0;
                 queried.forEach(element => {
                     element.entries.forEach(e => {

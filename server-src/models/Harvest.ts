@@ -1,6 +1,6 @@
 import {Document, model, Model, Schema} from 'mongoose';
-import {Entry, IEntryVm, EntrySchema, IEntry} from './Entry';
-import {IFarmVm, FarmSchema, IFarm} from './Farm';
+import {Entry, EntryVm, EntrySchema, IEntry} from './Entry';
+import {FarmVm, FarmSchema, IFarm} from './Farm';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Harvest} from '';
 
@@ -22,9 +22,9 @@ export interface IHarvest extends IBaseModel {
     entries: IEntry[];
 }
 
-export interface IHarvestVm extends IBaseModelVm {
-    farm: IFarmVm;
-    entries: IEntryVm[];
+export interface HarvestVm extends IBaseModelVm {
+    farm: FarmVm;
+    entries: EntryVm[];
 }
 
 export type HarvestModel = Model<IHarvest>;

@@ -1,7 +1,7 @@
 import {Body, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
 import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
-import {Harvester, IHarvester, IHarvesterVm} from '../models/Harvester';
+import {Harvester, IHarvester, HarvesterVm} from '../models/Harvester';
 import {INewHarvesterParams} from '../models/requests/index.requests';
 import {BaseController} from './BaseController';
 
@@ -12,34 +12,34 @@ export class HarvesterController extends BaseController {
     /**
      *
      * @param {INewHarvesterParams} newHarvesterParams
-     * @returns {Promise<IHarvesterVm>}
+     * @returns {Promise<HarvesterVm>}
      */
     @Post('create')
     @Tags('Harvester')
-    public async registerHarvester(@Body() newHarvesterParams: INewHarvesterParams): Promise<IHarvesterVm> {
+    public async registerHarvester(@Body() newHarvesterParams: INewHarvesterParams): Promise<HarvesterVm> {
 
         const newHarvester: IHarvester = new Harvester();
         newHarvester.firstName = newHarvesterParams.firstName;
         newHarvester.lastName = newHarvesterParams.lastName;
 
-        return await <IHarvesterVm>this._harvesterRepository.create(newHarvester);
+        return await <HarvesterVm>this._harvesterRepository.create(newHarvester);
     }
 
     /**
      *
      * @param {string} username
-     * @returns {Promise<IHarvesterVm>}
+     * @returns {Promise<HarvesterVm>}
      */
     @Get('getAll')
     @Tags('Harvester')
-    public async getAll(): Promise<IHarvesterVm[]> {
+    public async getAll(): Promise<HarvesterVm[]> {
         const result: IHarvester[] = await this._harvesterRepository.getAll();
-        return <IHarvesterVm[]>result;
+        return <HarvesterVm[]>result;
     }
 
     @Delete('{id}')
     @Tags('Harvester')
-    public async deleteHarvesterById(@Path() id: string): Promise<IHarvesterVm> {
-        return await <IHarvesterVm>this._harvesterRepository.delete(id);
+    public async deleteHarvesterById(@Path() id: string): Promise<HarvesterVm> {
+        return await <HarvesterVm>this._harvesterRepository.delete(id);
     }
 }

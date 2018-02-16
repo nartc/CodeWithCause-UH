@@ -1,7 +1,7 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {IEntryRepository} from '../repositories/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
-import {Entry, IEntry, IEntryVm} from '../models/Entry';
+import {Entry, IEntry, EntryVm} from '../models/Entry';
 import {INewEntryParams} from '../models/requests/index.requests';
 import * as moment from 'moment';
 import {Farm} from '../models/Farm';
@@ -29,11 +29,11 @@ export class EntryController extends BaseController {
     /**
      *
      * @param {INewEntryParams} newEntryParams
-     * @returns {Promise<IEntryVm>}
+     * @returns {Promise<EntryVm>}
      */
     @Post('create')
     @Tags('Entry')
-    public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<IEntryVm> {
+    public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<EntryVm> {
         if (!newEntryParams.cropId || !newEntryParams.harvesterId || !newEntryParams.recipientId) {
             throw EntryController.resolveErrorResponse(null, 'CropID, HarvesterID and RecipientID are REQUIRED');
         }
@@ -51,18 +51,18 @@ export class EntryController extends BaseController {
         newEntry.comments = newEntryParams.comments;
         newEntry.selectedVariety = newEntryParams.selectedVariety;
 
-        return await <IEntryVm>this._entryRepository.create(newEntry);
+        return await <EntryVm>this._entryRepository.create(newEntry);
     }
 
     /**
      *
      * @param {string} username
-     * @returns {Promise<IEntryVm[]>}
+     * @returns {Promise<EntryVm[]>}
      */
     @Get('getAll')
     @Tags('Entry')
-    public async getAll(): Promise<IEntryVm[]> {
-        return await <IEntryVm[]>this._entryRepository.getAll();
+    public async getAll(): Promise<EntryVm[]> {
+        return await <EntryVm[]>this._entryRepository.getAll();
     }
 
     /**
@@ -71,8 +71,8 @@ export class EntryController extends BaseController {
      */
     @Get('{id}')
     @Tags('Entry')
-    public async getSingleEntry(@Path() id: string): Promise<IEntryVm> {
-        return await <IEntryVm>this._entryRepository.getResourceById(id);
+    public async getSingleEntry(@Path() id: string): Promise<EntryVm> {
+        return await <EntryVm>this._entryRepository.getResourceById(id);
     }
 
     /**
@@ -82,7 +82,7 @@ export class EntryController extends BaseController {
      */
     @Put('{id}')
     @Tags('Entry')
-    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<IEntryVm> {
+    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<EntryVm> {
         const existedEntry: IEntry = await this._entryRepository.getResourceById(id);
 
         const updatedEntry: IEntry = new Entry();
@@ -97,7 +97,7 @@ export class EntryController extends BaseController {
         updatedEntry.priceTotal = existedEntry.crop.pricePerPound * updatedEntryParams.pounds;
         updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
 
-        return await <IEntryVm>this._entryRepository.update(id, updatedEntry);
+        return await <EntryVm>this._entryRepository.update(id, updatedEntry);
     }
 
     /**
@@ -106,20 +106,20 @@ export class EntryController extends BaseController {
      */
     @Delete('{id}')
     @Tags('Entry')
-    public async deleteEntry(@Path() id: string): Promise<IEntryVm> {
-        return await <IEntryVm>this._entryRepository.delete(id);
+    public async deleteEntry(@Path() id: string): Promise<EntryVm> {
+        return await <EntryVm>this._entryRepository.delete(id);
     }
 
     // @Get('weight')
     // @Tags('Entry')
-    // public async getTotalWeight(@Query() totalWeightQuery: ITotalWeightQuery): Promise<ITotalWeightReport[]> {
+    // public async getTotalWeight(@Query() totalWeightQuery: ITotalWeightQuery): Promise<TotalWeightReport[]> {
     //     const farmName: string = totalWeightQuery.farmName ? totalWeightQuery.farmName : null;
     //     const recipientName: string = totalWeightQuery.recipient ? totalWeightQuery.recipient : null;
     //
-    //     const farm: IFarmVm = await this._farmRepository.getFarmByUsername(farmName);
-    //     const recipient: IOrganizationVm = await this._organizationRepository.getOrganizationByName(recipientName);
+    //     const farm: FarmVm = await this._farmRepository.getFarmByUsername(farmName);
+    //     const recipient: OrganizationVm = await this._organizationRepository.getOrganizationByName(recipientName);
     //
-    //     const queried: IEntryVm[] = await <IEntryVm[]>this._entryRepository.findByQuery(farm._id, recipient._id);
+    //     const queried: EntryVm[] = await <EntryVm[]>this._entryRepository.findByQuery(farm._id, recipient._id);
     //
     //     const result: ITotalWeightQuery[] = [];
     //     queried.forEach(query => {

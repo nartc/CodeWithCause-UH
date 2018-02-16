@@ -1,9 +1,9 @@
-import {IFarmVm} from '../Farm';
-import {IOrganizationVm} from '../Organization';
+import {FarmVm} from '../Farm';
+import {OrganizationVm} from '../Organization';
 
-export interface ITotalWeightReport {
-    farm?: IFarmVm;
-    recipient?: IOrganizationVm;
+export interface TotalWeightReport {
+    farm?: FarmVm;
+    recipient?: OrganizationVm;
     total?: number;
     createdOn?: Date;
 }

@@ -18,7 +18,7 @@ const models: TsoaRoute.Models = {
     "UserRole": {
         "enums": ["Admin", "User"],
     },
-    "IUserVm": {
+    "UserVm": {
         "properties": {
             "username": { "dataType": "string" },
             "password": { "dataType": "string" },
@@ -35,7 +35,7 @@ const models: TsoaRoute.Models = {
             "role": { "ref": "UserRole", "required": true },
         },
     },
-    "ILoginVm": {
+    "LoginVm": {
         "properties": {
             "authToken": { "dataType": "string", "required": true },
             "username": { "dataType": "string" },
@@ -49,7 +49,7 @@ const models: TsoaRoute.Models = {
             "password": { "dataType": "string", "required": true },
         },
     },
-    "ICropVm": {
+    "CropVm": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
@@ -59,7 +59,7 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
-    "IHarvesterVm": {
+    "HarvesterVm": {
         "properties": {
             "firstName": { "dataType": "string", "required": true },
             "lastName": { "dataType": "string", "required": true },
@@ -71,7 +71,7 @@ const models: TsoaRoute.Models = {
     "OrganizationType": {
         "enums": ["Purchased", "Donated", "Internal"],
     },
-    "IOrganizationVm": {
+    "OrganizationVm": {
         "properties": {
             "orgType": { "ref": "OrganizationType" },
             "name": { "dataType": "string" },
@@ -80,14 +80,14 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
-    "IEntryVm": {
+    "EntryVm": {
         "properties": {
-            "crop": { "ref": "ICropVm", "required": true },
+            "crop": { "ref": "CropVm", "required": true },
             "pounds": { "dataType": "double", "required": true },
             "priceTotal": { "dataType": "double", "required": true },
-            "harvester": { "ref": "IHarvesterVm", "required": true },
+            "harvester": { "ref": "HarvesterVm", "required": true },
             "comments": { "dataType": "string", "required": true },
-            "recipient": { "ref": "IOrganizationVm", "required": true },
+            "recipient": { "ref": "OrganizationVm", "required": true },
             "selectedVariety": { "dataType": "string", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
@@ -104,7 +104,7 @@ const models: TsoaRoute.Models = {
             "selectedVariety": { "dataType": "string" },
         },
     },
-    "IFarmVm": {
+    "FarmVm": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "lat": { "dataType": "double", "required": true },
@@ -140,10 +140,10 @@ const models: TsoaRoute.Models = {
             "orgType": { "ref": "OrganizationType" },
         },
     },
-    "IHarvestVm": {
+    "HarvestVm": {
         "properties": {
-            "farm": { "ref": "IFarmVm", "required": true },
-            "entries": { "dataType": "array", "array": { "ref": "IEntryVm" }, "required": true },
+            "farm": { "ref": "FarmVm", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
@@ -156,7 +156,7 @@ const models: TsoaRoute.Models = {
             "harvestId": { "dataType": "string" },
         },
     },
-    "IPercentageReportResponse": {
+    "PercentageReportResponse": {
         "properties": {
             "type": { "dataType": "string" },
             "createdOn": { "dataType": "datetime" },

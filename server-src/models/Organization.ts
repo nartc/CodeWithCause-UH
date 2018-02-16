@@ -25,7 +25,7 @@ export interface IOrganization extends IBaseModel {
     name?: string;
 }
 
-export interface IOrganizationVm extends IBaseModelVm {
+export interface OrganizationVm extends IBaseModelVm {
     orgType?: OrganizationType;
     name?: string;
 }

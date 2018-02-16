@@ -1,7 +1,7 @@
 import {Get, Request, Route, Security, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
-import {Crop, ICrop, ICropVm} from '../models/Crop';
+import {Crop, ICrop, CropVm} from '../models/Crop';
 import {IFarmRepository} from '../repositories/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm} from '../models/Farm';
@@ -28,7 +28,7 @@ export class SystemController extends BaseController {
     @Get('importCrops')
     @Security('JWT')
     @Tags('System')
-    public async importCrops(@Request() request: ExpressRequest): Promise<ICropVm[]> {
+    public async importCrops(@Request() request: ExpressRequest): Promise<CropVm[]> {
         const currentUser: IUser = request.user;
 
         if (currentUser.role !== UserRole.Admin) {
@@ -53,9 +53,9 @@ export class SystemController extends BaseController {
             await this._cropRepository.create(newCrop);
         });
 
-        return new Promise<ICropVm[]>(((resolve, reject) => {
+        return new Promise<CropVm[]>(((resolve, reject) => {
             setTimeout(async () => {
-                resolve(await <ICropVm[]>this._cropRepository.getAll());
+                resolve(await <CropVm[]>this._cropRepository.getAll());
             }, 500)
         }));
     }

@@ -6,7 +6,7 @@ export interface IBaseModel extends Document {
     updatedOn?: Date;
 }
 
-export interface IBaseModelVm {
+export class IBaseModelVm {
     createdOn?: Date;
     updatedOn?: Date;
     _id?: string;

@@ -1,8 +1,8 @@
 import {Document, model, Model, Schema} from 'mongoose';
-import {ICropVm, ICrop, CropSchema} from './Crop';
-import {IHarvesterVm, IHarvester, HarvesterSchema} from './Harvester';
-import {IFarmVm} from './Farm';
-import {IOrganizationVm, IOrganization, OrganizationSchema} from './Organization';
+import {CropVm, ICrop, CropSchema} from './Crop';
+import {HarvesterVm, IHarvester, HarvesterSchema} from './Harvester';
+import {FarmVm} from './Farm';
+import {OrganizationVm, IOrganization, OrganizationSchema} from './Organization';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Crop} from '';
 
@@ -40,13 +40,13 @@ export interface IEntry extends IBaseModel {
     selectedVariety: string;
 }
 
-export interface IEntryVm extends IBaseModelVm {
-    crop: ICropVm;
+export interface EntryVm extends IBaseModelVm {
+    crop: CropVm;
     pounds: number;
     priceTotal: number;
-    harvester: IHarvesterVm;
+    harvester: HarvesterVm;
     comments: string;
-    recipient: IOrganizationVm;
+    recipient: OrganizationVm;
     selectedVariety: string;
 }
 

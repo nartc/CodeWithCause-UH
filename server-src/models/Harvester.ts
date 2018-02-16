@@ -24,7 +24,7 @@ export interface IHarvester extends IBaseModel {
     lastName: string;
 }
 
-export interface IHarvesterVm extends IBaseModelVm {
+export interface HarvesterVm extends IBaseModelVm {
     firstName: string;
     lastName: string;
 }

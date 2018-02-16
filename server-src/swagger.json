@@ -11,7 +11,7 @@
 			],
 			"type": "string"
 		},
-		"IUserVm": {
+		"UserVm": {
 			"properties": {
 				"username": {
 					"type": "string"
@@ -55,7 +55,7 @@
 			],
 			"type": "object"
 		},
-		"ILoginVm": {
+		"LoginVm": {
 			"properties": {
 				"authToken": {
 					"type": "string"
@@ -90,7 +90,7 @@
 			],
 			"type": "object"
 		},
-		"ICropVm": {
+		"CropVm": {
 			"properties": {
 				"name": {
 					"type": "string"
@@ -124,7 +124,7 @@
 			],
 			"type": "object"
 		},
-		"IHarvesterVm": {
+		"HarvesterVm": {
 			"properties": {
 				"firstName": {
 					"type": "string"
@@ -158,7 +158,7 @@
 			],
 			"type": "string"
 		},
-		"IOrganizationVm": {
+		"OrganizationVm": {
 			"properties": {
 				"orgType": {
 					"$ref": "#/definitions/OrganizationType"
@@ -180,10 +180,10 @@
 			},
 			"type": "object"
 		},
-		"IEntryVm": {
+		"EntryVm": {
 			"properties": {
 				"crop": {
-					"$ref": "#/definitions/ICropVm"
+					"$ref": "#/definitions/CropVm"
 				},
 				"pounds": {
 					"type": "number",
@@ -194,13 +194,13 @@
 					"format": "double"
 				},
 				"harvester": {
-					"$ref": "#/definitions/IHarvesterVm"
+					"$ref": "#/definitions/HarvesterVm"
 				},
 				"comments": {
 					"type": "string"
 				},
 				"recipient": {
-					"$ref": "#/definitions/IOrganizationVm"
+					"$ref": "#/definitions/OrganizationVm"
 				},
 				"selectedVariety": {
 					"type": "string"
@@ -255,7 +255,7 @@
 			],
 			"type": "object"
 		},
-		"IFarmVm": {
+		"FarmVm": {
 			"properties": {
 				"name": {
 					"type": "string"
@@ -360,15 +360,15 @@
 			],
 			"type": "object"
 		},
-		"IHarvestVm": {
+		"HarvestVm": {
 			"properties": {
 				"farm": {
-					"$ref": "#/definitions/IFarmVm"
+					"$ref": "#/definitions/FarmVm"
 				},
 				"entries": {
 					"type": "array",
 					"items": {
-						"$ref": "#/definitions/IEntryVm"
+						"$ref": "#/definitions/EntryVm"
 					}
 				},
 				"createdOn": {
@@ -409,7 +409,7 @@
 			],
 			"type": "object"
 		},
-		"IPercentageReportResponse": {
+		"PercentageReportResponse": {
 			"properties": {
 				"type": {
 					"type": "string"
@@ -433,7 +433,7 @@
 	"paths": {
 		"/users/create": {
 			"post": {
-				"operationId": "RegisterUser",
+				"operationId": "User_RegisterUser",
 				"produces": [
 					"application/json"
 				],
@@ -441,7 +441,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IUserVm"
+							"$ref": "#/definitions/UserVm"
 						}
 					}
 				},
@@ -463,7 +463,7 @@
 		},
 		"/users/{username}": {
 			"get": {
-				"operationId": "GetUserByUsername",
+				"operationId": "User_GetUserByUsername",
 				"produces": [
 					"application/json"
 				],
@@ -471,7 +471,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IUserVm"
+							"$ref": "#/definitions/UserVm"
 						}
 					}
 				},
@@ -491,7 +491,7 @@
 		},
 		"/users/login": {
 			"post": {
-				"operationId": "Login",
+				"operationId": "User_Login",
 				"produces": [
 					"application/json"
 				],
@@ -499,7 +499,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ILoginVm"
+							"$ref": "#/definitions/LoginVm"
 						}
 					}
 				},
@@ -521,7 +521,7 @@
 		},
 		"/users": {
 			"get": {
-				"operationId": "GetAllUsers",
+				"operationId": "User_GetAllUsers",
 				"produces": [
 					"application/json"
 				],
@@ -531,7 +531,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IUserVm"
+								"$ref": "#/definitions/UserVm"
 							}
 						}
 					}
@@ -545,7 +545,7 @@
 		},
 		"/users/{id}": {
 			"delete": {
-				"operationId": "DeleteUserById",
+				"operationId": "User_DeleteUserById",
 				"produces": [
 					"application/json"
 				],
@@ -553,7 +553,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IUserVm"
+							"$ref": "#/definitions/UserVm"
 						}
 					}
 				},
@@ -571,7 +571,7 @@
 				]
 			},
 			"put": {
-				"operationId": "UdpateUserById",
+				"operationId": "User_UdpateUserById",
 				"produces": [
 					"application/json"
 				],
@@ -579,7 +579,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IUserVm"
+							"$ref": "#/definitions/UserVm"
 						}
 					}
 				},
@@ -607,7 +607,7 @@
 		},
 		"/entries/create": {
 			"post": {
-				"operationId": "RegisterEntry",
+				"operationId": "Entry_RegisterEntry",
 				"produces": [
 					"application/json"
 				],
@@ -615,7 +615,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IEntryVm"
+							"$ref": "#/definitions/EntryVm"
 						}
 					}
 				},
@@ -637,7 +637,7 @@
 		},
 		"/entries/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Entry_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -647,7 +647,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IEntryVm"
+								"$ref": "#/definitions/EntryVm"
 							}
 						}
 					}
@@ -661,7 +661,7 @@
 		},
 		"/entries/{id}": {
 			"get": {
-				"operationId": "GetSingleEntry",
+				"operationId": "Entry_GetSingleEntry",
 				"produces": [
 					"application/json"
 				],
@@ -669,7 +669,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IEntryVm"
+							"$ref": "#/definitions/EntryVm"
 						}
 					}
 				},
@@ -687,7 +687,7 @@
 				]
 			},
 			"put": {
-				"operationId": "UpdateEntry",
+				"operationId": "Entry_UpdateEntry",
 				"produces": [
 					"application/json"
 				],
@@ -695,7 +695,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IEntryVm"
+							"$ref": "#/definitions/EntryVm"
 						}
 					}
 				},
@@ -721,7 +721,7 @@
 				]
 			},
 			"delete": {
-				"operationId": "DeleteEntry",
+				"operationId": "Entry_DeleteEntry",
 				"produces": [
 					"application/json"
 				],
@@ -729,7 +729,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IEntryVm"
+							"$ref": "#/definitions/EntryVm"
 						}
 					}
 				},
@@ -749,7 +749,7 @@
 		},
 		"/farms/create": {
 			"post": {
-				"operationId": "RegisterFarm",
+				"operationId": "Farm_RegisterFarm",
 				"produces": [
 					"application/json"
 				],
@@ -757,7 +757,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IFarmVm"
+							"$ref": "#/definitions/FarmVm"
 						}
 					}
 				},
@@ -779,7 +779,7 @@
 		},
 		"/farms/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Farm_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -789,7 +789,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IFarmVm"
+								"$ref": "#/definitions/FarmVm"
 							}
 						}
 					}
@@ -803,7 +803,7 @@
 		},
 		"/farms/{id}": {
 			"delete": {
-				"operationId": "DeleteById",
+				"operationId": "Farm_DeleteById",
 				"produces": [
 					"application/json"
 				],
@@ -813,7 +813,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IFarmVm"
+								"$ref": "#/definitions/FarmVm"
 							}
 						}
 					}
@@ -836,7 +836,7 @@
 				]
 			},
 			"put": {
-				"operationId": "UpdateById",
+				"operationId": "Farm_UpdateById",
 				"produces": [
 					"application/json"
 				],
@@ -844,7 +844,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IFarmVm"
+							"$ref": "#/definitions/FarmVm"
 						}
 					}
 				},
@@ -872,7 +872,7 @@
 		},
 		"/crops/create": {
 			"post": {
-				"operationId": "RegisterCrop",
+				"operationId": "Crop_RegisterCrop",
 				"produces": [
 					"application/json"
 				],
@@ -880,7 +880,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ICropVm"
+							"$ref": "#/definitions/CropVm"
 						}
 					}
 				},
@@ -902,7 +902,7 @@
 		},
 		"/crops/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Crop_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -912,7 +912,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/ICropVm"
+								"$ref": "#/definitions/CropVm"
 							}
 						}
 					}
@@ -926,7 +926,7 @@
 		},
 		"/crops/{id}": {
 			"get": {
-				"operationId": "GetSingleCrop",
+				"operationId": "Crop_GetSingleCrop",
 				"produces": [
 					"application/json"
 				],
@@ -934,7 +934,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ICropVm"
+							"$ref": "#/definitions/CropVm"
 						}
 					}
 				},
@@ -952,7 +952,7 @@
 				]
 			},
 			"put": {
-				"operationId": "UpdateCrop",
+				"operationId": "Crop_UpdateCrop",
 				"produces": [
 					"application/json"
 				],
@@ -960,7 +960,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ICropVm"
+							"$ref": "#/definitions/CropVm"
 						}
 					}
 				},
@@ -986,7 +986,7 @@
 				]
 			},
 			"delete": {
-				"operationId": "DeleteCrop",
+				"operationId": "Crop_DeleteCrop",
 				"produces": [
 					"application/json"
 				],
@@ -994,7 +994,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ICropVm"
+							"$ref": "#/definitions/CropVm"
 						}
 					}
 				},
@@ -1018,7 +1018,7 @@
 		},
 		"/harvesters/create": {
 			"post": {
-				"operationId": "RegisterHarvester",
+				"operationId": "Harvester_RegisterHarvester",
 				"produces": [
 					"application/json"
 				],
@@ -1026,7 +1026,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvesterVm"
+							"$ref": "#/definitions/HarvesterVm"
 						}
 					}
 				},
@@ -1048,7 +1048,7 @@
 		},
 		"/harvesters/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Harvester_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -1058,7 +1058,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IHarvesterVm"
+								"$ref": "#/definitions/HarvesterVm"
 							}
 						}
 					}
@@ -1072,7 +1072,7 @@
 		},
 		"/harvesters/{id}": {
 			"delete": {
-				"operationId": "DeleteHarvesterById",
+				"operationId": "Harvester_DeleteHarvesterById",
 				"produces": [
 					"application/json"
 				],
@@ -1080,7 +1080,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvesterVm"
+							"$ref": "#/definitions/HarvesterVm"
 						}
 					}
 				},
@@ -1100,7 +1100,7 @@
 		},
 		"/organization/create": {
 			"post": {
-				"operationId": "RegisterOrganization",
+				"operationId": "Organization_RegisterOrganization",
 				"produces": [
 					"application/json"
 				],
@@ -1108,7 +1108,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IOrganizationVm"
+							"$ref": "#/definitions/OrganizationVm"
 						}
 					}
 				},
@@ -1130,7 +1130,7 @@
 		},
 		"/organization/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Organization_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -1140,7 +1140,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IOrganizationVm"
+								"$ref": "#/definitions/OrganizationVm"
 							}
 						}
 					}
@@ -1154,7 +1154,7 @@
 		},
 		"/organization/{id}": {
 			"put": {
-				"operationId": "UpdateOrganization",
+				"operationId": "Organization_UpdateOrganization",
 				"produces": [
 					"application/json"
 				],
@@ -1162,7 +1162,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IOrganizationVm"
+							"$ref": "#/definitions/OrganizationVm"
 						}
 					}
 				},
@@ -1188,7 +1188,7 @@
 				]
 			},
 			"delete": {
-				"operationId": "DeleteOrganization",
+				"operationId": "Organization_DeleteOrganization",
 				"produces": [
 					"application/json"
 				],
@@ -1196,7 +1196,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IOrganizationVm"
+							"$ref": "#/definitions/OrganizationVm"
 						}
 					}
 				},
@@ -1216,7 +1216,7 @@
 		},
 		"/harvests/create": {
 			"post": {
-				"operationId": "RegisterHarvest",
+				"operationId": "Harvest_RegisterHarvest",
 				"produces": [
 					"application/json"
 				],
@@ -1224,7 +1224,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvestVm"
+							"$ref": "#/definitions/HarvestVm"
 						}
 					}
 				},
@@ -1246,7 +1246,7 @@
 		},
 		"/harvests/getAll": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "Harvest_GetAll",
 				"produces": [
 					"application/json"
 				],
@@ -1256,7 +1256,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IHarvestVm"
+								"$ref": "#/definitions/HarvestVm"
 							}
 						}
 					}
@@ -1270,7 +1270,7 @@
 		},
 		"/harvests/{id}": {
 			"get": {
-				"operationId": "GetHarvestById",
+				"operationId": "Harvest_GetHarvestById",
 				"produces": [
 					"application/json"
 				],
@@ -1278,7 +1278,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IHarvestVm"
+							"$ref": "#/definitions/HarvestVm"
 						}
 					}
 				},
@@ -1298,7 +1298,7 @@
 		},
 		"/reports/percentage": {
 			"get": {
-				"operationId": "GetSalesPercentage",
+				"operationId": "Reporting_GetSalesPercentage",
 				"produces": [
 					"application/json"
 				],
@@ -1306,7 +1306,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IPercentageReportResponse"
+							"$ref": "#/definitions/PercentageReportResponse"
 						}
 					}
 				},
@@ -1326,7 +1326,7 @@
 		},
 		"/reports/total": {
 			"get": {
-				"operationId": "GetTotalWeightOrValue",
+				"operationId": "Reporting_GetTotalWeightOrValue",
 				"produces": [
 					"application/json"
 				],
@@ -1354,7 +1354,7 @@
 		},
 		"/system/importCrops": {
 			"get": {
-				"operationId": "ImportCrops",
+				"operationId": "System_ImportCrops",
 				"produces": [
 					"application/json"
 				],
@@ -1364,7 +1364,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/ICropVm"
+								"$ref": "#/definitions/CropVm"
 							}
 						}
 					}

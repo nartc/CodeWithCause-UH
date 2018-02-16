@@ -28,7 +28,7 @@ export interface IFarm extends IBaseModel {
     lng: number;
 }
 
-export interface IFarmVm extends IBaseModelVm {
+export interface FarmVm extends IBaseModelVm {
     name: string;
     lat: number;
     lng: number;

@@ -29,7 +29,7 @@ export interface ICrop extends IBaseModel {
     pricePerPound: number;
 }
 
-export interface ICropVm extends IBaseModelVm {
+export class CropVm extends IBaseModelVm {
     name: string;
     variety: string[];
     pricePerPound: number;

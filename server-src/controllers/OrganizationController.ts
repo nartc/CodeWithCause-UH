@@ -2,7 +2,7 @@ import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
-import {IOrganization, IOrganizationVm, Organization, OrganizationType} from '../models/Organization';
+import {IOrganization, OrganizationVm, Organization, OrganizationType} from '../models/Organization';
 import {INewOrganizationParams} from '../models/requests/index.requests';
 import {BaseController} from './BaseController';
 
@@ -13,11 +13,11 @@ export class OrganizationController extends BaseController {
     /**
      *
      * @param {INewOrganizationParams} newOrganizationParams
-     * @returns {Promise<IOrganizationVm>}
+     * @returns {Promise<OrganizationVm>}
      */
     @Post('create')
     @Tags('Organization')
-    public async registerOrganization(@Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
+    public async registerOrganization(@Body() newOrganizationParams: INewOrganizationParams): Promise<OrganizationVm> {
         const name: string = newOrganizationParams.name;
         const orgType: OrganizationType = newOrganizationParams.orgType ? newOrganizationParams.orgType : null;
 
@@ -33,32 +33,32 @@ export class OrganizationController extends BaseController {
         newOrganization.name = name;
         newOrganization.orgType = orgType;
 
-        return await <IOrganizationVm>this._organizationRepository.create(newOrganization);
+        return await <OrganizationVm>this._organizationRepository.create(newOrganization);
     }
 
     @Get('getAll')
     @Tags('Organization')
-    public async getAll(): Promise<IOrganizationVm[]> {
-        const result: IOrganizationVm[] = await this._organizationRepository.getAll();
+    public async getAll(): Promise<OrganizationVm[]> {
+        const result: OrganizationVm[] = await this._organizationRepository.getAll();
         return result;
     }
 
     @Put('{id}')
     @Tags('Organization')
-    public async updateOrganization(@Path() id: string, @Body() newOrganizationParams: INewOrganizationParams): Promise<IOrganizationVm> {
+    public async updateOrganization(@Path() id: string, @Body() newOrganizationParams: INewOrganizationParams): Promise<OrganizationVm> {
         const updateOrganization: IOrganization = new Organization();
         updateOrganization._id = id;
         updateOrganization.orgType = newOrganizationParams.orgType;
         updateOrganization.name = newOrganizationParams.name;
 
-        const result: IOrganizationVm = await this._organizationRepository.update(id, updateOrganization);
+        const result: OrganizationVm = await this._organizationRepository.update(id, updateOrganization);
         return result;
     }
 
     @Delete('{id}')
     @Tags('Organization')
-    public async deleteOrganization(@Path() id: string): Promise<IOrganizationVm> {
-        const result: IOrganizationVm = await this._organizationRepository.delete(id);
+    public async deleteOrganization(@Path() id: string): Promise<OrganizationVm> {
+        const result: OrganizationVm = await this._organizationRepository.delete(id);
         return result;
     }
 }

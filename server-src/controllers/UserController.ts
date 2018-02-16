@@ -4,10 +4,10 @@ import * as config from 'config'
 import {MongoError} from 'mongodb';
 import {IUserRepository} from '../repositories/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
-import {IUser, IUserVm, User, UserRole} from '../models/User';
+import {IUser, UserVm, User, UserRole} from '../models/User';
 import {INewUserParams} from '../models/requests/index.requests';
 import {compare, genSalt, hash} from 'bcryptjs';
-import {ILoginVm} from '../models/Login';
+import {LoginVm} from '../models/Login';
 import {ILoginParams} from '../models/requests/ILoginParams';
 import * as moment from 'moment';
 import {BaseController} from './BaseController';
@@ -19,11 +19,11 @@ export class UserController extends BaseController {
     /**
      *
      * @param {INewUserParams} newUserParams
-     * @returns {Promise<IUserVm>}
+     * @returns {Promise<UserVm>}
      */
     @Post('create')
     @Tags('System')
-    public async registerUser(@Body() newUserParams: INewUserParams): Promise<IUserVm> {
+    public async registerUser(@Body() newUserParams: INewUserParams): Promise<UserVm> {
         const username: string = newUserParams.username;
         const password: string = newUserParams.password;
         const role: UserRole = newUserParams.role;
@@ -41,33 +41,33 @@ export class UserController extends BaseController {
         const salt = await genSalt(10);
         newUser.password = await hash(password, salt);
 
-        return await <IUserVm>this._userRepository.create(newUser);
+        return await <UserVm>this._userRepository.create(newUser);
     }
 
     /**
      *
      * @param {string} username
-     * @returns {Promise<IUserVm>}
+     * @returns {Promise<UserVm>}
      */
     @Get('{username}')
     @Tags('System')
-    public async getUserByUsername(@Path() username: string): Promise<IUserVm> {
+    public async getUserByUsername(@Path() username: string): Promise<UserVm> {
         const result: IUser = await this._userRepository.getUserByUsername(username);
 
         if (result instanceof MongoError) throw UserController.resolveErrorResponse(result, result.message);
         if (!result) throw UserController.resolveErrorResponse(null, 'Username does not exist');
 
-        return <IUserVm>result;
+        return <UserVm>result;
     }
 
     /**
      *
      * @param {ILoginParams} loginParams
-     * @returns {Promise<ILoginVm>}
+     * @returns {Promise<LoginVm>}
      */
     @Post('login')
     @Tags('System')
-    public async login(@Body() loginParams: ILoginParams): Promise<ILoginVm> {
+    public async login(@Body() loginParams: ILoginParams): Promise<LoginVm> {
 
         const username: string = loginParams.username;
         const password: string = loginParams.password;
@@ -103,19 +103,19 @@ export class UserController extends BaseController {
 
     @Get('')
     @Tags('System')
-    public async getAllUsers(): Promise<IUserVm[]> {
-        return await <IUserVm[]>this._userRepository.getAll();
+    public async getAllUsers(): Promise<UserVm[]> {
+        return await <UserVm[]>this._userRepository.getAll();
     }
 
     @Delete('{id}')
     @Tags('System')
-    public async deleteUserById(@Path() id: string): Promise<IUserVm> {
-        return await <IUserVm>this._userRepository.delete(id);
+    public async deleteUserById(@Path() id: string): Promise<UserVm> {
+        return await <UserVm>this._userRepository.delete(id);
     }
 
     @Put('{id}')
     @Tags('System')
-    public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<IUserVm> {
+    public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<UserVm> {
         const existedUser: IUser = await this._userRepository.getResourceById(id);
 
         if (!existedUser || existedUser === null) {
@@ -130,6 +130,6 @@ export class UserController extends BaseController {
         updatedUser.password = updateUserParams.password;
         updatedUser.role = updateUserParams.role;
 
-        return await <IUserVm>this._userRepository.update(id, updatedUser);
+        return await <UserVm>this._userRepository.update(id, updatedUser);
     }
 }
