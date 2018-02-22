@@ -1,9 +1,9 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
-import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
+import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {IOrganization, OrganizationVm, Organization, OrganizationType} from '../models/Organization';
-import {INewOrganizationParams} from '../models/requests/index.requests';
+import {NewOrganizationParams} from '../models/requests/index.requests';
 import {BaseController} from './BaseController';
 
 @Route('organization')
@@ -12,12 +12,12 @@ export class OrganizationController extends BaseController {
 
     /**
      *
-     * @param {INewOrganizationParams} newOrganizationParams
+     * @param {NewOrganizationParams} newOrganizationParams
      * @returns {Promise<OrganizationVm>}
      */
     @Post('create')
     @Tags('Organization')
-    public async registerOrganization(@Body() newOrganizationParams: INewOrganizationParams): Promise<OrganizationVm> {
+    public async registerOrganization(@Body() newOrganizationParams: NewOrganizationParams): Promise<OrganizationVm> {
         const name: string = newOrganizationParams.name;
         const orgType: OrganizationType = newOrganizationParams.orgType ? newOrganizationParams.orgType : null;
 
@@ -45,7 +45,7 @@ export class OrganizationController extends BaseController {
 
     @Put('{id}')
     @Tags('Organization')
-    public async updateOrganization(@Path() id: string, @Body() newOrganizationParams: INewOrganizationParams): Promise<OrganizationVm> {
+    public async updateOrganization(@Path() id: string, @Body() newOrganizationParams: NewOrganizationParams): Promise<OrganizationVm> {
         const updateOrganization: IOrganization = new Organization();
         updateOrganization._id = id;
         updateOrganization.orgType = newOrganizationParams.orgType;

@@ -1,9 +1,9 @@
-import {IHarvestParams} from './IHarvestParams';
+import {HarvestParams} from './HarvestParams';
 
-export {INewUserParams} from './INewUserParams';
-export {INewEntryParams} from './INewEntryParams';
-export {INewCropParams} from './INewCropParams';
-export {INewFarmParams} from './INewFarmParams';
-export{INewOrganizationParams} from './INewOrganizationParams';
-export{INewHarvesterParams} from './INewHarvesterParams';
-export{IHarvestParams} from './IHarvestParams';
+export {NewUserParams} from './NewUserParams';
+export {NewEntryParams} from './NewEntryParams';
+export {NewCropParams} from './NewCropParams';
+export {NewFarmParams} from './NewFarmParams';
+export{NewOrganizationParams} from './NewOrganizationParams';
+export{NewHarvesterParams} from './NewHarvesterParams';
+export{HarvestParams} from './HarvestParams';

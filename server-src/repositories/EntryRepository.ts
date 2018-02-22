@@ -1,8 +1,8 @@
 import {EntryModel, IEntry} from '../models/Entry';
 import {BaseRepository} from './BaseRepository';
-import {IEntryRepository} from './IEntryRepository';
+import {IEntryRepository} from './interfaces/IEntryRepository';
 
-export class EntryRepository extends BaseRepository<IEntry> implements IEntryRepository{
+export class EntryRepository extends BaseRepository<IEntry> implements IEntryRepository {
     private _entryModel: EntryModel;
 
     constructor(entryModel: EntryModel) {

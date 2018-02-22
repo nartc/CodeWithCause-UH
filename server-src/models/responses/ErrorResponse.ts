@@ -1,10 +1,10 @@
 export interface ErrorResponse {
     thrown?: boolean,
-    error?: IMongoError;
+    error?: MongoError;
     message?: string;
 }
 
-interface IMongoError {
+interface MongoError {
     code?: number;
     message?: string;
     name?: string;

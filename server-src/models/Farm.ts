@@ -1,6 +1,5 @@
-import {Document, model, Model, Schema} from 'mongoose';
+import {model, Model, Schema} from 'mongoose';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
-// import {Farm} from '';
 
 export const FarmSchema = new Schema({
     name: {
@@ -33,12 +32,6 @@ export interface FarmVm extends IBaseModelVm {
     lat: number;
     lng: number;
 }
-
-
-// export enum FarmRole {
-//     Admin = 'Admin' as any,
-//     Farm = 'Farm' as any
-// }
 
 export type FarmModel = Model<IFarm>;
 export const Farm: FarmModel = model<IFarm>('Farm', FarmSchema) as FarmModel;

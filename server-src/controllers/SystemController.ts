@@ -1,11 +1,11 @@
 import {Get, Request, Route, Security, Tags} from 'tsoa';
-import {ICropRepository} from '../repositories/ICropRepository';
+import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, ICrop, CropVm} from '../models/Crop';
-import {IFarmRepository} from '../repositories/IFarmRepository';
+import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm} from '../models/Farm';
-import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
+import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {Organization} from '../models/Organization';
 import {Connection} from 'mongoose';

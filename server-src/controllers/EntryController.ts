@@ -1,21 +1,21 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
-import {IEntryRepository} from '../repositories/IEntryRepository';
+import {IEntryRepository} from '../repositories/interfaces/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
-import {Entry, IEntry, EntryVm} from '../models/Entry';
-import {INewEntryParams} from '../models/requests/index.requests';
+import {Entry, EntryVm, IEntry} from '../models/Entry';
+import {NewEntryParams} from '../models/requests/index.requests';
 import * as moment from 'moment';
 import {Farm} from '../models/Farm';
-import {IFarmRepository} from '../repositories/IFarmRepository';
+import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
-import {IOrganizationRepository} from '../repositories/IOrganizationRepository';
+import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {IOrganization, Organization} from '../models/Organization';
 import {BaseController} from './BaseController';
 import {Crop, ICrop} from '../models/Crop';
-import {ICropRepository} from '../repositories/ICropRepository';
+import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Harvester, IHarvester} from '../models/Harvester';
-import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
+import {IHarvesterRepository} from '../repositories/interfaces/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
 
 @Route('entries')
@@ -28,12 +28,12 @@ export class EntryController extends BaseController {
 
     /**
      *
-     * @param {INewEntryParams} newEntryParams
+     * @param {NewEntryParams} newEntryParams
      * @returns {Promise<EntryVm>}
      */
     @Post('create')
     @Tags('Entry')
-    public async registerEntry(@Body() newEntryParams: INewEntryParams): Promise<EntryVm> {
+    public async registerEntry(@Body() newEntryParams: NewEntryParams): Promise<EntryVm> {
         if (!newEntryParams.cropId || !newEntryParams.harvesterId || !newEntryParams.recipientId) {
             throw EntryController.resolveErrorResponse(null, 'CropID, HarvesterID and RecipientID are REQUIRED');
         }
@@ -82,7 +82,7 @@ export class EntryController extends BaseController {
      */
     @Put('{id}')
     @Tags('Entry')
-    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: INewEntryParams): Promise<EntryVm> {
+    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: NewEntryParams): Promise<EntryVm> {
         const existedEntry: IEntry = await this._entryRepository.getResourceById(id);
 
         const updatedEntry: IEntry = new Entry();
@@ -112,7 +112,7 @@ export class EntryController extends BaseController {
 
     // @Get('weight')
     // @Tags('Entry')
-    // public async getTotalWeight(@Query() totalWeightQuery: ITotalWeightQuery): Promise<TotalWeightReport[]> {
+    // public async getTotalWeight(@Query() totalWeightQuery: TotalWeightQuery): Promise<TotalWeightReport[]> {
     //     const farmName: string = totalWeightQuery.farmName ? totalWeightQuery.farmName : null;
     //     const recipientName: string = totalWeightQuery.recipient ? totalWeightQuery.recipient : null;
     //
@@ -121,7 +121,7 @@ export class EntryController extends BaseController {
     //
     //     const queried: EntryVm[] = await <EntryVm[]>this._entryRepository.findByQuery(farm._id, recipient._id);
     //
-    //     const result: ITotalWeightQuery[] = [];
+    //     const result: TotalWeightQuery[] = [];
     //     queried.forEach(query => {
     //        result.push({
     //            farm: query.farm,

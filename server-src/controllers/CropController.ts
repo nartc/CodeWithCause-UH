@@ -1,8 +1,8 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
-import {ICropRepository} from '../repositories/ICropRepository';
+import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, ICrop, CropVm} from '../models/Crop';
-import {INewCropParams} from '../models/requests/index.requests';
+import {NewCropParams} from '../models/requests/NewCropParams';
 import {BaseController} from './BaseController';
 import moment = require('moment');
 
@@ -12,12 +12,12 @@ export class CropController extends BaseController {
 
     /**
      *
-     * @param {INewCropParams} newCropParams
+     * @param {NewCropParams} newCropParams
      * @returns {Promise<CropVm>}
      */
     @Post('create')
     @Tags('Crop')
-    public async registerCrop(@Body() newCropParams: INewCropParams): Promise<CropVm> {
+    public async registerCrop(@Body() newCropParams: NewCropParams): Promise<CropVm> {
 
         const newCrop: ICrop = new Crop();
         newCrop.name = newCropParams.name;
@@ -47,7 +47,7 @@ export class CropController extends BaseController {
 
     @Put('{id}')
     @Tags('Crop')
-    public async updateCrop(@Path() id: string, @Body() updateCropParams: INewCropParams): Promise<CropVm> {
+    public async updateCrop(@Path() id: string, @Body() updateCropParams: NewCropParams): Promise<CropVm> {
         const existedCrop: ICrop = await this._cropRepository.getResourceById(id);
 
         const updatedCrop: ICrop = new Crop();

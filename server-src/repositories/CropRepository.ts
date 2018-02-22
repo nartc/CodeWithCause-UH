@@ -1,4 +1,4 @@
-import {ICropRepository} from './ICropRepository';
+import {ICropRepository} from './interfaces/ICropRepository';
 import {CropModel, ICrop} from '../models/Crop';
 import {BaseRepository} from './BaseRepository';
 

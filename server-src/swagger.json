@@ -36,7 +36,7 @@
 			},
 			"type": "object"
 		},
-		"INewUserParams": {
+		"NewUserParams": {
 			"properties": {
 				"username": {
 					"type": "string"
@@ -75,7 +75,7 @@
 			],
 			"type": "object"
 		},
-		"ILoginParams": {
+		"LoginParams": {
 			"properties": {
 				"username": {
 					"type": "string"
@@ -228,7 +228,7 @@
 			],
 			"type": "object"
 		},
-		"INewEntryParams": {
+		"NewEntryParams": {
 			"properties": {
 				"pounds": {
 					"type": "number",
@@ -287,7 +287,7 @@
 			],
 			"type": "object"
 		},
-		"INewFarmParams": {
+		"NewFarmParams": {
 			"properties": {
 				"name": {
 					"type": "string"
@@ -308,7 +308,7 @@
 			],
 			"type": "object"
 		},
-		"INewCropParams": {
+		"NewCropParams": {
 			"properties": {
 				"name": {
 					"type": "string"
@@ -331,7 +331,7 @@
 			],
 			"type": "object"
 		},
-		"INewHarvesterParams": {
+		"NewHarvesterParams": {
 			"properties": {
 				"lastName": {
 					"type": "string"
@@ -346,7 +346,7 @@
 			],
 			"type": "object"
 		},
-		"INewOrganizationParams": {
+		"NewOrganizationParams": {
 			"properties": {
 				"name": {
 					"type": "string"
@@ -389,7 +389,7 @@
 			],
 			"type": "object"
 		},
-		"IHarvestParams": {
+		"HarvestParams": {
 			"properties": {
 				"farmId": {
 					"type": "string"
@@ -486,7 +486,7 @@
 						"name": "newUserParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewUserParams"
+							"$ref": "#/definitions/NewUserParams"
 						}
 					}
 				]
@@ -544,7 +544,7 @@
 						"name": "loginParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/ILoginParams"
+							"$ref": "#/definitions/LoginParams"
 						}
 					}
 				]
@@ -630,7 +630,7 @@
 						"name": "updateUserParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewUserParams"
+							"$ref": "#/definitions/NewUserParams"
 						}
 					}
 				]
@@ -660,7 +660,7 @@
 						"name": "newEntryParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewEntryParams"
+							"$ref": "#/definitions/NewEntryParams"
 						}
 					}
 				]
@@ -746,7 +746,7 @@
 						"name": "updatedEntryParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewEntryParams"
+							"$ref": "#/definitions/NewEntryParams"
 						}
 					}
 				]
@@ -802,7 +802,7 @@
 						"name": "newFarmParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewFarmParams"
+							"$ref": "#/definitions/NewFarmParams"
 						}
 					}
 				]
@@ -895,7 +895,7 @@
 						"name": "newFarmParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewFarmParams"
+							"$ref": "#/definitions/NewFarmParams"
 						}
 					}
 				]
@@ -925,7 +925,7 @@
 						"name": "newCropParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewCropParams"
+							"$ref": "#/definitions/NewCropParams"
 						}
 					}
 				]
@@ -1011,7 +1011,7 @@
 						"name": "updateCropParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewCropParams"
+							"$ref": "#/definitions/NewCropParams"
 						}
 					}
 				]
@@ -1071,7 +1071,7 @@
 						"name": "newHarvesterParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewHarvesterParams"
+							"$ref": "#/definitions/NewHarvesterParams"
 						}
 					}
 				]
@@ -1153,7 +1153,7 @@
 						"name": "newOrganizationParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewOrganizationParams"
+							"$ref": "#/definitions/NewOrganizationParams"
 						}
 					}
 				]
@@ -1213,7 +1213,7 @@
 						"name": "newOrganizationParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/INewOrganizationParams"
+							"$ref": "#/definitions/NewOrganizationParams"
 						}
 					}
 				]
@@ -1269,7 +1269,7 @@
 						"name": "harvestParams",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IHarvestParams"
+							"$ref": "#/definitions/HarvestParams"
 						}
 					}
 				]

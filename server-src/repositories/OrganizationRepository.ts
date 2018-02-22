@@ -1,4 +1,4 @@
-import {IOrganizationRepository} from './IOrganizationRepository';
+import {IOrganizationRepository} from './interfaces/IOrganizationRepository';
 import {IOrganization, OrganizationModel} from '../models/Organization';
 import {BaseRepository} from './BaseRepository';
 

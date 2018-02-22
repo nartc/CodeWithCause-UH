@@ -1,8 +1,8 @@
 import {Body, Delete, Get, Path, Post, Route, Tags} from 'tsoa';
-import {IHarvesterRepository} from '../repositories/IHarvesterRepository';
+import {IHarvesterRepository} from '../repositories/interfaces/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
 import {Harvester, IHarvester, HarvesterVm} from '../models/Harvester';
-import {INewHarvesterParams} from '../models/requests/index.requests';
+import {NewHarvesterParams} from '../models/requests/index.requests';
 import {BaseController} from './BaseController';
 
 @Route('harvesters')
@@ -11,12 +11,12 @@ export class HarvesterController extends BaseController {
 
     /**
      *
-     * @param {INewHarvesterParams} newHarvesterParams
+     * @param {NewHarvesterParams} newHarvesterParams
      * @returns {Promise<HarvesterVm>}
      */
     @Post('create')
     @Tags('Harvester')
-    public async registerHarvester(@Body() newHarvesterParams: INewHarvesterParams): Promise<HarvesterVm> {
+    public async registerHarvester(@Body() newHarvesterParams: NewHarvesterParams): Promise<HarvesterVm> {
 
         const newHarvester: IHarvester = new Harvester();
         newHarvester.firstName = newHarvesterParams.firstName;

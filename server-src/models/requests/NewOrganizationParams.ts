@@ -1,6 +1,6 @@
 import {OrganizationType} from '../Organization';
 
-export interface INewOrganizationParams {
+export interface NewOrganizationParams {
     name: string;
     orgType?: OrganizationType;
 }

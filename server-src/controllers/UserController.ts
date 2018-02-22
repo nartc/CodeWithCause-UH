@@ -2,13 +2,13 @@ import {Body, Delete, FormFile, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {sign} from 'jsonwebtoken'
 import * as config from 'config'
 import {MongoError} from 'mongodb';
-import {IUserRepository} from '../repositories/IUserRepository';
+import {IUserRepository} from '../repositories/interfaces/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
 import {IUser, User, UserRole, UserVm} from '../models/User';
-import {INewUserParams} from '../models/requests/index.requests';
+import {NewUserParams} from '../models/requests/NewUserParams';
 import {compare, genSalt, hash} from 'bcryptjs';
 import {LoginVm} from '../models/Login';
-import {ILoginParams} from '../models/requests/ILoginParams';
+import {LoginParams} from '../models/requests/LoginParams';
 import * as moment from 'moment';
 import {BaseController} from './BaseController';
 import {FileParameter} from '../models/requests/FileParameter';
@@ -26,12 +26,12 @@ export class UserController extends BaseController {
 
     /**
      *
-     * @param {INewUserParams} newUserParams
+     * @param {NewUserParams} newUserParams
      * @returns {Promise<UserVm>}
      */
     @Post('create')
     @Tags('System')
-    public async registerUser(@Body() newUserParams: INewUserParams): Promise<UserVm> {
+    public async registerUser(@Body() newUserParams: NewUserParams): Promise<UserVm> {
         const username: string = newUserParams.username;
         const password: string = newUserParams.password;
         const role: UserRole = newUserParams.role;
@@ -44,7 +44,7 @@ export class UserController extends BaseController {
 
         const newUser: IUser = new User();
         newUser.username = username;
-        newUser.role = role;
+        newUser.role = role
 
         const salt = await genSalt(10);
         newUser.password = await hash(password, salt);
@@ -70,12 +70,12 @@ export class UserController extends BaseController {
 
     /**
      *
-     * @param {ILoginParams} loginParams
+     * @param {LoginParams} loginParams
      * @returns {Promise<LoginVm>}
      */
     @Post('login')
     @Tags('System')
-    public async login(@Body() loginParams: ILoginParams): Promise<LoginVm> {
+    public async login(@Body() loginParams: LoginParams): Promise<LoginVm> {
 
         const username: string = loginParams.username;
         const password: string = loginParams.password;
@@ -92,7 +92,6 @@ export class UserController extends BaseController {
         const payload = {user: fetchedUser};
         const secret = process.env.JWT_SECRET || config.get('auth.jwt-secret');
         const token: string = sign(payload, secret, {expiresIn: '12h'});
-        if (!token) throw UserController.resolveErrorResponse(null, 'Error signing payload');
 
         try {
             const result = await fetchedUser.save();
@@ -123,7 +122,7 @@ export class UserController extends BaseController {
 
     @Put('{id}')
     @Tags('System')
-    public async udpateUserById(@Path() id: string, @Body() updateUserParams: INewUserParams): Promise<UserVm> {
+    public async udpateUserById(@Path() id: string, @Body() updateUserParams: NewUserParams): Promise<UserVm> {
         const existedUser: IUser = await this._userRepository.getResourceById(id);
 
         if (!existedUser || existedUser === null) {

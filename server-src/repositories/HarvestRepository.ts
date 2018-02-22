@@ -1,4 +1,4 @@
-import {IHarvestRepository} from './IHarvestRepository';
+import {IHarvestRepository} from './interfaces/IHarvestRepository';
 import {HarvestModel, IHarvest} from '../models/Harvest';
 import {BaseRepository} from './BaseRepository';
 

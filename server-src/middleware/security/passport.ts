@@ -1,8 +1,7 @@
-import * as _passport from 'passport';
-import {PassportStatic} from 'passport';
+import {authenticate, PassportStatic} from 'passport';
 import {UserRepository} from '../../repositories/UserRepository';
 import {IUser, User} from '../../models/User';
-import {IUserRepository} from '../../repositories/IUserRepository';
+import {IUserRepository} from '../../repositories/interfaces/IUserRepository';
 import {ExtractJwt, Strategy, StrategyOptions, VerifiedCallback} from 'passport-jwt';
 import {get} from 'config';
 import {MongoError} from 'mongodb';
@@ -28,7 +27,7 @@ export const authenticateUser = (passport: PassportStatic) => {
 };
 
 export function expressAuthentication(strategy: string) {
-    return _passport.authenticate(strategy.toLowerCase(), {session: false});
+    return authenticate(strategy.toLowerCase(), {session: false});
 }
 
 interface IJwtPayload {

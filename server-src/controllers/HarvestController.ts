@@ -1,16 +1,16 @@
-import {Body, Get, Path, Post, Query, Route, Tags} from 'tsoa';
-import {IHarvestRepository} from '../repositories/IHarvestRepository';
+import {Body, Get, Path, Post, Route, Tags} from 'tsoa';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
-import {Harvest, IHarvest, HarvestVm} from '../models/Harvest';
-import {IHarvestParams} from '../models/requests/index.requests';
+import {Harvest, HarvestVm, IHarvest} from '../models/Harvest';
+import {HarvestParams} from '../models/requests/HarvestParams';
 import {Entry} from '../models/Entry';
-import {IEntryRepository} from '../repositories/IEntryRepository';
+import {IEntryRepository} from '../repositories/interfaces/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {BaseController} from './BaseController';
+import {Farm, IFarm} from '../models/Farm';
+import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
+import {FarmRepository} from '../repositories/FarmRepository';
 import moment = require('moment');
-import { IFarm, Farm } from '../models/Farm';
-import { IFarmRepository } from '../repositories/IFarmRepository';
-import { FarmRepository } from '../repositories/FarmRepository';
 
 @Route('harvests')
 export class HarvestController extends BaseController {
@@ -19,12 +19,12 @@ export class HarvestController extends BaseController {
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
 
     /**
-     * 
-     * @param harvestParams 
+     *
+     * @param harvestParams
      */
     @Post('create')
     @Tags('Harvest')
-    public async registerHarvest(@Body() harvestParams: IHarvestParams): Promise<HarvestVm> {
+    public async registerHarvest(@Body() harvestParams: HarvestParams): Promise<HarvestVm> {
 
         if (!harvestParams.farmId) {
             throw HarvestController.resolveErrorResponse(null, 'FarmID is REQUIRED');

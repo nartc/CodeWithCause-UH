@@ -1,8 +1,7 @@
-import {Document, model, Model, Schema} from 'mongoose';
-import {Entry, EntryVm, EntrySchema, IEntry} from './Entry';
-import {FarmVm, FarmSchema, IFarm} from './Farm';
+import {model, Model, Schema} from 'mongoose';
+import {EntrySchema, EntryVm, IEntry} from './Entry';
+import {FarmSchema, FarmVm, IFarm} from './Farm';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
-// import {Harvest} from '';
 
 export const HarvestSchema = new Schema({
     farm: FarmSchema,

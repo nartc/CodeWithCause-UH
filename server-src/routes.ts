@@ -30,7 +30,7 @@ const models: TsoaRoute.Models = {
             "role": { "ref": "UserRole" },
         },
     },
-    "INewUserParams": {
+    "NewUserParams": {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
@@ -45,7 +45,7 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
-    "ILoginParams": {
+    "LoginParams": {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
@@ -96,7 +96,7 @@ const models: TsoaRoute.Models = {
             "selectedVariety": { "dataType": "string", "required": true },
         },
     },
-    "INewEntryParams": {
+    "NewEntryParams": {
         "properties": {
             "pounds": { "dataType": "double", "required": true },
             "cropId": { "dataType": "string" },
@@ -116,27 +116,27 @@ const models: TsoaRoute.Models = {
             "lng": { "dataType": "double", "required": true },
         },
     },
-    "INewFarmParams": {
+    "NewFarmParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "lat": { "dataType": "double", "required": true },
             "lng": { "dataType": "double", "required": true },
         },
     },
-    "INewCropParams": {
+    "NewCropParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
         },
     },
-    "INewHarvesterParams": {
+    "NewHarvesterParams": {
         "properties": {
             "lastName": { "dataType": "string", "required": true },
             "firstName": { "dataType": "string", "required": true },
         },
     },
-    "INewOrganizationParams": {
+    "NewOrganizationParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "orgType": { "ref": "OrganizationType" },
@@ -151,7 +151,7 @@ const models: TsoaRoute.Models = {
             "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
         },
     },
-    "IHarvestParams": {
+    "HarvestParams": {
         "properties": {
             "farmId": { "dataType": "string", "required": true },
             "entriesIds": { "dataType": "array", "array": { "dataType": "string" } },
@@ -191,7 +191,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/users/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newUserParams: { "in": "body", "name": "newUserParams", "required": true, "ref": "INewUserParams" },
+                newUserParams: { "in": "body", "name": "newUserParams", "required": true, "ref": "NewUserParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -229,7 +229,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/users/login',
         function(request: any, response: any, next: any) {
             const args = {
-                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "ILoginParams" },
+                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "LoginParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -286,7 +286,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updateUserParams: { "in": "body", "name": "updateUserParams", "required": true, "ref": "INewUserParams" },
+                updateUserParams: { "in": "body", "name": "updateUserParams", "required": true, "ref": "NewUserParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -305,7 +305,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/entries/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newEntryParams: { "in": "body", "name": "newEntryParams", "required": true, "ref": "INewEntryParams" },
+                newEntryParams: { "in": "body", "name": "newEntryParams", "required": true, "ref": "NewEntryParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -362,7 +362,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "INewEntryParams" },
+                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "NewEntryParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -400,7 +400,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/farms/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "NewFarmParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -458,7 +458,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "NewFarmParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -477,7 +477,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/crops/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newCropParams: { "in": "body", "name": "newCropParams", "required": true, "ref": "INewCropParams" },
+                newCropParams: { "in": "body", "name": "newCropParams", "required": true, "ref": "NewCropParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -534,7 +534,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updateCropParams: { "in": "body", "name": "updateCropParams", "required": true, "ref": "INewCropParams" },
+                updateCropParams: { "in": "body", "name": "updateCropParams", "required": true, "ref": "NewCropParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -573,7 +573,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/harvesters/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newHarvesterParams: { "in": "body", "name": "newHarvesterParams", "required": true, "ref": "INewHarvesterParams" },
+                newHarvesterParams: { "in": "body", "name": "newHarvesterParams", "required": true, "ref": "NewHarvesterParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -629,7 +629,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/organization/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "INewOrganizationParams" },
+                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "NewOrganizationParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -667,7 +667,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "INewOrganizationParams" },
+                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "NewOrganizationParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -705,7 +705,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/harvests/create',
         function(request: any, response: any, next: any) {
             const args = {
-                harvestParams: { "in": "body", "name": "harvestParams", "required": true, "ref": "IHarvestParams" },
+                harvestParams: { "in": "body", "name": "harvestParams", "required": true, "ref": "HarvestParams" },
             };
 
             let validatedArgs: any[] = [];

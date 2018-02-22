@@ -1,8 +1,8 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
-import {IFarmRepository} from '../repositories/IFarmRepository';
+import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm, IFarm, FarmVm} from '../models/Farm';
-import {INewFarmParams} from '../models/requests/index.requests';
+import {NewFarmParams} from '../models/requests/NewFarmParams';
 import {BaseController} from './BaseController';
 
 @Route('farms')
@@ -11,12 +11,12 @@ export class FarmController extends BaseController {
 
     /**
      *
-     * @param {INewFarmParams} newFarmParams
+     * @param {NewFarmParams} newFarmParams
      * @returns {Promise<FarmVm>}
      */
     @Post('create')
     @Tags('Farm')
-    public async registerFarm(@Body() newFarmParams: INewFarmParams): Promise<FarmVm> {
+    public async registerFarm(@Body() newFarmParams: NewFarmParams): Promise<FarmVm> {
 
         const newFarm: IFarm = new Farm();
         newFarm.name = newFarmParams.name;
@@ -57,7 +57,7 @@ export class FarmController extends BaseController {
      */
     @Put('{id}')
     @Tags('Farm')
-    public async updateById(@Path() id: string, @Body() newFarmParams: INewFarmParams): Promise<FarmVm> {
+    public async updateById(@Path() id: string, @Body() newFarmParams: NewFarmParams): Promise<FarmVm> {
         const updateFarm: IFarm = new Farm();
         updateFarm._id = id;
         updateFarm.name = newFarmParams.name;

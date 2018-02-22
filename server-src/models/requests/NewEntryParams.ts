@@ -1,4 +1,4 @@
-export interface INewEntryParams {
+export interface NewEntryParams {
     pounds: number;
     cropId?: string;
     harvesterId?: string;

@@ -1,5 +1,5 @@
-import {IFarmRepository} from './IFarmRepository';
-import {IFarm, FarmModel} from '../models/Farm';
+import {IFarmRepository} from './interfaces/IFarmRepository';
+import {FarmModel, IFarm} from '../models/Farm';
 import {BaseRepository} from './BaseRepository';
 
 export class FarmRepository extends BaseRepository<IFarm> implements IFarmRepository {

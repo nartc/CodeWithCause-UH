@@ -1,5 +1,5 @@
 import {MongoError} from 'mongodb';
-import {ErrorResponse} from '../models/responses/IErrorResponse';
+import {ErrorResponse} from '../models/responses/ErrorResponse';
 import {Controller} from 'tsoa';
 
 export class BaseController extends Controller {

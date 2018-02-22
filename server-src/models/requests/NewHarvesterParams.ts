@@ -1,4 +1,4 @@
-export interface INewHarvesterParams {
+export interface NewHarvesterParams {
     lastName: string;
     firstName: string;
 }
