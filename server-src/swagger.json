@@ -409,10 +409,17 @@
 			],
 			"type": "object"
 		},
+		"PercentageReportType": {
+			"enum": [
+				"Purchased",
+				"Donated"
+			],
+			"type": "string"
+		},
 		"PercentageReportResponse": {
 			"properties": {
 				"type": {
-					"type": "string"
+					"$ref": "#/definitions/PercentageReportType"
 				},
 				"createdOn": {
 					"type": "string",
@@ -1350,7 +1357,11 @@
 						"in": "query",
 						"name": "percentageType",
 						"required": true,
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Purchased",
+							"Donated"
+						]
 					}
 				]
 			}
@@ -1378,7 +1389,11 @@
 						"in": "query",
 						"name": "weightOrValue",
 						"required": true,
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Weight",
+							"Value"
+						]
 					}
 				]
 			}

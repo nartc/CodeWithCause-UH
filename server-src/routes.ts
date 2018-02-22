@@ -158,9 +158,12 @@ const models: TsoaRoute.Models = {
             "harvestId": { "dataType": "string" },
         },
     },
+    "PercentageReportType": {
+        "enums": ["Purchased", "Donated"],
+    },
     "PercentageReportResponse": {
         "properties": {
-            "type": { "dataType": "string" },
+            "type": { "ref": "PercentageReportType" },
             "createdOn": { "dataType": "datetime" },
             "percentage": { "dataType": "string" },
         },
@@ -761,7 +764,7 @@ export function RegisterRoutes(app: any) {
     app.get('/api/reports/percentage',
         function(request: any, response: any, next: any) {
             const args = {
-                percentageType: { "in": "query", "name": "percentageType", "required": true, "dataType": "string" },
+                percentageType: { "in": "query", "name": "percentageType", "required": true, "dataType": "enum", "enums": ["Purchased", "Donated"] },
             };
 
             let validatedArgs: any[] = [];
@@ -780,7 +783,7 @@ export function RegisterRoutes(app: any) {
     app.get('/api/reports/total',
         function(request: any, response: any, next: any) {
             const args = {
-                weightOrValue: { "in": "query", "name": "weightOrValue", "required": true, "dataType": "string" },
+                weightOrValue: { "in": "query", "name": "weightOrValue", "required": true, "dataType": "enum", "enums": ["Weight", "Value"] },
             };
 
             let validatedArgs: any[] = [];

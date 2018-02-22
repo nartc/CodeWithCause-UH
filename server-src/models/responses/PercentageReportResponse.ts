@@ -1,5 +1,7 @@
+import {PercentageReportType} from '../requests/PercentageReportType';
+
 export interface PercentageReportResponse {
-    type?: string;
+    type?: PercentageReportType;
     createdOn?: Date;
     percentage?: string;
 }
