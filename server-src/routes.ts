@@ -168,6 +168,14 @@ const models: TsoaRoute.Models = {
             "percentage": { "dataType": "string" },
         },
     },
+    "ClearDbResponse": {
+        "properties": {
+            "result": { "dataType": "any", "required": true },
+            "connection": { "dataType": "any" },
+            "deletedCount": { "dataType": "double" },
+            "collection": { "dataType": "string" },
+        },
+    },
 };
 
 export function RegisterRoutes(app: any) {
@@ -817,6 +825,28 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.importCrops.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/system/clearDatabase',
+        authenticateMiddleware([{ "name": "JWT" }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                collection: { "in": "query", "name": "collection", "required": true, "dataType": "array", "enums": ["crops", "entries", "farms", "harvesters", "harvests", "organizations", "users"] },
+                dropUser: { "default": false, "in": "query", "name": "dropUser", "dataType": "boolean" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new SystemController();
+
+
+            const promise = controller.clearDatabase.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

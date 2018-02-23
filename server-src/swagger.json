@@ -9,7 +9,10 @@
 				"Admin",
 				"User"
 			],
-			"type": "string"
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
 		},
 		"UserVm": {
 			"properties": {
@@ -156,7 +159,10 @@
 				"Donated",
 				"Internal"
 			],
-			"type": "string"
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
 		},
 		"OrganizationVm": {
 			"properties": {
@@ -414,7 +420,10 @@
 				"Purchased",
 				"Donated"
 			],
-			"type": "string"
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
 		},
 		"PercentageReportResponse": {
 			"properties": {
@@ -429,6 +438,27 @@
 					"type": "string"
 				}
 			},
+			"type": "object"
+		},
+		"ClearDbResponse": {
+			"properties": {
+				"result": {
+					"type": "object"
+				},
+				"connection": {
+					"type": "object"
+				},
+				"deletedCount": {
+					"type": "number",
+					"format": "double"
+				},
+				"collection": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"result"
+			],
 			"type": "object"
 		}
 	},
@@ -1424,6 +1454,59 @@
 					}
 				],
 				"parameters": []
+			}
+		},
+		"/system/clearDatabase": {
+			"get": {
+				"operationId": "System_ClearDatabase",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"System"
+				],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "collection",
+						"required": true,
+						"collectionFormat": "multi",
+						"type": "array",
+						"items": {
+							"default": "crops",
+							"enum": [
+								"crops",
+								"entries",
+								"farms",
+								"harvesters",
+								"harvests",
+								"organizations",
+								"users"
+							],
+							"type": "string"
+						}
+					},
+					{
+						"default": false,
+						"in": "query",
+						"name": "dropUser",
+						"required": false,
+						"type": "boolean"
+					}
+				]
 			}
 		}
 	},
