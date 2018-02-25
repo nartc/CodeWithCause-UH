@@ -92,7 +92,6 @@ export class UserController extends BaseController {
         const payload = {user: fetchedUser};
         const secret = process.env.JWT_SECRET || config.get('auth.jwt-secret');
         const token: string = sign(payload, secret, {expiresIn: '12h'});
-
         try {
             const result = await fetchedUser.save();
             return {

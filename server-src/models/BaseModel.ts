@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import {Document} from 'mongoose';
 
 
 export interface IBaseModel extends Document {
@@ -6,7 +6,7 @@ export interface IBaseModel extends Document {
     updatedOn?: Date;
 }
 
-export class IBaseModelVm {
+export interface IBaseModelVm {
     createdOn?: Date;
     updatedOn?: Date;
     _id?: string;
