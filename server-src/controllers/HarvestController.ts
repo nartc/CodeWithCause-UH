@@ -31,8 +31,7 @@ export class HarvestController extends BaseController {
         }
 
         const newHarvest: IHarvest = new Harvest();
-        const farm: IFarm = await this._farmRepository.getResourceById(harvestParams.farmId);
-        newHarvest.farm = farm;
+        newHarvest.farm = await this._farmRepository.getResourceById(harvestParams.farmId);
 
         if ((harvestParams.entriesIds && harvestParams.entriesIds.length > 0) && harvestParams.harvestId) {
             const existedHarvest: IHarvest = await this._harvestRepository.getResourceById(harvestParams.harvestId);

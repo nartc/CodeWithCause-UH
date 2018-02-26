@@ -3,7 +3,6 @@ import {IEntryRepository} from '../repositories/interfaces/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {Entry, EntryVm, IEntry} from '../models/Entry';
 import {NewEntryParams} from '../models/requests/index.requests';
-import * as moment from 'moment';
 import {Farm} from '../models/Farm';
 import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
@@ -17,11 +16,15 @@ import {CropRepository} from '../repositories/CropRepository';
 import {Harvester, IHarvester} from '../models/Harvester';
 import {IHarvesterRepository} from '../repositories/interfaces/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
+import {Harvest, IHarvest} from '../models/Harvest';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
+import {HarvestRepository} from '../repositories/HarvestRepository';
 
 @Route('entries')
 export class EntryController extends BaseController {
     private readonly _entryRepository: IEntryRepository = new EntryRepository(Entry);
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
+    private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
     private readonly _cropRepository: ICropRepository = new CropRepository(Crop);
     private readonly _harvesterRepository: IHarvesterRepository = new HarvesterRepository(Harvester);
@@ -80,24 +83,20 @@ export class EntryController extends BaseController {
      * @param id
      * @param updatedEntryParams
      */
-    @Put('{id}')
+    @Put('{harvestId}')
     @Tags('Entry')
-    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: NewEntryParams): Promise<EntryVm> {
-        const existedEntry: IEntry = await this._entryRepository.getResourceById(id);
+    public async updateEntry(@Path() harvestId: string, @Body() updatedEntryVm: EntryVm): Promise<EntryVm> {
+        const harvest: IHarvest = await this._harvestRepository.getResourceById(harvestId);
 
-        const updatedEntry: IEntry = new Entry();
-        updatedEntry._id = existedEntry._id;
-        updatedEntry.crop = existedEntry.crop;
-        updatedEntry.harvester = existedEntry.harvester;
-        updatedEntry.recipient = existedEntry.recipient;
-        updatedEntry.createdOn = existedEntry.createdOn;
-        updatedEntry.updatedOn = moment().toDate();
-        updatedEntry.comments = updatedEntryParams.comments;
-        updatedEntry.pounds = updatedEntryParams.pounds;
-        updatedEntry.priceTotal = existedEntry.crop.pricePerPound * updatedEntryParams.pounds;
-        updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
+        if (!harvest)
+            throw EntryController.resolveErrorResponse(null, `Harvest with ${harvestId} not found`);
 
-        return await <EntryVm>this._entryRepository.update(id, updatedEntry);
+        const updatedEntry: IEntry = new Entry(updatedEntryVm);
+        updatedEntry.priceTotal = updatedEntry.crop.pricePerPound * updatedEntry.pounds;
+
+        harvest.entries.splice(harvest.entries.findIndex(entry => entry._id === updatedEntry._id), 1, updatedEntry)
+        await harvest.save();
+        return await <EntryVm>this._entryRepository.update(updatedEntry._id, updatedEntry);
     }
 
     /**
@@ -109,24 +108,4 @@ export class EntryController extends BaseController {
     public async deleteEntry(@Path() id: string): Promise<EntryVm> {
         return await <EntryVm>this._entryRepository.delete(id);
     }
-
-    // @Get('weight')
-    // @Tags('Entry')
-    // public async getTotalWeight(@Query() totalWeightQuery: TotalWeightQuery): Promise<TotalWeightReport[]> {
-    //     const farmName: string = totalWeightQuery.farmName ? totalWeightQuery.farmName : null;
-    //     const recipientName: string = totalWeightQuery.recipient ? totalWeightQuery.recipient : null;
-    //
-    //     const farm: FarmVm = await this._farmRepository.getFarmByUsername(farmName);
-    //     const recipient: OrganizationVm = await this._organizationRepository.getOrganizationByName(recipientName);
-    //
-    //     const queried: EntryVm[] = await <EntryVm[]>this._entryRepository.findByQuery(farm._id, recipient._id);
-    //
-    //     const result: TotalWeightQuery[] = [];
-    //     queried.forEach(query => {
-    //        result.push({
-    //            farm: query.farm,
-    //
-    //        });
-    //     });
-    // }
 }

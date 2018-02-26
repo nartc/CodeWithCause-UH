@@ -754,40 +754,6 @@
 					}
 				]
 			},
-			"put": {
-				"operationId": "Entry_UpdateEntry",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/EntryVm"
-						}
-					}
-				},
-				"tags": [
-					"Entry"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "body",
-						"name": "updatedEntryParams",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/NewEntryParams"
-						}
-					}
-				]
-			},
 			"delete": {
 				"operationId": "Entry_DeleteEntry",
 				"produces": [
@@ -811,6 +777,42 @@
 						"name": "id",
 						"required": true,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/entries/{harvestId}": {
+			"put": {
+				"operationId": "Entry_UpdateEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/EntryVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "harvestId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updatedEntryVm",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/EntryVm"
+						}
 					}
 				]
 			}
