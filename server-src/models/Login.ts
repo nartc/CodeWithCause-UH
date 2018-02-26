@@ -1,4 +1,5 @@
-import {UserRole} from "./User"
+import {UserRole} from './User'
+
 export interface LoginVm {
     authToken: string;
     username?: string;

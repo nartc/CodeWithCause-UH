@@ -9,10 +9,7 @@
 				"Admin",
 				"User"
 			],
-			"items": {
-				"type": "string"
-			},
-			"type": "array"
+			"type": "string"
 		},
 		"UserVm": {
 			"properties": {
@@ -159,10 +156,7 @@
 				"Donated",
 				"Internal"
 			],
-			"items": {
-				"type": "string"
-			},
-			"type": "array"
+			"type": "string"
 		},
 		"OrganizationVm": {
 			"properties": {
@@ -420,10 +414,7 @@
 				"Purchased",
 				"Donated"
 			],
-			"items": {
-				"type": "string"
-			},
-			"type": "array"
+			"type": "string"
 		},
 		"PercentageReportResponse": {
 			"properties": {
