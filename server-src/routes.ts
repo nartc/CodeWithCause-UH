@@ -168,6 +168,20 @@ const models: TsoaRoute.Models = {
             "percentage": { "dataType": "string" },
         },
     },
+    "PercentageByFarmReportResponse": {
+        "properties": {
+            "farmName": { "dataType": "string", "required": true },
+            "pounds": { "dataType": "double", "required": true },
+            "total": { "dataType": "double", "required": true },
+            "percentage": { "dataType": "string", "required": true },
+        },
+    },
+    "PercentageByFarm": {
+        "properties": {
+            "reportType": { "ref": "PercentageReportType", "required": true },
+            "dateRange": { "dataType": "array", "array": { "dataType": "datetime" } },
+        },
+    },
     "ValueReportResponse": {
         "properties": {
             "farmName": { "dataType": "string", "required": true },
@@ -821,6 +835,25 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getSalesPercentage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/reports/percentageByFarm',
+        function(request: any, response: any, next: any) {
+            const args = {
+                percentageByFarmParams: { "in": "body", "name": "percentageByFarmParams", "required": true, "ref": "PercentageByFarm" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getPercentageByFarm.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.post('/api/reports/total',

@@ -431,6 +431,49 @@
 			},
 			"type": "object"
 		},
+		"PercentageByFarmReportResponse": {
+			"properties": {
+				"farmName": {
+					"type": "string"
+				},
+				"pounds": {
+					"type": "number",
+					"format": "double"
+				},
+				"total": {
+					"type": "number",
+					"format": "double"
+				},
+				"percentage": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"farmName",
+				"pounds",
+				"total",
+				"percentage"
+			],
+			"type": "object"
+		},
+		"PercentageByFarm": {
+			"properties": {
+				"reportType": {
+					"$ref": "#/definitions/PercentageReportType"
+				},
+				"dateRange": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"required": [
+				"reportType"
+			],
+			"type": "object"
+		},
 		"ValueReportResponse": {
 			"properties": {
 				"farmName": {
@@ -1458,6 +1501,39 @@
 							"Purchased",
 							"Donated"
 						]
+					}
+				]
+			}
+		},
+		"/reports/percentageByFarm": {
+			"post": {
+				"operationId": "Reporting_GetPercentageByFarm",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/PercentageByFarmReportResponse"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "percentageByFarmParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/PercentageByFarm"
+						}
 					}
 				]
 			}
