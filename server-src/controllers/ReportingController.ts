@@ -12,7 +12,7 @@ import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
 import {Farm, FarmVm} from '../models/Farm';
 import {PercentageReportResponse} from '../models/responses/PercentageReportResponse';
-import {filter} from 'lodash';
+import {filter, map} from 'lodash';
 import {BaseController} from './BaseController';
 import {PercentageReportType} from '../models/requests/PercentageReportType';
 import {WeightValueReportType} from '../models/requests/WeightValueReportType';
@@ -66,58 +66,74 @@ export class ReportingController extends BaseController {
         let donatedResult: PercentageByFarmReportResponse;
         let purchasedResult: PercentageByFarmReportResponse;
         let totalEntries = 0;
+        let totalWeight = 0;
+        let totalPrice = 0;
 
         if (reportType === PercentageReportType.Donated) {
             allHarvests.forEach(harvest => {
                 totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal).length;
+                totalWeight += map(
+                    filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), entry => entry.pounds)
+                    .reduce((cur, acc) => cur + acc);
+                totalPrice += map(
+                    filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), entry => entry.priceTotal)
+                    .reduce((cur, acc) => cur + acc);
             });
 
             allFarms.forEach(farm => {
                 const queriedHarvests: HarvestVm[] = filter(allHarvests, harvest => harvest.farm.name === farm.name);
-                let totalWeight = 0;
-                let totalPrice = 0;
+                let totalFarmWeight = 0;
+                let totalFarmPrice = 0;
                 let totalDonatedEntries = 0;
                 queriedHarvests.forEach(harvest => {
                     harvest.entries.forEach(entry => {
                         if (entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal) {
-                            totalWeight += entry.pounds;
-                            totalPrice += entry.priceTotal;
+                            totalFarmWeight += entry.pounds;
+                            totalFarmPrice += entry.priceTotal;
                             totalDonatedEntries++;
                         }
                     });
                 });
                 donatedResult = {
                     farmName: farm.name,
-                    pounds: totalWeight,
-                    total: totalPrice,
-                    percentage: ((totalDonatedEntries / totalEntries) * 100).toFixed(2)
+                    pounds: totalFarmWeight,
+                    total: totalFarmPrice,
+                    percentageByEntry: ((totalDonatedEntries / totalEntries) * 100).toFixed(2),
+                    percentageByPound: ((totalFarmWeight / totalWeight) * 100).toFixed(2),
+                    percentageByPrice: ((totalFarmPrice / totalPrice) * 100).toFixed(2)
                 }
                 result.push(donatedResult);
             });
         } else if (reportType === PercentageReportType.Purchased) {
             allHarvests.forEach(harvest => {
                 totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased).length;
+                totalWeight += map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.pounds)
+                    .reduce((cur, acc) => cur + acc);
+                totalPrice += map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.priceTotal)
+                    .reduce((cur, acc) => cur + acc);
             });
 
             allFarms.forEach(farm => {
                 const queriedHarvests: HarvestVm[] = filter(allHarvests, harvest => harvest.farm.name === farm.name);
-                let totalWeight = 0;
-                let totalPrice = 0;
+                let totalFarmWeight = 0;
+                let totalFarmPrice = 0;
                 let totalPurchasedEntries = 0;
                 queriedHarvests.forEach(harvest => {
                     harvest.entries.forEach(entry => {
                         if (entry.recipient.orgType === OrganizationType.Purchased) {
-                            totalWeight += entry.pounds;
-                            totalPrice += entry.priceTotal;
+                            totalFarmWeight += entry.pounds;
+                            totalFarmPrice += entry.priceTotal;
                             totalPurchasedEntries++;
                         }
                     });
                 });
                 purchasedResult = {
                     farmName: farm.name,
-                    pounds: totalWeight,
-                    total: totalPrice,
-                    percentage: ((totalPurchasedEntries / totalEntries) * 100).toFixed(2)
+                    pounds: totalFarmWeight,
+                    total: totalFarmPrice,
+                    percentageByEntry: ((totalPurchasedEntries / totalEntries) * 100).toFixed(2),
+                    percentageByPound: ((totalFarmWeight / totalWeight) * 100).toFixed(2),
+                    percentageByPrice: ((totalFarmPrice / totalPrice) * 100).toFixed(2)
                 }
                 result.push(purchasedResult);
             });

@@ -173,7 +173,9 @@ const models: TsoaRoute.Models = {
             "farmName": { "dataType": "string", "required": true },
             "pounds": { "dataType": "double", "required": true },
             "total": { "dataType": "double", "required": true },
-            "percentage": { "dataType": "string", "required": true },
+            "percentageByEntry": { "dataType": "string", "required": true },
+            "percentageByPound": { "dataType": "string", "required": true },
+            "percentageByPrice": { "dataType": "string", "required": true },
         },
     },
     "PercentageByFarm": {

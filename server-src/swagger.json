@@ -444,7 +444,13 @@
 					"type": "number",
 					"format": "double"
 				},
-				"percentage": {
+				"percentageByEntry": {
+					"type": "string"
+				},
+				"percentageByPound": {
+					"type": "string"
+				},
+				"percentageByPrice": {
 					"type": "string"
 				}
 			},
@@ -452,7 +458,9 @@
 				"farmName",
 				"pounds",
 				"total",
-				"percentage"
+				"percentageByEntry",
+				"percentageByPound",
+				"percentageByPrice"
 			],
 			"type": "object"
 		},

@@ -7,5 +7,7 @@ export interface PercentageByFarmReportResponse {
     farmName: string;
     pounds: number;
     total: number;
-    percentage: string;
+    percentageByEntry: string;
+    percentageByPound: string;
+    percentageByPrice: string;
 }
