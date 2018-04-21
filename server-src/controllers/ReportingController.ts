@@ -54,11 +54,13 @@ export class ReportingController extends BaseController {
     public async getTotalWeightOrValue(@Body() reportParams: ReportByFarm): Promise<ValueReportResponse[]> {
         let allHarvests: HarvestVm[];
 
-        if (reportParams.dateRange || reportParams.dateRange.length > 0) {
+        if (reportParams.dateRange && reportParams.dateRange.length > 0) {
             allHarvests = await <HarvestVm[]> this._harvestRepository.getHarvestByDateRange(reportParams.dateRange);
         } else {
             allHarvests = await <HarvestVm[]>this._harvestRepository.getAll();
         }
+
+        console.log(allHarvests);
 
         const allFarms: FarmVm[] = await <FarmVm[]>this._farmRepository.getAll();
         let farmWeightResults: ValueReportResponse;
