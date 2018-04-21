@@ -60,24 +60,26 @@ export class ReportingController extends BaseController {
             allHarvests = await <HarvestVm[]>this._harvestRepository.getAll();
         }
 
-        console.log(allHarvests);
-
         const allFarms: FarmVm[] = await <FarmVm[]>this._farmRepository.getAll();
         let farmWeightResults: ValueReportResponse;
         let farmValueResult: ValueReportResponse;
         let result: ValueReportResponse[] = [];
 
         if (reportParams.valueReportType === WeightValueReportType.Weight) {
+            console.log('in Weight');
             allFarms.forEach(f => { //farm: ChauFarm
+                console.log('farms', f);
                 const queried: HarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
                 let totalWeight = 0;
                 queried.forEach(element => {
                     element.entries.forEach(e => {
+                        console.log('entries', e);
                         totalWeight += e.pounds;
                     });
                 });
                 farmWeightResults.farmName = f.name;
                 farmWeightResults.value = totalWeight;
+                console.log('farmresult', farmWeightResults);
                 result.push(farmWeightResults);
             });
         } else if (reportParams.valueReportType === WeightValueReportType.Value) {
