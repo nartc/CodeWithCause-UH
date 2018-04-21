@@ -15,7 +15,7 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
         return this._harvestModel.findOne({'farm._id': farmId}).exec();
     }
 
-    async getHarvestByDateRange(dateRange: [Date, Date]): Promise<IHarvest[]> {
+    async getHarvestByDateRange(dateRange: Date[]): Promise<IHarvest[]> {
         const [dateStart, dateEnd] = dateRange;
         return this._harvestModel.find({
             $and: [

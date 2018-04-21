@@ -168,6 +168,15 @@ const models: TsoaRoute.Models = {
             "percentage": { "dataType": "string" },
         },
     },
+    "WeightValueReportType": {
+        "enums": ["Weight", "Value"],
+    },
+    "ReportByFarm": {
+        "properties": {
+            "valueReportType": { "ref": "WeightValueReportType", "required": true },
+            "dateRange": { "dataType": "array", "array": { "dataType": "datetime" } },
+        },
+    },
     "ClearDbResponse": {
         "properties": {
             "result": { "dataType": "any", "required": true },
@@ -808,10 +817,10 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getSalesPercentage.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.get('/api/reports/total',
+    app.post('/api/reports/total',
         function(request: any, response: any, next: any) {
             const args = {
-                weightOrValue: { "in": "query", "name": "weightOrValue", "required": true, "dataType": "enum", "enums": ["Weight", "Value"] },
+                reportParams: { "in": "body", "name": "reportParams", "required": true, "ref": "ReportByFarm" },
             };
 
             let validatedArgs: any[] = [];
@@ -825,6 +834,26 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/reports/test',
+        function(request: any, response: any, next: any) {
+            const args = {
+                dateStart: { "in": "query", "name": "dateStart", "required": true, "dataType": "datetime" },
+                dateEnd: { "in": "query", "name": "dateEnd", "required": true, "dataType": "datetime" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getTest.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/system/importCrops',

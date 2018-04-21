@@ -431,6 +431,31 @@
 			},
 			"type": "object"
 		},
+		"WeightValueReportType": {
+			"enum": [
+				"Weight",
+				"Value"
+			],
+			"type": "string"
+		},
+		"ReportByFarm": {
+			"properties": {
+				"valueReportType": {
+					"$ref": "#/definitions/WeightValueReportType"
+				},
+				"dateRange": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"required": [
+				"valueReportType"
+			],
+			"type": "object"
+		},
 		"ClearDbResponse": {
 			"properties": {
 				"result": {
@@ -1422,7 +1447,7 @@
 			}
 		},
 		"/reports/total": {
-			"get": {
+			"post": {
 				"operationId": "Reporting_GetTotalWeightOrValue",
 				"produces": [
 					"application/json"
@@ -1441,14 +1466,51 @@
 				"security": [],
 				"parameters": [
 					{
-						"in": "query",
-						"name": "weightOrValue",
+						"in": "body",
+						"name": "reportParams",
 						"required": true,
-						"type": "string",
-						"enum": [
-							"Weight",
-							"Value"
-						]
+						"schema": {
+							"$ref": "#/definitions/ReportByFarm"
+						}
+					}
+				]
+			}
+		},
+		"/reports/test": {
+			"get": {
+				"operationId": "Reporting_GetTest",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/HarvestVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reporting"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "dateStart",
+						"required": true,
+						"format": "date-time",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "dateEnd",
+						"required": true,
+						"format": "date-time",
+						"type": "string"
 					}
 				]
 			}

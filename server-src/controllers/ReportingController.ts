@@ -1,4 +1,4 @@
-import {Body, Get, Query, Route, Tags} from 'tsoa';
+import {Body, Get, Post, Query, Route, Tags} from 'tsoa';
 import {Entry, EntryVm} from '../models/Entry';
 import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
@@ -48,7 +48,7 @@ export class ReportingController extends BaseController {
         }
     };
 
-    @Get('total')
+    @Post('total')
     @Tags('Reporting')
     public async getTotalWeightOrValue(@Body() reportParams: ReportByFarm): Promise<any> {
         let allHarvests: HarvestVm[];
