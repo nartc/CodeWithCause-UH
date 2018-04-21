@@ -7,7 +7,6 @@ import {BaseController} from './BaseController';
 import {Harvest, IHarvest} from '../models/Harvest';
 import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
-import {EntryController} from './EntryController';
 
 @Route('farms')
 export class FarmController extends BaseController {
@@ -65,17 +64,16 @@ export class FarmController extends BaseController {
     public async updateById(@Path() id: string, @Body() newFarmParams: NewFarmParams): Promise<FarmVm> {
         const harvest: IHarvest = await this._harvestRepository.getHarvestByFarmId(id);
 
-        if (!harvest)
-            throw EntryController.resolveErrorResponse(null, `Harvest not found`);
-
         const updateFarm: IFarm = new Farm();
         updateFarm._id = id;
         updateFarm.name = newFarmParams.name;
         updateFarm.lat = newFarmParams.lat;
         updateFarm.lng = newFarmParams.lng;
 
-        harvest.farm = updateFarm;
-        await harvest.save();
+        if (harvest) {
+            harvest.farm = updateFarm;
+            await harvest.save();
+        }
 
         const result: IFarm = await this._farmRepository.update(id, updateFarm);
         return <FarmVm>result;
