@@ -1,4 +1,4 @@
-import {Body, Get, Path, Post, Route, Tags} from 'tsoa';
+import {Body, Get, Path, Post, Put, Query, Route, Tags} from 'tsoa';
 import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
 import {Harvest, HarvestVm, IHarvest} from '../models/Harvest';
@@ -70,5 +70,25 @@ export class HarvestController extends BaseController {
     @Tags('Harvest')
     public async getHarvestById(@Path() id: string): Promise<HarvestVm> {
         return await <HarvestVm>this._harvestRepository.getResourceById(id);
+    }
+
+    @Put('{id}')
+    @Tags('Harvest')
+    public async updateFarm(@Path() id: string, @Query() farmId: string): Promise<HarvestVm> {
+        const harvest: IHarvest = await this._harvestRepository.getResourceById(id);
+
+        if (!harvest || harvest === null) {
+            throw HarvestController.resolveErrorResponse(null, 'Harvest not found');
+        }
+
+        const farm: IFarm = await this._farmRepository.getResourceById(farmId);
+
+        if (!farm || farm === null) {
+            throw HarvestController.resolveErrorResponse(null, 'Farm not found');
+        }
+
+        harvest.farm = farm;
+        harvest.updatedOn = moment().toDate();
+        return await <HarvestVm> this._harvestRepository.update(harvest._id, harvest);
     }
 }

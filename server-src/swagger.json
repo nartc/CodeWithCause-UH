@@ -287,6 +287,35 @@
 			],
 			"type": "object"
 		},
+		"HarvestVm": {
+			"properties": {
+				"createdOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedOn": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"_id": {
+					"type": "string"
+				},
+				"farm": {
+					"$ref": "#/definitions/FarmVm"
+				},
+				"entries": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/EntryVm"
+					}
+				}
+			},
+			"required": [
+				"farm",
+				"entries"
+			],
+			"type": "object"
+		},
 		"NewFarmParams": {
 			"properties": {
 				"name": {
@@ -357,35 +386,6 @@
 			},
 			"required": [
 				"name"
-			],
-			"type": "object"
-		},
-		"HarvestVm": {
-			"properties": {
-				"createdOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"updatedOn": {
-					"type": "string",
-					"format": "date-time"
-				},
-				"_id": {
-					"type": "string"
-				},
-				"farm": {
-					"$ref": "#/definitions/FarmVm"
-				},
-				"entries": {
-					"type": "array",
-					"items": {
-						"$ref": "#/definitions/EntryVm"
-					}
-				}
-			},
-			"required": [
-				"farm",
-				"entries"
 			],
 			"type": "object"
 		},
@@ -782,7 +782,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/EntryVm"
+							"$ref": "#/definitions/HarvestVm"
 						}
 					}
 				},
@@ -1351,6 +1351,38 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"put": {
+				"operationId": "Harvest_UpdateFarm",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/HarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "farmId",
 						"required": true,
 						"type": "string"
 					}

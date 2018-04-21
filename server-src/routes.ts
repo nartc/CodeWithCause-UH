@@ -116,6 +116,15 @@ const models: TsoaRoute.Models = {
             "lng": { "dataType": "double", "required": true },
         },
     },
+    "HarvestVm": {
+        "properties": {
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "_id": { "dataType": "string" },
+            "farm": { "ref": "FarmVm", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
+        },
+    },
     "NewFarmParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
@@ -140,15 +149,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "orgType": { "ref": "OrganizationType" },
-        },
-    },
-    "HarvestVm": {
-        "properties": {
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "_id": { "dataType": "string" },
-            "farm": { "ref": "FarmVm", "required": true },
-            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
         },
     },
     "HarvestParams": {
@@ -767,6 +767,26 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getHarvestById.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.put('/api/harvests/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                farmId: { "in": "query", "name": "farmId", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.updateFarm.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/reports/percentage',

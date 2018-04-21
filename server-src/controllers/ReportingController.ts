@@ -1,4 +1,4 @@
-import {Get, Query, Route, Tags} from 'tsoa';
+import {Body, Get, Query, Route, Tags} from 'tsoa';
 import {Entry, EntryVm} from '../models/Entry';
 import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
@@ -16,6 +16,7 @@ import {filter} from 'lodash';
 import {BaseController} from './BaseController';
 import {PercentageReportType} from '../models/requests/PercentageReportType';
 import {WeightValueReportType} from '../models/requests/WeightValueReportType';
+import {ReportByFarm} from '../models/requests/ReportByFarm';
 import moment = require('moment');
 
 @Route('reports')
@@ -49,14 +50,21 @@ export class ReportingController extends BaseController {
 
     @Get('total')
     @Tags('Reporting')
-    public async getTotalWeightOrValue(@Query() weightOrValue: WeightValueReportType): Promise<any> {
-        const allHarvests: HarvestVm[] = await <HarvestVm[]>this._harvestRepository.getAll();
+    public async getTotalWeightOrValue(@Body() reportParams: ReportByFarm): Promise<any> {
+        let allHarvests: HarvestVm[];
+
+        if (reportParams.dateRange || reportParams.dateRange.length > 0) {
+            allHarvests = await <HarvestVm[]> this._harvestRepository.getHarvestByDateRange(reportParams.dateRange);
+        } else {
+            allHarvests = await <HarvestVm[]>this._harvestRepository.getAll();
+        }
+
         const allFarms: FarmVm[] = await <FarmVm[]>this._farmRepository.getAll();
         let farmWeightResults = {};
         let farmValueResult = {};
         let result;
 
-        if (weightOrValue === WeightValueReportType.Weight) {
+        if (reportParams.valueReportType === WeightValueReportType.Weight) {
             allFarms.forEach(f => { //farm: ChauFarm
                 const queried: HarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
                 let totalWeight = 0;
@@ -68,7 +76,7 @@ export class ReportingController extends BaseController {
                 farmWeightResults[f.name] = totalWeight;
                 result = farmWeightResults;
             });
-        } else if (weightOrValue === WeightValueReportType.Value) {
+        } else if (reportParams.valueReportType === WeightValueReportType.Value) {
             allFarms.forEach(f => { //farm: ChauFarm
                 const queried: HarvestVm[] = allHarvests.filter(h => h.farm.name === f.name);
                 let totalValue = 0;
@@ -84,4 +92,15 @@ export class ReportingController extends BaseController {
 
         return result;
     }
+
+    @Get('test')
+    @Tags('Reporting')
+    public async getTest(@Query() dateStart: Date, @Query() dateEnd: Date): Promise<HarvestVm[]> {
+        return await this._harvestRepository.getHarvestByDateRange([dateStart, dateEnd]);
+    }
+
+    //
+    // @Get('weightByFarm')
+    // @Tags('Reporting')
+    // public async reportWeightByFarm(@Body() reportWeightParams: ReportWeightByFarm): Promise<>
 }

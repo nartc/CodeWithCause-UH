@@ -1,13 +1,18 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
 import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
 import {FarmRepository} from '../repositories/FarmRepository';
-import {Farm, IFarm, FarmVm} from '../models/Farm';
+import {Farm, FarmVm, IFarm} from '../models/Farm';
 import {NewFarmParams} from '../models/requests/NewFarmParams';
 import {BaseController} from './BaseController';
+import {Harvest, IHarvest} from '../models/Harvest';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
+import {HarvestRepository} from '../repositories/HarvestRepository';
+import {EntryController} from './EntryController';
 
 @Route('farms')
 export class FarmController extends BaseController {
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
+    private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
 
     /**
      *
@@ -39,8 +44,8 @@ export class FarmController extends BaseController {
     }
 
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
     @Delete('{id}')
     @Tags('Farm')
@@ -51,18 +56,26 @@ export class FarmController extends BaseController {
     }
 
     /**
-     * 
-     * @param id 
-     * @param newFarmParams 
+     *
+     * @param id
+     * @param newFarmParams
      */
     @Put('{id}')
     @Tags('Farm')
     public async updateById(@Path() id: string, @Body() newFarmParams: NewFarmParams): Promise<FarmVm> {
+        const harvest: IHarvest = await this._harvestRepository.getHarvestByFarmId(id);
+
+        if (!harvest)
+            throw EntryController.resolveErrorResponse(null, `Harvest not found`);
+
         const updateFarm: IFarm = new Farm();
         updateFarm._id = id;
         updateFarm.name = newFarmParams.name;
         updateFarm.lat = newFarmParams.lat;
         updateFarm.lng = newFarmParams.lng;
+
+        harvest.farm = updateFarm;
+        await harvest.save();
 
         const result: IFarm = await this._farmRepository.update(id, updateFarm);
         return <FarmVm>result;

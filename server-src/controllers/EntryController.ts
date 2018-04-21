@@ -16,7 +16,7 @@ import {CropRepository} from '../repositories/CropRepository';
 import {Harvester, IHarvester} from '../models/Harvester';
 import {IHarvesterRepository} from '../repositories/interfaces/IHarvesterRepository';
 import {HarvesterRepository} from '../repositories/HarvesterRepository';
-import {Harvest, IHarvest} from '../models/Harvest';
+import {Harvest, HarvestVm, IHarvest} from '../models/Harvest';
 import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
 
@@ -85,7 +85,7 @@ export class EntryController extends BaseController {
      */
     @Put('{harvestId}')
     @Tags('Entry')
-    public async updateEntry(@Path() harvestId: string, @Body() updatedEntryVm: EntryVm): Promise<EntryVm> {
+    public async updateEntry(@Path() harvestId: string, @Body() updatedEntryVm: EntryVm): Promise<HarvestVm> {
         const harvest: IHarvest = await this._harvestRepository.getResourceById(harvestId);
 
         if (!harvest)
@@ -95,8 +95,9 @@ export class EntryController extends BaseController {
         updatedEntry.priceTotal = updatedEntry.crop.pricePerPound * updatedEntry.pounds;
 
         harvest.entries.splice(harvest.entries.findIndex(entry => entry._id === updatedEntry._id), 1, updatedEntry)
-        await harvest.save();
-        return await <EntryVm>this._entryRepository.update(updatedEntry._id, updatedEntry);
+        const updatedHarvest: IHarvest = await harvest.save();
+        await this._entryRepository.update(updatedEntry._id, updatedEntry);
+        return <HarvestVm>updatedHarvest;
     }
 
     /**
