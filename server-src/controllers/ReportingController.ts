@@ -86,8 +86,6 @@ export class ReportingController extends BaseController {
                         }
                     });
                 });
-                console.log(totalDonatedEntries);
-                console.log(totalEntries);
                 donatedResult = {
                     farmName: farm.name,
                     pounds: totalWeight,
@@ -105,7 +103,6 @@ export class ReportingController extends BaseController {
                 const queriedHarvests: HarvestVm[] = filter(allHarvests, harvest => harvest.farm.name === farm.name);
                 let totalWeight = 0;
                 let totalPrice = 0;
-                let totalEntries = 0;
                 let totalPurchasedEntries = 0;
                 queriedHarvests.forEach(harvest => {
                     harvest.entries.forEach(entry => {
