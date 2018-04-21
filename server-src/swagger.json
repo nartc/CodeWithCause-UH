@@ -431,6 +431,22 @@
 			},
 			"type": "object"
 		},
+		"ValueReportResponse": {
+			"properties": {
+				"farmName": {
+					"type": "string"
+				},
+				"value": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"farmName",
+				"value"
+			],
+			"type": "object"
+		},
 		"WeightValueReportType": {
 			"enum": [
 				"Weight",
@@ -1456,7 +1472,10 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "object"
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ValueReportResponse"
+							}
 						}
 					}
 				},

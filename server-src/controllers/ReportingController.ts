@@ -17,6 +17,7 @@ import {BaseController} from './BaseController';
 import {PercentageReportType} from '../models/requests/PercentageReportType';
 import {WeightValueReportType} from '../models/requests/WeightValueReportType';
 import {ReportByFarm} from '../models/requests/ReportByFarm';
+import {ValueReportResponse} from '../models/responses/ValueReportResponse';
 import moment = require('moment');
 
 @Route('reports')
@@ -50,7 +51,7 @@ export class ReportingController extends BaseController {
 
     @Post('total')
     @Tags('Reporting')
-    public async getTotalWeightOrValue(@Body() reportParams: ReportByFarm): Promise<any> {
+    public async getTotalWeightOrValue(@Body() reportParams: ReportByFarm): Promise<ValueReportResponse[]> {
         let allHarvests: HarvestVm[];
 
         if (reportParams.dateRange || reportParams.dateRange.length > 0) {
@@ -60,9 +61,9 @@ export class ReportingController extends BaseController {
         }
 
         const allFarms: FarmVm[] = await <FarmVm[]>this._farmRepository.getAll();
-        let farmWeightResults = {};
-        let farmValueResult = {};
-        let result;
+        let farmWeightResults: ValueReportResponse;
+        let farmValueResult: ValueReportResponse;
+        let result: ValueReportResponse[] = [];
 
         if (reportParams.valueReportType === WeightValueReportType.Weight) {
             allFarms.forEach(f => { //farm: ChauFarm
@@ -73,8 +74,9 @@ export class ReportingController extends BaseController {
                         totalWeight += e.pounds;
                     });
                 });
-                farmWeightResults[f.name] = totalWeight;
-                result = farmWeightResults;
+                farmWeightResults.farmName = f.name;
+                farmWeightResults.value = totalWeight;
+                result.push(farmWeightResults);
             });
         } else if (reportParams.valueReportType === WeightValueReportType.Value) {
             allFarms.forEach(f => { //farm: ChauFarm
@@ -85,9 +87,10 @@ export class ReportingController extends BaseController {
                         totalValue += e.priceTotal;
                     });
                 });
-                farmValueResult[f.name] = totalValue;
+                farmValueResult.farmName = f.name;
+                farmValueResult.value = totalValue;
+                result.push(farmValueResult);
             });
-            result = farmValueResult;
         }
 
         return result;

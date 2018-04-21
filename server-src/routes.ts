@@ -168,6 +168,12 @@ const models: TsoaRoute.Models = {
             "percentage": { "dataType": "string" },
         },
     },
+    "ValueReportResponse": {
+        "properties": {
+            "farmName": { "dataType": "string", "required": true },
+            "value": { "dataType": "double", "required": true },
+        },
+    },
     "WeightValueReportType": {
         "enums": ["Weight", "Value"],
     },
