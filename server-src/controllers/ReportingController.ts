@@ -65,16 +65,19 @@ export class ReportingController extends BaseController {
         const allFarms: FarmVm[] = await <FarmVm[]> this._farmRepository.getAll();
         let donatedResult: PercentageByFarmReportResponse;
         let purchasedResult: PercentageByFarmReportResponse;
+        let totalEntries = 0;
 
         if (reportType === PercentageReportType.Donated) {
+            allHarvests.forEach(harvest => {
+                totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal).length;
+            });
+
             allFarms.forEach(farm => {
                 const queriedHarvests: HarvestVm[] = filter(allHarvests, harvest => harvest.farm.name === farm.name);
                 let totalWeight = 0;
                 let totalPrice = 0;
-                let totalEntries = 0;
                 let totalDonatedEntries = 0;
                 queriedHarvests.forEach(harvest => {
-                    totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal).length;
                     harvest.entries.forEach(entry => {
                         if (entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal) {
                             totalWeight += entry.pounds;
@@ -83,6 +86,8 @@ export class ReportingController extends BaseController {
                         }
                     });
                 });
+                console.log(totalDonatedEntries);
+                console.log(totalEntries);
                 donatedResult = {
                     farmName: farm.name,
                     pounds: totalWeight,
@@ -92,6 +97,10 @@ export class ReportingController extends BaseController {
                 result.push(donatedResult);
             });
         } else if (reportType === PercentageReportType.Purchased) {
+            allHarvests.forEach(harvest => {
+                totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased).length;
+            });
+
             allFarms.forEach(farm => {
                 const queriedHarvests: HarvestVm[] = filter(allHarvests, harvest => harvest.farm.name === farm.name);
                 let totalWeight = 0;
@@ -99,7 +108,6 @@ export class ReportingController extends BaseController {
                 let totalEntries = 0;
                 let totalPurchasedEntries = 0;
                 queriedHarvests.forEach(harvest => {
-                    totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased).length;
                     harvest.entries.forEach(entry => {
                         if (entry.recipient.orgType === OrganizationType.Purchased) {
                             totalWeight += entry.pounds;
