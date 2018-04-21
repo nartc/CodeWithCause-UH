@@ -66,20 +66,20 @@ export class ReportingController extends BaseController {
         let result: ValueReportResponse[] = [];
 
         if (reportParams.valueReportType === WeightValueReportType.Weight) {
-            console.log('in Weight');
             allFarms.forEach(f => { //farm: ChauFarm
-                console.log('farms', f);
                 const queried: HarvestVm[] = filter(allHarvests, h => h.farm.name === f.name);
                 let totalWeight = 0;
-                queried.forEach(element => {
-                    element.entries.forEach(e => {
-                        console.log('entries', e);
-                        totalWeight += e.pounds;
+                if (queried.length > 0) {
+                    queried.forEach(element => {
+                        element.entries.forEach(e => {
+                            totalWeight += e.pounds;
+                        });
                     });
-                });
-                farmWeightResults.farmName = f.name;
-                farmWeightResults.value = totalWeight;
-                console.log('farmresult', farmWeightResults);
+                }
+                farmWeightResults = {
+                    farmName: f.name,
+                    value: totalWeight
+                };
                 result.push(farmWeightResults);
             });
         } else if (reportParams.valueReportType === WeightValueReportType.Value) {
@@ -91,8 +91,10 @@ export class ReportingController extends BaseController {
                         totalValue += e.priceTotal;
                     });
                 });
-                farmValueResult.farmName = f.name;
-                farmValueResult.value = totalValue;
+                farmValueResult = {
+                    farmName: f.name,
+                    value: totalValue
+                };
                 result.push(farmValueResult);
             });
         }
