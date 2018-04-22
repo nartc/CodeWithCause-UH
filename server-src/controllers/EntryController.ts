@@ -98,8 +98,19 @@ export class EntryController extends BaseController {
 
         const updatedEntry: IEntry = new Entry();
         const crop: ICrop = await this._cropRepository.getResourceById(updatedEntryParams.cropId);
+        if (!crop) {
+            throw EntryController.resolveErrorResponse(null, 'Crop not found');
+        }
+
         const harvester: IHarvester = await this._harvesterRepository.getResourceById(updatedEntryParams.harvesterId);
+        if (!harvester) {
+            throw EntryController.resolveErrorResponse(null, 'Harvester not found');
+        }
+
         const recipient: IOrganization = await this._organizationRepository.getResourceById(updatedEntryParams.recipientId);
+        if (!recipient) {
+            throw EntryController.resolveErrorResponse(null, 'Recipient not found');
+        }
 
         updatedEntry._id = existed._id;
         updatedEntry.createdOn = existed.createdOn;
