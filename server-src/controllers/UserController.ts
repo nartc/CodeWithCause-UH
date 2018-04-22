@@ -34,7 +34,7 @@ export class UserController extends BaseController {
     public async registerUser(@Body() newUserParams: NewUserParams): Promise<UserVm> {
         const username: string = newUserParams.username;
         const password: string = newUserParams.password;
-        const role: UserRole = newUserParams.role;
+        const role: UserRole = UserRole.User;
 
         const existUser: IUser = await this._userRepository.getUserByUsername(username);
 
@@ -133,7 +133,7 @@ export class UserController extends BaseController {
         updatedUser.createdOn = existedUser.createdOn;
         updatedUser.updatedOn = moment().toDate();
         updatedUser.username = updateUserParams.username;
-        updatedUser.password = updateUserParams.password;
+        updatedUser.password = existedUser.password;
         updatedUser.role = updateUserParams.role;
 
         return await <UserVm>this._userRepository.update(id, updatedUser);
