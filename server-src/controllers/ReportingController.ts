@@ -72,12 +72,17 @@ export class ReportingController extends BaseController {
         if (reportType === PercentageReportType.Donated) {
             allHarvests.forEach(harvest => {
                 totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal).length;
-                totalWeight += map(
+                const poundsArr = map(
                     filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), entry => entry.pounds)
-                    .reduce((cur, acc) => cur + acc);
-                totalPrice += map(
+                const priceArr = map(
                     filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), entry => entry.priceTotal)
-                    .reduce((cur, acc) => cur + acc);
+                if (poundsArr && poundsArr.length > 0) {
+                    totalWeight += poundsArr.reduce((cur, acc) => cur + acc);
+                }
+
+                if (priceArr && priceArr.length > 0) {
+                    totalPrice += priceArr.reduce((cur, acc) => cur + acc);
+                }
             });
 
             allFarms.forEach(farm => {
@@ -107,10 +112,15 @@ export class ReportingController extends BaseController {
         } else if (reportType === PercentageReportType.Purchased) {
             allHarvests.forEach(harvest => {
                 totalEntries += filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased).length;
-                totalWeight += map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.pounds)
-                    .reduce((cur, acc) => cur + acc);
-                totalPrice += map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.priceTotal)
-                    .reduce((cur, acc) => cur + acc);
+                const poundsArr = map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.pounds);
+                const priceArr = map(filter(harvest.entries, entry => entry.recipient.orgType === OrganizationType.Purchased), entry => entry.priceTotal);
+                if (poundsArr && poundsArr.length > 0) {
+                    totalWeight += poundsArr.reduce((cur, acc) => cur + acc);
+                }
+
+                if (priceArr && priceArr.length > 0) {
+                    totalPrice += priceArr.reduce((cur, acc) => cur + acc);
+                }
             });
 
             allFarms.forEach(farm => {
