@@ -400,11 +400,12 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getSingleEntry.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.put('/api/entries/:harvestId',
+    app.put('/api/entries/:id',
         function(request: any, response: any, next: any) {
             const args = {
-                harvestId: { "in": "path", "name": "harvestId", "required": true, "dataType": "string" },
-                updatedEntryVm: { "in": "body", "name": "updatedEntryVm", "required": true, "ref": "EntryVm" },
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "NewEntryParams" },
+                harvestId: { "in": "query", "name": "harvestId", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];

@@ -1,4 +1,4 @@
-import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
+import {Body, Delete, Get, Path, Post, Put, Query, Route, Tags} from 'tsoa';
 import {IEntryRepository} from '../repositories/interfaces/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {Entry, EntryVm, IEntry} from '../models/Entry';
@@ -83,15 +83,32 @@ export class EntryController extends BaseController {
      * @param id
      * @param updatedEntryParams
      */
-    @Put('{harvestId}')
+    @Put('{id}')
     @Tags('Entry')
-    public async updateEntry(@Path() harvestId: string, @Body() updatedEntryVm: EntryVm): Promise<HarvestVm> {
+    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: NewEntryParams, @Query() harvestId: string): Promise<HarvestVm> {
         const harvest: IHarvest = await this._harvestRepository.getResourceById(harvestId);
 
         if (!harvest)
             throw EntryController.resolveErrorResponse(null, `Harvest with ${harvestId} not found`);
 
-        const updatedEntry: IEntry = new Entry(updatedEntryVm);
+        const existed: IEntry = await this._entryRepository.getResourceById(id);
+
+        if (!existed)
+            throw EntryController.resolveErrorResponse(null, 'Entry not found');
+
+        const updatedEntry: IEntry = new Entry();
+        const crop: ICrop = await this._cropRepository.getResourceById(updatedEntryParams.cropId);
+        const harvester: IHarvester = await this._harvesterRepository.getResourceById(updatedEntryParams.harvesterId);
+        const recipient: IOrganization = await this._organizationRepository.getResourceById(updatedEntryParams.recipientId);
+
+        updatedEntry._id = existed._id;
+        updatedEntry.createdOn = existed.createdOn;
+        updatedEntry.updatedOn = new Date(Date.now());
+        updatedEntry.crop = crop;
+        updatedEntry.harvester = harvester;
+        updatedEntry.recipient = recipient;
+        updatedEntry.comments = updatedEntry.comments;
+        updatedEntry.selectedVariety = updatedEntry.selectedVariety;
         updatedEntry.priceTotal = updatedEntry.crop.pricePerPound * updatedEntry.pounds;
 
         harvest.entries.splice(harvest.entries.findIndex(entry => entry._id === updatedEntry._id), 1, updatedEntry)
