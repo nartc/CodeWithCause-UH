@@ -107,6 +107,7 @@ export class EntryController extends BaseController {
         updatedEntry.crop = crop;
         updatedEntry.harvester = harvester;
         updatedEntry.recipient = recipient;
+        updatedEntry.pounds = updatedEntryParams.pounds;
         updatedEntry.comments = updatedEntryParams.comments;
         updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
         updatedEntry.priceTotal = crop.pricePerPound * updatedEntryParams.pounds;
