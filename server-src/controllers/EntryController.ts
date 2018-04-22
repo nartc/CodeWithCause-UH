@@ -107,14 +107,14 @@ export class EntryController extends BaseController {
         updatedEntry.crop = crop;
         updatedEntry.harvester = harvester;
         updatedEntry.recipient = recipient;
-        updatedEntry.comments = updatedEntry.comments;
-        updatedEntry.selectedVariety = updatedEntry.selectedVariety;
-        updatedEntry.priceTotal = updatedEntry.crop.pricePerPound * updatedEntry.pounds;
+        updatedEntry.comments = updatedEntryParams.comments;
+        updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
+        updatedEntry.priceTotal = crop.pricePerPound * updatedEntryParams.pounds;
 
         harvest.entries.splice(harvest.entries.findIndex(entry => entry._id === updatedEntry._id), 1, updatedEntry)
         const updatedHarvest: IHarvest = await harvest.save();
         await this._entryRepository.update(updatedEntry._id, updatedEntry);
-        return <HarvestVm>updatedHarvest;
+        return <HarvestVm> this._harvestRepository.getResourceById(updatedHarvest._id);
     }
 
     /**
