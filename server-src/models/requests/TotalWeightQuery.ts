@@ -1,4 +1,4 @@
-export interface ITotalWeightQuery {
+export interface TotalWeightQuery {
     farmName?: string;
     recipient?: string;
 }

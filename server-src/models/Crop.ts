@@ -1,4 +1,4 @@
-import {Document, model, Model, Schema} from 'mongoose';
+import {model, Model, Schema} from 'mongoose';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 // import {Crop} from '';
 
@@ -29,17 +29,11 @@ export interface ICrop extends IBaseModel {
     pricePerPound: number;
 }
 
-export interface ICropVm extends IBaseModelVm {
+export interface CropVm extends IBaseModelVm {
     name: string;
     variety: string[];
     pricePerPound: number;
 }
-
-
-// export enum CropRole {
-//     Admin = 'Admin' as any,
-//     Crop = 'Crop' as any
-// }
 
 export type CropModel = Model<ICrop>;
 export const Crop: CropModel = model<ICrop>('Crop', CropSchema) as CropModel;

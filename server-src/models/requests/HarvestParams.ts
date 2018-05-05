@@ -1,4 +1,4 @@
-export interface IHarvestParams {
+export interface HarvestParams {
     farmId: string;
     entriesIds?: string[];
     harvestId?: string;

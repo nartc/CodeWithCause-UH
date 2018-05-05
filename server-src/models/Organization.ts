@@ -1,4 +1,4 @@
-import {Document, Model, model, Schema} from 'mongoose';
+import {Model, model, Schema} from 'mongoose';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 
 export const OrganizationSchema = new Schema({
@@ -25,7 +25,7 @@ export interface IOrganization extends IBaseModel {
     name?: string;
 }
 
-export interface IOrganizationVm extends IBaseModelVm {
+export interface OrganizationVm extends IBaseModelVm {
     orgType?: OrganizationType;
     name?: string;
 }
@@ -37,5 +37,5 @@ export enum OrganizationType {
 }
 
 export type OrganizationModel = Model<IOrganization>;
-export const Organization =  model<IOrganization>('Organization', OrganizationSchema) as OrganizationModel
+export const Organization = model<IOrganization>('Organization', OrganizationSchema) as OrganizationModel
 

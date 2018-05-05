@@ -1,5 +1,6 @@
-import {UserRole} from "./User"
-export interface ILoginVm {
+import {UserRole} from './User'
+
+export interface LoginVm {
     authToken: string;
     username?: string;
     role?: UserRole;

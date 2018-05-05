@@ -32,7 +32,7 @@ export interface IUser extends IBaseModel {
     role?: UserRole;
 }
 
-export interface IUserVm extends IBaseModelVm {
+export interface UserVm extends IBaseModelVm {
     username?: string;
     password?: string;
     role?: UserRole;

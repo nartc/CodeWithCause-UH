@@ -1,16 +1,16 @@
-import {Body, Get, Path, Post, Query, Route, Tags} from 'tsoa';
-import {IHarvestRepository} from '../repositories/IHarvestRepository';
+import {Body, Get, Path, Post, Put, Query, Route, Tags} from 'tsoa';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
 import {HarvestRepository} from '../repositories/HarvestRepository';
-import {Harvest, IHarvest, IHarvestVm} from '../models/Harvest';
-import {IHarvestParams} from '../models/requests/index.requests';
+import {Harvest, HarvestVm, IHarvest} from '../models/Harvest';
+import {HarvestParams} from '../models/requests/HarvestParams';
 import {Entry} from '../models/Entry';
-import {IEntryRepository} from '../repositories/IEntryRepository';
+import {IEntryRepository} from '../repositories/interfaces/IEntryRepository';
 import {EntryRepository} from '../repositories/EntryRepository';
 import {BaseController} from './BaseController';
+import {Farm, IFarm} from '../models/Farm';
+import {IFarmRepository} from '../repositories/interfaces/IFarmRepository';
+import {FarmRepository} from '../repositories/FarmRepository';
 import moment = require('moment');
-import { IFarm, Farm } from '../models/Farm';
-import { IFarmRepository } from '../repositories/IFarmRepository';
-import { FarmRepository } from '../repositories/FarmRepository';
 
 @Route('harvests')
 export class HarvestController extends BaseController {
@@ -19,20 +19,19 @@ export class HarvestController extends BaseController {
     private readonly _farmRepository: IFarmRepository = new FarmRepository(Farm);
 
     /**
-     * 
-     * @param harvestParams 
+     *
+     * @param harvestParams
      */
     @Post('create')
     @Tags('Harvest')
-    public async registerHarvest(@Body() harvestParams: IHarvestParams): Promise<IHarvestVm> {
+    public async registerHarvest(@Body() harvestParams: HarvestParams): Promise<HarvestVm> {
 
         if (!harvestParams.farmId) {
             throw HarvestController.resolveErrorResponse(null, 'FarmID is REQUIRED');
         }
 
         const newHarvest: IHarvest = new Harvest();
-        const farm: IFarm = await this._farmRepository.getResourceById(harvestParams.farmId);
-        newHarvest.farm = farm;
+        newHarvest.farm = await this._farmRepository.getResourceById(harvestParams.farmId);
 
         if ((harvestParams.entriesIds && harvestParams.entriesIds.length > 0) && harvestParams.harvestId) {
             const existedHarvest: IHarvest = await this._harvestRepository.getResourceById(harvestParams.harvestId);
@@ -44,32 +43,52 @@ export class HarvestController extends BaseController {
             updatedHarvest.farm = existedHarvest.farm;
             updatedHarvest.entries = await this._entryRepository.getResourcesByIds(harvestParams.entriesIds);
 
-            return await <IHarvestVm>this._harvestRepository.update(harvestParams.harvestId, updatedHarvest);
+            return await <HarvestVm>this._harvestRepository.update(harvestParams.harvestId, updatedHarvest);
         } else {
-            return await <IHarvestVm>this._harvestRepository.create(newHarvest);
+            return await <HarvestVm>this._harvestRepository.create(newHarvest);
         }
     }
 
     /**
      *
      * @param {string} username
-     * @returns {Promise<IHarvestVm[]>}
+     * @returns {Promise<HarvestVm[]>}
      */
     @Get('getAll')
     @Tags('Harvest')
-    public async getAll(): Promise<IHarvestVm[]> {
-        return await <IHarvestVm[]>this._harvestRepository.getAll();
+    public async getAll(): Promise<HarvestVm[]> {
+        return await <HarvestVm[]>this._harvestRepository.getAll();
     }
 
     // @Get('getQuery')
     // @Tags('Harvest')
-    // public async getByDate(@Query() date: Date): Promise<IHarvestVm[]> {
-    //     return await <IHarvestVm[]>this._harvestRepository.findByDate(date);
+    // public async getByDate(@Query() date: Date): Promise<HarvestVm[]> {
+    //     return await <HarvestVm[]>this._harvestRepository.findByDate(date);
     // }
 
     @Get('{id}')
     @Tags('Harvest')
-    public async getHarvestById(@Path() id: string): Promise<IHarvestVm> {
-        return await <IHarvestVm>this._harvestRepository.getResourceById(id);
+    public async getHarvestById(@Path() id: string): Promise<HarvestVm> {
+        return await <HarvestVm>this._harvestRepository.getResourceById(id);
+    }
+
+    @Put('{id}')
+    @Tags('Harvest')
+    public async updateFarm(@Path() id: string, @Query() farmId: string): Promise<HarvestVm> {
+        const harvest: IHarvest = await this._harvestRepository.getResourceById(id);
+
+        if (!harvest || harvest === null) {
+            throw HarvestController.resolveErrorResponse(null, 'Harvest not found');
+        }
+
+        const farm: IFarm = await this._farmRepository.getResourceById(farmId);
+
+        if (!farm || farm === null) {
+            throw HarvestController.resolveErrorResponse(null, 'Farm not found');
+        }
+
+        harvest.farm = farm;
+        harvest.updatedOn = moment().toDate();
+        return await <HarvestVm> this._harvestRepository.update(harvest._id, harvest);
     }
 }

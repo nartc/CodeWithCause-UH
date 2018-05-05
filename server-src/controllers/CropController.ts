@@ -1,8 +1,8 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
-import {ICropRepository} from '../repositories/ICropRepository';
+import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
-import {Crop, ICrop, ICropVm} from '../models/Crop';
-import {INewCropParams} from '../models/requests/index.requests';
+import {Crop, ICrop, CropVm} from '../models/Crop';
+import {NewCropParams} from '../models/requests/NewCropParams';
 import {BaseController} from './BaseController';
 import moment = require('moment');
 
@@ -12,42 +12,42 @@ export class CropController extends BaseController {
 
     /**
      *
-     * @param {INewCropParams} newCropParams
-     * @returns {Promise<ICropVm>}
+     * @param {NewCropParams} newCropParams
+     * @returns {Promise<CropVm>}
      */
     @Post('create')
     @Tags('Crop')
-    public async registerCrop(@Body() newCropParams: INewCropParams): Promise<ICropVm> {
+    public async registerCrop(@Body() newCropParams: NewCropParams): Promise<CropVm> {
 
         const newCrop: ICrop = new Crop();
         newCrop.name = newCropParams.name;
         newCrop.variety = newCropParams.variety;
         newCrop.pricePerPound = newCropParams.pricePerPound;
 
-        return await <ICropVm>this._cropRepository.create(newCrop);
+        return await <CropVm>this._cropRepository.create(newCrop);
     }
 
     /**
      *
      * @param {string} username
-     * @returns {Promise<ICropVm>}
+     * @returns {Promise<CropVm>}
      */
     @Get('getAll')
     @Tags('Crop')
-    public async getAll(): Promise<ICropVm[]> {
+    public async getAll(): Promise<CropVm[]> {
         const result: ICrop[] = await this._cropRepository.getAll();
-        return <ICropVm[]>result;
+        return <CropVm[]>result;
     }
 
     @Get('{id}')
     @Tags('Crop')
-    public async getSingleCrop(@Path() id: string): Promise<ICropVm> {
-        return await <ICropVm>this._cropRepository.getResourceById(id);
+    public async getSingleCrop(@Path() id: string): Promise<CropVm> {
+        return await <CropVm>this._cropRepository.getResourceById(id);
     }
 
     @Put('{id}')
     @Tags('Crop')
-    public async updateCrop(@Path() id: string, @Body() updateCropParams: INewCropParams): Promise<ICropVm> {
+    public async updateCrop(@Path() id: string, @Body() updateCropParams: NewCropParams): Promise<CropVm> {
         const existedCrop: ICrop = await this._cropRepository.getResourceById(id);
 
         const updatedCrop: ICrop = new Crop();
@@ -57,13 +57,13 @@ export class CropController extends BaseController {
         updatedCrop.pricePerPound = updateCropParams.pricePerPound;
         updatedCrop.variety = updateCropParams.variety;
 
-        return await <ICropVm>this._cropRepository.update(id, updatedCrop);
+        return await <CropVm>this._cropRepository.update(id, updatedCrop);
     }
 
     @Delete('{id}')
     @Tags('Crop')
     @Security('JWT')
-    public async deleteCrop(@Path() id: string): Promise<ICropVm> {
-        return await <ICropVm>this._cropRepository.delete(id);
+    public async deleteCrop(@Path() id: string): Promise<CropVm> {
+        return await <CropVm>this._cropRepository.delete(id);
     }
 }

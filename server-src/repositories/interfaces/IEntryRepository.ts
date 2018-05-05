@@ -1,4 +1,4 @@
-import {IEntry} from '../models/Entry';
+import {IEntry} from '../../models/Entry';
 import {IBaseRepository} from './IBaseRepository';
 
 export interface IEntryRepository extends IBaseRepository<IEntry> {

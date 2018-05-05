@@ -13,29 +13,31 @@ import { ReportingController } from './controllers/ReportingController';
 import { SystemController } from './controllers/SystemController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
+import * as multer from 'multer';
+const upload = multer();
 
 const models: TsoaRoute.Models = {
     "UserRole": {
         "enums": ["Admin", "User"],
     },
-    "IUserVm": {
+    "UserVm": {
         "properties": {
-            "username": { "dataType": "string" },
-            "password": { "dataType": "string" },
-            "role": { "ref": "UserRole" },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "username": { "dataType": "string" },
+            "password": { "dataType": "string" },
+            "role": { "ref": "UserRole" },
         },
     },
-    "INewUserParams": {
+    "NewUserParams": {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
             "role": { "ref": "UserRole", "required": true },
         },
     },
-    "ILoginVm": {
+    "LoginVm": {
         "properties": {
             "authToken": { "dataType": "string", "required": true },
             "username": { "dataType": "string" },
@@ -43,58 +45,58 @@ const models: TsoaRoute.Models = {
             "_id": { "dataType": "string" },
         },
     },
-    "ILoginParams": {
+    "LoginParams": {
         "properties": {
             "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string", "required": true },
         },
     },
-    "ICropVm": {
+    "CropVm": {
         "properties": {
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "_id": { "dataType": "string" },
             "name": { "dataType": "string", "required": true },
             "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "_id": { "dataType": "string" },
         },
     },
-    "IHarvesterVm": {
+    "HarvesterVm": {
         "properties": {
-            "firstName": { "dataType": "string", "required": true },
-            "lastName": { "dataType": "string", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "firstName": { "dataType": "string", "required": true },
+            "lastName": { "dataType": "string", "required": true },
         },
     },
     "OrganizationType": {
         "enums": ["Purchased", "Donated", "Internal"],
     },
-    "IOrganizationVm": {
+    "OrganizationVm": {
         "properties": {
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "_id": { "dataType": "string" },
             "orgType": { "ref": "OrganizationType" },
             "name": { "dataType": "string" },
+        },
+    },
+    "EntryVm": {
+        "properties": {
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
-        },
-    },
-    "IEntryVm": {
-        "properties": {
-            "crop": { "ref": "ICropVm", "required": true },
+            "crop": { "ref": "CropVm", "required": true },
             "pounds": { "dataType": "double", "required": true },
             "priceTotal": { "dataType": "double", "required": true },
-            "harvester": { "ref": "IHarvesterVm", "required": true },
+            "harvester": { "ref": "HarvesterVm", "required": true },
             "comments": { "dataType": "string", "required": true },
-            "recipient": { "ref": "IOrganizationVm", "required": true },
+            "recipient": { "ref": "OrganizationVm", "required": true },
             "selectedVariety": { "dataType": "string", "required": true },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "_id": { "dataType": "string" },
         },
     },
-    "INewEntryParams": {
+    "NewEntryParams": {
         "properties": {
             "pounds": { "dataType": "double", "required": true },
             "cropId": { "dataType": "string" },
@@ -104,72 +106,134 @@ const models: TsoaRoute.Models = {
             "selectedVariety": { "dataType": "string" },
         },
     },
-    "IFarmVm": {
+    "FarmVm": {
         "properties": {
-            "name": { "dataType": "string", "required": true },
-            "lat": { "dataType": "double", "required": true },
-            "lng": { "dataType": "double", "required": true },
             "createdOn": { "dataType": "datetime" },
             "updatedOn": { "dataType": "datetime" },
             "_id": { "dataType": "string" },
+            "name": { "dataType": "string", "required": true },
+            "lat": { "dataType": "double", "required": true },
+            "lng": { "dataType": "double", "required": true },
         },
     },
-    "INewFarmParams": {
+    "HarvestVm": {
+        "properties": {
+            "createdOn": { "dataType": "datetime" },
+            "updatedOn": { "dataType": "datetime" },
+            "_id": { "dataType": "string" },
+            "farm": { "ref": "FarmVm", "required": true },
+            "entries": { "dataType": "array", "array": { "ref": "EntryVm" }, "required": true },
+        },
+    },
+    "NewFarmParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "lat": { "dataType": "double", "required": true },
             "lng": { "dataType": "double", "required": true },
         },
     },
-    "INewCropParams": {
+    "NewCropParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "variety": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
             "pricePerPound": { "dataType": "double", "required": true },
         },
     },
-    "INewHarvesterParams": {
+    "NewHarvesterParams": {
         "properties": {
             "lastName": { "dataType": "string", "required": true },
             "firstName": { "dataType": "string", "required": true },
         },
     },
-    "INewOrganizationParams": {
+    "NewOrganizationParams": {
         "properties": {
             "name": { "dataType": "string", "required": true },
             "orgType": { "ref": "OrganizationType" },
         },
     },
-    "IHarvestVm": {
-        "properties": {
-            "farm": { "ref": "IFarmVm", "required": true },
-            "entries": { "dataType": "array", "array": { "ref": "IEntryVm" }, "required": true },
-            "createdOn": { "dataType": "datetime" },
-            "updatedOn": { "dataType": "datetime" },
-            "_id": { "dataType": "string" },
-        },
-    },
-    "IHarvestParams": {
+    "HarvestParams": {
         "properties": {
             "farmId": { "dataType": "string", "required": true },
             "entriesIds": { "dataType": "array", "array": { "dataType": "string" } },
             "harvestId": { "dataType": "string" },
         },
     },
-    "IPercentageReportResponse": {
+    "PercentageReportType": {
+        "enums": ["Purchased", "Donated"],
+    },
+    "PercentageReportResponse": {
         "properties": {
-            "type": { "dataType": "string" },
+            "type": { "ref": "PercentageReportType" },
             "createdOn": { "dataType": "datetime" },
             "percentage": { "dataType": "string" },
+        },
+    },
+    "PercentageByFarmReportResponse": {
+        "properties": {
+            "farmName": { "dataType": "string", "required": true },
+            "pounds": { "dataType": "double", "required": true },
+            "total": { "dataType": "double", "required": true },
+            "percentageByEntry": { "dataType": "string", "required": true },
+            "percentageByPound": { "dataType": "string", "required": true },
+            "percentageByPrice": { "dataType": "string", "required": true },
+        },
+    },
+    "PercentageByFarm": {
+        "properties": {
+            "reportType": { "ref": "PercentageReportType", "required": true },
+            "dateRange": { "dataType": "array", "array": { "dataType": "datetime" } },
+        },
+    },
+    "ValueReportResponse": {
+        "properties": {
+            "farmName": { "dataType": "string", "required": true },
+            "value": { "dataType": "double", "required": true },
+        },
+    },
+    "WeightValueReportType": {
+        "enums": ["Weight", "Value"],
+    },
+    "ReportByFarm": {
+        "properties": {
+            "valueReportType": { "ref": "WeightValueReportType", "required": true },
+            "dateRange": { "dataType": "array", "array": { "dataType": "datetime" } },
+        },
+    },
+    "ClearDbResponse": {
+        "properties": {
+            "result": { "dataType": "any", "required": true },
+            "connection": { "dataType": "any" },
+            "deletedCount": { "dataType": "double" },
+            "collection": { "dataType": "string" },
         },
     },
 };
 
 export function RegisterRoutes(app: any) {
+    app.post('/api/users/addImage',
+        upload.single('image'),
+        function(request: any, response: any, next: any) {
+            const args = {
+                image: { "in": "formData", "name": "image", "required": true, "dataType": "file" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new UserController();
+
+
+            const promise = controller.addImage.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.post('/api/users/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newUserParams: { "in": "body", "name": "newUserParams", "required": true, "ref": "INewUserParams" },
+                newUserParams: { "in": "body", "name": "newUserParams", "required": true, "ref": "NewUserParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -207,7 +271,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/users/login',
         function(request: any, response: any, next: any) {
             const args = {
-                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "ILoginParams" },
+                loginParams: { "in": "body", "name": "loginParams", "required": true, "ref": "LoginParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -264,7 +328,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updateUserParams: { "in": "body", "name": "updateUserParams", "required": true, "ref": "INewUserParams" },
+                updateUserParams: { "in": "body", "name": "updateUserParams", "required": true, "ref": "NewUserParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -283,7 +347,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/entries/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newEntryParams: { "in": "body", "name": "newEntryParams", "required": true, "ref": "INewEntryParams" },
+                newEntryParams: { "in": "body", "name": "newEntryParams", "required": true, "ref": "NewEntryParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -340,7 +404,8 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "INewEntryParams" },
+                updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "NewEntryParams" },
+                harvestId: { "in": "query", "name": "harvestId", "required": true, "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -378,7 +443,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/farms/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "NewFarmParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -436,7 +501,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "INewFarmParams" },
+                newFarmParams: { "in": "body", "name": "newFarmParams", "required": true, "ref": "NewFarmParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -455,7 +520,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/crops/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newCropParams: { "in": "body", "name": "newCropParams", "required": true, "ref": "INewCropParams" },
+                newCropParams: { "in": "body", "name": "newCropParams", "required": true, "ref": "NewCropParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -512,7 +577,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                updateCropParams: { "in": "body", "name": "updateCropParams", "required": true, "ref": "INewCropParams" },
+                updateCropParams: { "in": "body", "name": "updateCropParams", "required": true, "ref": "NewCropParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -551,7 +616,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/harvesters/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newHarvesterParams: { "in": "body", "name": "newHarvesterParams", "required": true, "ref": "INewHarvesterParams" },
+                newHarvesterParams: { "in": "body", "name": "newHarvesterParams", "required": true, "ref": "NewHarvesterParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -607,7 +672,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/organization/create',
         function(request: any, response: any, next: any) {
             const args = {
-                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "INewOrganizationParams" },
+                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "NewOrganizationParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -645,7 +710,7 @@ export function RegisterRoutes(app: any) {
         function(request: any, response: any, next: any) {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "INewOrganizationParams" },
+                newOrganizationParams: { "in": "body", "name": "newOrganizationParams", "required": true, "ref": "NewOrganizationParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -683,7 +748,7 @@ export function RegisterRoutes(app: any) {
     app.post('/api/harvests/create',
         function(request: any, response: any, next: any) {
             const args = {
-                harvestParams: { "in": "body", "name": "harvestParams", "required": true, "ref": "IHarvestParams" },
+                harvestParams: { "in": "body", "name": "harvestParams", "required": true, "ref": "HarvestParams" },
             };
 
             let validatedArgs: any[] = [];
@@ -736,10 +801,30 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getHarvestById.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.put('/api/harvests/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                farmId: { "in": "query", "name": "farmId", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.updateFarm.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.get('/api/reports/percentage',
         function(request: any, response: any, next: any) {
             const args = {
-                percentageType: { "in": "query", "name": "percentageType", "required": true, "dataType": "string" },
+                percentageType: { "in": "query", "name": "percentageType", "required": true, "dataType": "enum", "enums": ["Purchased", "Donated"] },
             };
 
             let validatedArgs: any[] = [];
@@ -755,10 +840,29 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getSalesPercentage.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.get('/api/reports/total',
+    app.post('/api/reports/percentageByFarm',
         function(request: any, response: any, next: any) {
             const args = {
-                weightOrValue: { "in": "query", "name": "weightOrValue", "required": true, "dataType": "string" },
+                percentageByFarmParams: { "in": "body", "name": "percentageByFarmParams", "required": true, "ref": "PercentageByFarm" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getPercentageByFarm.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/reports/total',
+        function(request: any, response: any, next: any) {
+            const args = {
+                reportParams: { "in": "body", "name": "reportParams", "required": true, "ref": "ReportByFarm" },
             };
 
             let validatedArgs: any[] = [];
@@ -772,6 +876,26 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/reports/test',
+        function(request: any, response: any, next: any) {
+            const args = {
+                dateStart: { "in": "query", "name": "dateStart", "required": true, "dataType": "datetime" },
+                dateEnd: { "in": "query", "name": "dateEnd", "required": true, "dataType": "datetime" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ReportingController();
+
+
+            const promise = controller.getTest.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/system/importCrops',
@@ -792,6 +916,28 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.importCrops.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.get('/api/system/clearDatabase',
+        authenticateMiddleware([{ "name": "JWT" }]),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                collection: { "in": "query", "name": "collection", "required": true, "dataType": "array", "enums": ["crops", "entries", "farms", "harvesters", "harvests", "organizations", "users"] },
+                dropUser: { "default": false, "in": "query", "name": "dropUser", "dataType": "boolean" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new SystemController();
+
+
+            const promise = controller.clearDatabase.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

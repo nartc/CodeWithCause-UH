@@ -1,7 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import {Application, Request, Response, json} from 'express';
+import {Application, Request, Response} from 'express';
 import * as mongoose from 'mongoose';
 import {Connection, Mongoose} from 'mongoose';
 import * as logger from 'morgan';
@@ -24,7 +24,6 @@ import './controllers/SystemController';
 import {RegisterRoutes} from './routes';
 import {authenticateUser} from './middleware/security/passport';
 
-const fs = require('fs')
 class App {
     public mongooseConnection: Connection;
     public app: Application;
@@ -39,7 +38,7 @@ class App {
         // Call Routes: TODO
     }
 
-    configure(): void {  
+    configure(): void {
         // Connect to MongoDB
         (mongoose as Mongoose).Promise = global.Promise;
 
@@ -75,7 +74,7 @@ class App {
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, {
             explorer: true,
             swaggerOptions: {
-              docExpansion: 'none'
+                docExpansion: 'none'
             },
             swaggerUrl: this.environmentHost === 'Development'
                 ? `http://${get('express.host')}:${get('express.port')}/api/docs/swagger.json`
@@ -107,7 +106,7 @@ class App {
         );
     }
 
-  
+
 }
 
 export default new App();

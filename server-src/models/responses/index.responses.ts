@@ -1,1 +1,1 @@
-export {IErrorResponse} from './IErrorResponse';
+export {ErrorResponse} from './ErrorResponse';

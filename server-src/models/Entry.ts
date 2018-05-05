@@ -1,10 +1,8 @@
-import {Document, model, Model, Schema} from 'mongoose';
-import {ICropVm, ICrop, CropSchema} from './Crop';
-import {IHarvesterVm, IHarvester, HarvesterSchema} from './Harvester';
-import {IFarmVm} from './Farm';
-import {IOrganizationVm, IOrganization, OrganizationSchema} from './Organization';
+import {model, Model, Schema} from 'mongoose';
+import {CropSchema, CropVm, ICrop} from './Crop';
+import {HarvesterSchema, HarvesterVm, IHarvester} from './Harvester';
+import {IOrganization, OrganizationSchema, OrganizationVm} from './Organization';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
-// import {Crop} from '';
 
 export const EntrySchema = new Schema({
     crop: CropSchema,
@@ -40,21 +38,15 @@ export interface IEntry extends IBaseModel {
     selectedVariety: string;
 }
 
-export interface IEntryVm extends IBaseModelVm {
-    crop: ICropVm;
+export interface EntryVm extends IBaseModelVm {
+    crop: CropVm;
     pounds: number;
     priceTotal: number;
-    harvester: IHarvesterVm;
+    harvester: HarvesterVm;
     comments: string;
-    recipient: IOrganizationVm;
+    recipient: OrganizationVm;
     selectedVariety: string;
 }
-
-
-// export enum EntryRole {
-//     Admin = 'Admin' as any,
-//     Entry = 'Entry' as any
-// }
 
 export type EntryModel = Model<IEntry>;
 export const Entry: EntryModel = model<IEntry>('Entry', EntrySchema) as EntryModel;

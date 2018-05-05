@@ -1,4 +1,4 @@
-import {IHarvesterRepository} from './IHarvesterRepository';
+import {IHarvesterRepository} from './interfaces/IHarvesterRepository';
 import {HarvesterModel, IHarvester} from '../models/Harvester';
 import {BaseRepository} from './BaseRepository';
 
