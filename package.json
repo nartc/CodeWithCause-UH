@@ -16,7 +16,7 @@
     "clean": "rimraf ./server-build && rimraf ./server-src/routes.ts && rimraf ./server-src/swagger.json",
     "start-gen": "npm run clean && npm run swagger-gen && npm run routes-gen && tsc && npm run swagger-copy",
     "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev --dev",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; cd ./angular-src/ && npm install",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; cd ./angular_src/ && npm install",
     "start-dev": "concurrently --kill-others-on-fail \"tsc -w\" \"nodemon ./server-build/index.js\"",
     "start": "tsc && npm run swagger-copy && node ./server-build/index.js",
     "clean-swagger": "rimraf ../code-with-cause-web/src/app/swagger-api",
