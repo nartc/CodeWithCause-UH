@@ -16,7 +16,7 @@ import 'rxjs/add/operator/filter';
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import * as moment from 'moment';
 import {Angular5Csv} from 'angular5-csv/Angular5-csv';
-import randomColor = require('randomcolor');
+import * as randomColor from 'randomcolor';
 
 @Component({
   selector: 'app-reporting',
