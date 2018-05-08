@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Create new organization</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Name" type="text" name="name" id="name" [(ngModel)]="organization.name">
+  </mat-form-field>
+  <br/>
+  <mat-radio-group>
+    <mat-radio-button value="Purchased" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Purchased'">Purchased</mat-radio-button>
+    <mat-radio-button value="Donated" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Donated'">Donated</mat-radio-button>
+    <mat-radio-button value="Internal" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Internal'">Internal</mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="organization">Submit</button>
+</mat-dialog-actions>

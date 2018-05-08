@@ -39,7 +39,10 @@
     "no-console": false,
     "no-duplicate-imports": false,
     "variable-name": false,
-    "no-return-await": false
+    "no-return-await": false,
+    "interface-name": false,
+    "max-line-length": [140],
+    "member-ordering": [false]
   },
   "rulesDirectory": []
 }

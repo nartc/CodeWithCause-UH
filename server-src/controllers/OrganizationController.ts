@@ -21,26 +21,22 @@ export class OrganizationController extends BaseController {
         const name: string = newOrganizationParams.name;
         const orgType: OrganizationType = newOrganizationParams.orgType ? newOrganizationParams.orgType : null;
 
-
         const existOrganization: IOrganization = await this._organizationRepository.getOrganizationByName(name);
 
         if (existOrganization instanceof MongoError) throw OrganizationController.resolveErrorResponse(existOrganization, existOrganization.message);
         if (existOrganization) throw OrganizationController.resolveErrorResponse(null, 'Organization already existed');
 
-        console.log(OrganizationController);
-
         const newOrganization: IOrganization = new Organization();
         newOrganization.name = name;
         newOrganization.orgType = orgType;
 
-        return await <OrganizationVm>this._organizationRepository.create(newOrganization);
+        return await this._organizationRepository.create(newOrganization) as OrganizationVm;
     }
 
     @Get('getAll')
     @Tags('Organization')
     public async getAll(): Promise<OrganizationVm[]> {
-        const result: OrganizationVm[] = await this._organizationRepository.getAll();
-        return result;
+        return await this._organizationRepository.getAll();
     }
 
     @Put('{id}')
@@ -51,16 +47,12 @@ export class OrganizationController extends BaseController {
         updateOrganization.orgType = newOrganizationParams.orgType;
         updateOrganization.name = newOrganizationParams.name;
 
-        const result: OrganizationVm = await this._organizationRepository.update(id, updateOrganization);
-        return result;
+        return await this._organizationRepository.update(id, updateOrganization);
     }
 
     @Delete('{id}')
     @Tags('Organization')
     public async deleteOrganization(@Path() id: string): Promise<OrganizationVm> {
-        const result: OrganizationVm = await this._organizationRepository.delete(id);
-        return result;
+        return await this._organizationRepository.delete(id);
     }
 }
-
-

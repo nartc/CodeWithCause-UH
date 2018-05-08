@@ -15,7 +15,6 @@
       "httpClass": "HttpClient",
       "injectionTokenType": "InjectionToken",
       "promiseType": "Promise",
-      "dateTimeType": "MomentJS",
       "nullValue": "Null",
       "generateClientClasses": true,
       "generateClientInterfaces": false,
@@ -36,7 +35,7 @@
       "importRequiredTypes": true,
       "useGetBaseUrlMethod": false,
       "baseUrlTokenName": "API_BASE_URL",
-      "output": "../code-with-cause-web/src/app/app.api.ts"
+      "output": "./angular_src/src/app/app.api.ts"
     }
   }
 }

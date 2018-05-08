@@ -1,0 +1,29 @@
+@import "../styles";
+
+.header {
+  height: $header-height;
+  border-bottom: $header-border-width solid $header-border-color;
+  background-color: $header-color;
+  width: 100%;
+  z-index: 1;
+  position: fixed;
+  top: 0; /* stick to top */
+}
+
+.content {
+  margin: $header-height 0 $footer-height;
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+   overflow-y:scroll;
+  // // overflow-y: auto;
+  // overflow-x: hidden;
+}
+
+.footer {
+  height: $footer-height;
+  border-top: $footer-border-width solid $footer-border-color;
+  background-color: $footer-color;
+  width: 100%;
+
+  position: fixed;
+  bottom: 0; /* stick to bottom */
+}

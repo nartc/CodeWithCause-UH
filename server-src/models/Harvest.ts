@@ -4,8 +4,12 @@ import {FarmSchema, FarmVm, IFarm} from './Farm';
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 
 export const HarvestSchema = new Schema({
-    farm: FarmSchema,
-    entries: [EntrySchema],
+    farm: {
+        type: FarmSchema
+    },
+    entries: {
+        type: [EntrySchema],
+    },
     createdOn: {
         type: Date,
         default: Date.now()

@@ -43,9 +43,9 @@ export class HarvestController extends BaseController {
             updatedHarvest.farm = existedHarvest.farm;
             updatedHarvest.entries = await this._entryRepository.getResourcesByIds(harvestParams.entriesIds);
 
-            return await <HarvestVm>this._harvestRepository.update(harvestParams.harvestId, updatedHarvest);
+            return await this._harvestRepository.update(harvestParams.harvestId, updatedHarvest) as HarvestVm;
         } else {
-            return await <HarvestVm>this._harvestRepository.create(newHarvest);
+            return await this._harvestRepository.create(newHarvest) as HarvestVm;
         }
     }
 
@@ -57,7 +57,7 @@ export class HarvestController extends BaseController {
     @Get('getAll')
     @Tags('Harvest')
     public async getAll(): Promise<HarvestVm[]> {
-        return await <HarvestVm[]>this._harvestRepository.getAll();
+        return await this._harvestRepository.getAll() as HarvestVm[];
     }
 
     // @Get('getQuery')
@@ -69,7 +69,7 @@ export class HarvestController extends BaseController {
     @Get('{id}')
     @Tags('Harvest')
     public async getHarvestById(@Path() id: string): Promise<HarvestVm> {
-        return await <HarvestVm>this._harvestRepository.getResourceById(id);
+        return await this._harvestRepository.getResourceById(id) as HarvestVm;
     }
 
     @Put('{id}')
@@ -89,6 +89,12 @@ export class HarvestController extends BaseController {
 
         harvest.farm = farm;
         harvest.updatedOn = moment().toDate();
-        return await <HarvestVm> this._harvestRepository.update(harvest._id, harvest);
+        return await this._harvestRepository.update(harvest._id, harvest) as HarvestVm;
+    }
+
+    @Post('date')
+    @Tags('Harvest')
+    public async getHarvestsByDateRange(@Body() dateRange: Date[]): Promise<HarvestVm[]> {
+        return await this._harvestRepository.getHarvestByDateRange(dateRange);
     }
 }

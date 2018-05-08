@@ -1,0 +1,49 @@
+mat-form-field, mat-slider {
+    width:100%;
+  }
+  
+  .date {
+    width: 50%;
+    align-self: right;
+    margin: 0 4vh 0 2vh;
+  }
+  
+  .farmField {
+    width: 80% !important;
+    padding-bottom: 2vh;
+  }
+  
+  .frame {
+    padding: 2vh;
+  }
+  
+  .buttons {
+    margin: 1vh;
+  }
+  
+  .weightLabel {
+    color: #767676;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    margin-bottom: -.5vh;
+    font-weight: 100;
+  }
+  
+  .start {
+    margin: 20vh 0 30vh 0;
+  }
+  
+  .startButton {
+    height: 8vh;
+    width: 60vw;
+  }
+  
+  .backButton {
+    margin-right: 2vh;
+  }
+  
+  /deep/ .mat-slider-thumb-label-text {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 8pt !important;
+    font-weight: 500;
+  }
+  

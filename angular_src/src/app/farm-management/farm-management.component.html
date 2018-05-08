@@ -1,0 +1,23 @@
+<h2 class="center-align">Farm Management</h2>
+<button type="button" class="btn btn-success max-width add-new-farm-button" (click)="createNewFarm();" [disabled]="loading">Add New Farm</button>
+<ng-container *ngIf="loading">
+  <div class="center-align">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <mat-accordion>
+    <ng-container *ngFor="let farm of farms">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{farm.name}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Latitude: {{farm.lat}}</p>
+        <p>Longitude: {{farm.lng}}</p>
+        <button type="button" (click)="deleteFarm(farm);" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="editFarm(farm);" class="btn btn-info">Edit</button>
+      </mat-expansion-panel>
+    </ng-container>
+    <div id="spacer"></div>
+  </mat-accordion>
+</ng-container>

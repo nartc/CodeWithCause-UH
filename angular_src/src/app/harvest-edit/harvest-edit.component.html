@@ -1,0 +1,59 @@
+<div class="frame mt-4" *ngIf="doneLoading">
+  <div *ngIf="harvests.length>0">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 text-md-left text-center">
+        <button class="btn-primary" (click)="downloadCsv()"><i class="fa fa-download"></i> Download</button>
+      </div>
+      <div class="col-md-6 col-sm-12 text-md-right text-center">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="startDate" placeholder="Start date" (dateChange)="onStartDateChanged($event.value)">
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" #startDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="endDate" placeholder="End date" (dateChange)="onEndDateChanged($event.value)" [disabled]="noStartDate">
+          <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" #endDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngFor="let harvest of harvests; let i = index; trackBy:trackByIndex" class="mt-2">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Harvest {{i+1}}
+            </mat-panel-title>
+            <mat-panel-description>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngFor="let entry of harvest.entries;let i = index; trackBy:trackByIndex ">
+            <hr>
+            <p>
+              <strong> Entry {{i+1}} </strong><br>
+              Farm: <i>{{harvest.farm.name}} </i><br>
+              Created: <i>{{harvest.createdOn | date:'short'}}</i> <br>
+              Total Price: ${{entry.priceTotal}} <br>
+            </p>
+            <button mat-button (click)='routeToEditEntry(harvest,i)'>
+              <mat-icon style="font-size:20px; color:#42a64e">mode_edit</mat-icon>
+            </button>
+            <button mat-button (click)='routeToViewEntry(harvest)'>
+              <mat-icon style="font-size:20px; color:#f27f30">visibility</mat-icon>
+            </button>
+            <hr>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div *ngIf="!harvests.length>0">
+    <h3 class="center">No Records found</h3>
+  </div>
+</div>
+
+
+
+

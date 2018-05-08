@@ -1,6 +1,6 @@
-import {Body, Delete, FormFile, Get, Path, Post, Put, Route, Tags} from 'tsoa';
+import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {sign} from 'jsonwebtoken'
-import * as config from 'config'
+import {get} from 'config'
 import {MongoError} from 'mongodb';
 import {IUserRepository} from '../repositories/interfaces/IUserRepository';
 import {UserRepository} from '../repositories/UserRepository';
@@ -11,18 +11,10 @@ import {LoginVm} from '../models/Login';
 import {LoginParams} from '../models/requests/LoginParams';
 import * as moment from 'moment';
 import {BaseController} from './BaseController';
-import {FileParameter} from '../models/requests/FileParameter';
 
 @Route('users')
 export class UserController extends BaseController {
     private _userRepository: IUserRepository = new UserRepository(User);
-
-    @Post('addImage')
-    @Tags('System')
-    public async addImage(@FormFile() image: FileParameter): Promise<any> {
-        console.log(image);
-        return;
-    }
 
     /**
      *
@@ -41,15 +33,14 @@ export class UserController extends BaseController {
         if (existUser instanceof MongoError) throw UserController.resolveErrorResponse(existUser, existUser.message);
         if (existUser) throw UserController.resolveErrorResponse(null, 'Username is already existed');
 
-
         const newUser: IUser = new User();
         newUser.username = username;
-        newUser.role = role
+        newUser.role = role;
 
         const salt = await genSalt(10);
         newUser.password = await hash(password, salt);
 
-        return await <UserVm>this._userRepository.create(newUser);
+        return await this._userRepository.create(newUser) as UserVm;
     }
 
     /**
@@ -65,7 +56,7 @@ export class UserController extends BaseController {
         if (result instanceof MongoError) throw UserController.resolveErrorResponse(result, result.message);
         if (!result) throw UserController.resolveErrorResponse(null, 'Username does not exist');
 
-        return <UserVm>result;
+        return result as UserVm;
     }
 
     /**
@@ -77,8 +68,7 @@ export class UserController extends BaseController {
     @Tags('System')
     public async login(@Body() loginParams: LoginParams): Promise<LoginVm> {
 
-        const username: string = loginParams.username;
-        const password: string = loginParams.password;
+        const {username, password} = loginParams;
 
         const fetchedUser: IUser = await this._userRepository.getUserByUsername(username);
         if (fetchedUser instanceof MongoError)
@@ -90,7 +80,7 @@ export class UserController extends BaseController {
         if (!isMatched) throw UserController.resolveErrorResponse(null, 'Password does not match');
 
         const payload = {user: fetchedUser};
-        const secret = process.env.JWT_SECRET || config.get('auth.jwt-secret');
+        const secret = process.env.JWT_SECRET || get('auth.jwt-secret');
         const token: string = sign(payload, secret, {expiresIn: '12h'});
         try {
             const result = await fetchedUser.save();
@@ -110,13 +100,13 @@ export class UserController extends BaseController {
     @Get('')
     @Tags('System')
     public async getAllUsers(): Promise<UserVm[]> {
-        return await <UserVm[]>this._userRepository.getAll();
+        return await this._userRepository.getAll() as UserVm[];
     }
 
     @Delete('{id}')
     @Tags('System')
     public async deleteUserById(@Path() id: string): Promise<UserVm> {
-        return await <UserVm>this._userRepository.delete(id);
+        return await this._userRepository.delete(id) as UserVm;
     }
 
     @Put('{id}')
@@ -136,6 +126,6 @@ export class UserController extends BaseController {
         updatedUser.password = existedUser.password;
         updatedUser.role = updateUserParams.role;
 
-        return await <UserVm>this._userRepository.update(id, updatedUser);
+        return await this._userRepository.update(id, updatedUser) as UserVm;
     }
 }

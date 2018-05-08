@@ -1,0 +1,49 @@
+@import "../../styles";
+
+$content-width-per-card-small: 43;
+$padding-per-card-small: (100 - ($content-width-per-card-small * 2) - 5) / 4;
+$content-width-per-card-large: 20;
+$padding-per-card-large: (100 - ($content-width-per-card-large * 4) - 12) / 4;
+
+mat-card {
+  background-color: lighten($brand-grey, 55) !important;
+  color: darken($brand-green, 15) !important;
+
+  display: inline-block;
+
+  p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto 20px !important;
+  }
+}
+
+mat-card.small {
+  width: calc(#{$content-width-per-card-small} * #{$cw});
+  height: calc(#{$content-width-per-card-small} * #{$cw});
+  margin: calc(#{$padding-per-card-small} * #{$cw});
+
+  p {
+    font-size: 4vw;
+  }
+
+  i {
+    font-size: 10vw;
+  }
+}
+
+mat-card.large {
+  width: calc(#{$content-width-per-card-large} * #{$cw});
+  height: calc(#{$content-width-per-card-large} * #{$cw});
+  margin: calc(#{$padding-per-card-large} * #{$cw});
+
+  p {
+    font-size: 2vw;
+  }
+
+  i {
+    font-size: 6vw;
+  }
+}

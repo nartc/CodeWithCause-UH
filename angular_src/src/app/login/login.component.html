@@ -1,0 +1,25 @@
+<h1>Login</h1>
+<br>
+<form #loginForm="ngForm" (ngSubmit)="login()">
+  <mat-form-field class="username">
+    <input matInput type="text" placeholder="Username" required name="username" [(ngModel)]="username"
+           #usernameInput="ngModel">
+    <mat-error *ngIf="loginForm.submitted && !usernameInput.valid">
+      Username is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="password">
+    <input matInput type="password" placeholder="Password" required name="password" [(ngModel)]="password"
+           #passwordInput="ngModel">
+    <mat-error *ngIf="loginForm.submitted && !passwordInput.valid">
+      Password is required
+    </mat-error>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" class="btn-primary" type="submit">Login</button>
+</form>
+<ng-container *ngIf="loading">
+  <div class="center-align">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
