@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Edit user</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Username" type="text" name="username" id="username" [(ngModel)]="user.username">
+  </mat-form-field>
+  <br/>
+  <mat-radio-group>
+    <mat-radio-button [value]="userRole.Admin" (change)="changed($event);" [checked]="user.role === userRole.Admin">
+      Admin
+    </mat-radio-button>
+    <mat-radio-button [value]="userRole.User" (change)="changed($event);" [checked]="user.role === userRole.User">User
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="user">Update</button>
+</mat-dialog-actions>

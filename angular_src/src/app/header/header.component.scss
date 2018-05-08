@@ -1,0 +1,33 @@
+@import "../../styles";
+
+#logo {
+  position: absolute;
+
+  height: $header-height - $header-border-width;
+  width: $header-height - $header-border-width;
+
+  top: 0;
+  left: 20px;
+}
+
+#brand {
+  position: absolute;
+
+  top: calc(#{$header-height} / 2 - 33px / 2);
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  width: 250px;
+
+  text-align: center;
+
+  color: white;
+}
+
+button {
+  position: absolute;
+
+  height: 40px;
+  top: $header-height / 2 - 20;
+  right: 6px;
+}

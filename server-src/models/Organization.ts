@@ -38,4 +38,3 @@ export enum OrganizationType {
 
 export type OrganizationModel = Model<IOrganization>;
 export const Organization = model<IOrganization>('Organization', OrganizationSchema) as OrganizationModel
-

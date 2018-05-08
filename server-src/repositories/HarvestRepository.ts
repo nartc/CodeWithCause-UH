@@ -12,16 +12,11 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
     }
 
     async getHarvestByFarmId(farmId: string): Promise<IHarvest> {
-        return this._harvestModel.findOne({'farm._id': farmId}).exec();
+        return this._harvestModel.findOne({'farm._id': farmId}).exec() as any;
     }
 
     async getHarvestByDateRange(dateRange: Date[]): Promise<IHarvest[]> {
         const [dateStart, dateEnd] = dateRange;
-        return this._harvestModel.find({
-            $and: [
-                {createdOn: {$gte: moment(dateStart).toDate()}},
-                {createdOn: {$lte: moment(dateEnd).toDate()}}
-            ]
-        }).exec();
+        return this._harvestModel.find({createdOn: {$gte: dateStart, $lte: dateEnd}}).exec() as any;
     }
 }

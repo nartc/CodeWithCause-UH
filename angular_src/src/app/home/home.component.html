@@ -1,0 +1,153 @@
+<ng-container *ngIf="windowWidth < 700">
+  <ng-container *ngIf="isAdmin">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="small" (click)="cardSelected('entry');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <p>Harvest<br/>Entry</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="small" (click)="cardSelected('user-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <p>User<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="small" (click)="cardSelected('crop-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-leaf" aria-hidden="true"></i>
+            <p>Crop<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="small" (click)="cardSelected('farm-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-industry" aria-hidden="true"></i>
+            <p>Farm<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="small" (click)="cardSelected('organization-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+            <p>Organization<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="small" (click)="cardSelected('harvesters-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-odnoklassniki" aria-hidden="true"></i>
+            <p>Harvester<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="small" (click)="cardSelected('harvest-edit');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-object-group" aria-hidden="true"></i>
+            <p>Edit<br/>Harvest</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="small" (click)="cardSelected('reporting');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <p>Reporting</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isAdmin">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="small" (click)="cardSelected('entry');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <p>Harvest<br/>Entry</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="windowWidth >= 700">
+  <ng-container *ngIf="isAdmin">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="large" (click)="cardSelected('entry');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <p>Harvest<br/>Entry</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('user-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <p>User<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('crop-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-leaf" aria-hidden="true"></i>
+            <p>Crop<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('farm-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-industry" aria-hidden="true"></i>
+            <p>Farm<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="large" (click)="cardSelected('organization-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+            <p>Organization<br/>Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('harvesters-management');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-odnoklassniki" aria-hidden="true"></i>
+            <p>Harvester Management</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('reporting');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <p>Reporting</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="large" (click)="cardSelected('harvest-edit');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-object-group" aria-hidden="true"></i>
+            <p>Edit Harvest</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isAdmin">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="large" (click)="cardSelected('entry');">
+          <mat-card-content class="center-align">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <p>Harvest<br/>Entry</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

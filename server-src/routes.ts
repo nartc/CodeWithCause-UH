@@ -13,8 +13,6 @@ import { ReportingController } from './controllers/ReportingController';
 import { SystemController } from './controllers/SystemController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
-import * as multer from 'multer';
-const upload = multer();
 
 const models: TsoaRoute.Models = {
     "UserRole": {
@@ -210,26 +208,6 @@ const models: TsoaRoute.Models = {
 };
 
 export function RegisterRoutes(app: any) {
-    app.post('/api/users/addImage',
-        upload.single('image'),
-        function(request: any, response: any, next: any) {
-            const args = {
-                image: { "in": "formData", "name": "image", "required": true, "dataType": "file" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new UserController();
-
-
-            const promise = controller.addImage.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
     app.post('/api/users/create',
         function(request: any, response: any, next: any) {
             const args = {
@@ -400,12 +378,12 @@ export function RegisterRoutes(app: any) {
             const promise = controller.getSingleEntry.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.put('/api/entries/:id',
+    app.put('/api/entries/:harvestId',
         function(request: any, response: any, next: any) {
             const args = {
-                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                harvestId: { "in": "path", "name": "harvestId", "required": true, "dataType": "string" },
                 updatedEntryParams: { "in": "body", "name": "updatedEntryParams", "required": true, "ref": "NewEntryParams" },
-                harvestId: { "in": "query", "name": "harvestId", "required": true, "dataType": "string" },
+                entryIndex: { "in": "query", "name": "entryIndex", "required": true, "dataType": "double" },
             };
 
             let validatedArgs: any[] = [];
@@ -821,6 +799,25 @@ export function RegisterRoutes(app: any) {
             const promise = controller.updateFarm.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
+    app.post('/api/harvests/date',
+        function(request: any, response: any, next: any) {
+            const args = {
+                dateRange: { "in": "body", "name": "dateRange", "required": true, "dataType": "array", "array": { "dataType": "datetime" } },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new HarvestController();
+
+
+            const promise = controller.getHarvestsByDateRange.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
     app.get('/api/reports/percentage',
         function(request: any, response: any, next: any) {
             const args = {
@@ -876,26 +873,6 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
-    app.get('/api/reports/test',
-        function(request: any, response: any, next: any) {
-            const args = {
-                dateStart: { "in": "query", "name": "dateStart", "required": true, "dataType": "datetime" },
-                dateEnd: { "in": "query", "name": "dateEnd", "required": true, "dataType": "datetime" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new ReportingController();
-
-
-            const promise = controller.getTest.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/system/importCrops',

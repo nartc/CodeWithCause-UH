@@ -1,0 +1,61 @@
+<h2 class="center-align">Reporting</h2>
+<hr>
+<div>
+  <h4>Donated:</h4>
+  <p>{{donatedPerc}}%</p>
+</div>
+<div>
+  <h4>Purchased:</h4>
+  <p>{{purchPerc}}%</p>
+</div>
+<div>
+  <h4>Farms:</h4>
+  <div class="row">
+    <div class="col-md-6 col-sm-12 text-md-left text-center">
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="startDate" placeholder="Start date"
+               (dateChange)="onStartDateChanged($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker touchUi="true" #startDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="endDate" placeholder="End date" (dateChange)="onEndDateChanged($event.value)"
+               [disabled]="noStartDate">
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker touchUi="true" #endDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-sm-12 text-md-right text-center">
+      <mat-form-field>
+        <mat-select (change)="onFilterChange($event)" placeholder="Filter By..." [(value)]="selected">
+          <mat-optgroup label="Value/Weight">
+            <mat-option value="Value">Value($)</mat-option>
+            <mat-option value="Weight">Weight(lb)</mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Donated/Purchased">
+            <mat-option value="Donated">Donated</mat-option>
+            <mat-option value="Purchased">Purchased</mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 text-center">
+      <button class="btn-primary" *ngIf="renderChart" (click)="downloadCsv()"><i class="fa fa-download"></i> Download
+      </button>
+      <button class="btn-secondary"
+              *ngIf="selected && startDate['_datepickerInput']['value'] !== null && endDate['_datepickerInput']['value'] !== null"
+              (click)="refreshReports()">Clear Date
+      </button>
+    </div>
+  </div>
+  <p *ngIf="selected =='Weight'">Total Weight: <b> {{totalWeight}}</b></p>
+  <p *ngIf="selected =='Value'">Total Value: <b> ${{totalValue}}</b></p>
+  <div class="pieChart" *ngIf="renderChart && !orgTypeReport">
+    <p-chart type="pie" [data]="data"></p-chart>
+  </div>
+  <div class="row" *ngIf="orgTypeReport && renderChart">
+    <div class="col-sm-6 col-xs-12" *ngFor="let data of orgTypeData">
+      <p-chart type="pie" [data]="data.data" [options]="data.option"></p-chart>
+    </div>
+  </div>
+</div>

@@ -551,37 +551,6 @@
 		"title": "CodeWithCause-Node Express"
 	},
 	"paths": {
-		"/users/addImage": {
-			"post": {
-				"operationId": "User_AddImage",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "object"
-						}
-					}
-				},
-				"consumes": [
-					"multipart/form-data"
-				],
-				"tags": [
-					"System"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "formData",
-						"name": "image",
-						"required": true,
-						"type": "file"
-					}
-				]
-			}
-		},
 		"/users/create": {
 			"post": {
 				"operationId": "User_RegisterUser",
@@ -837,46 +806,6 @@
 					}
 				]
 			},
-			"put": {
-				"operationId": "Entry_UpdateEntry",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/HarvestVm"
-						}
-					}
-				},
-				"tags": [
-					"Entry"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					},
-					{
-						"in": "body",
-						"name": "updatedEntryParams",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/NewEntryParams"
-						}
-					},
-					{
-						"in": "query",
-						"name": "harvestId",
-						"required": true,
-						"type": "string"
-					}
-				]
-			},
 			"delete": {
 				"operationId": "Entry_DeleteEntry",
 				"produces": [
@@ -900,6 +829,49 @@
 						"name": "id",
 						"required": true,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/entries/{harvestId}": {
+			"put": {
+				"operationId": "Entry_UpdateEntry",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/HarvestVm"
+						}
+					}
+				},
+				"tags": [
+					"Entry"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "harvestId",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "updatedEntryParams",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/NewEntryParams"
+						}
+					},
+					{
+						"in": "query",
+						"name": "entryIndex",
+						"required": true,
+						"format": "double",
+						"type": "number"
 					}
 				]
 			}
@@ -1485,6 +1457,43 @@
 				]
 			}
 		},
+		"/harvests/date": {
+			"post": {
+				"operationId": "Harvest_GetHarvestsByDateRange",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/HarvestVm"
+							}
+						}
+					}
+				},
+				"tags": [
+					"Harvest"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "dateRange",
+						"required": true,
+						"schema": {
+							"items": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"type": "array"
+						}
+					}
+				]
+			}
+		},
 		"/reports/percentage": {
 			"get": {
 				"operationId": "Reporting_GetSalesPercentage",
@@ -1579,45 +1588,6 @@
 						"schema": {
 							"$ref": "#/definitions/ReportByFarm"
 						}
-					}
-				]
-			}
-		},
-		"/reports/test": {
-			"get": {
-				"operationId": "Reporting_GetTest",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/HarvestVm"
-							}
-						}
-					}
-				},
-				"tags": [
-					"Reporting"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "dateStart",
-						"required": true,
-						"format": "date-time",
-						"type": "string"
-					},
-					{
-						"in": "query",
-						"name": "dateEnd",
-						"required": true,
-						"format": "date-time",
-						"type": "string"
 					}
 				]
 			}

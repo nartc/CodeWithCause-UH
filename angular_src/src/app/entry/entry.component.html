@@ -1,0 +1,92 @@
+<div class="frame">
+  <div *ngIf="!harvestStarted" class="start text-center mx-auto">
+    <ng-container *ngIf="!doneLoading">
+      <div class="center-align">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="doneLoading">
+      <mat-form-field class="farmField">
+        <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" required #farmField="ngModel">
+          <mat-option *ngFor="let farm of farms" [value]="farm">{{farm.name}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!farmField.valid && farmField.touched">Please select a farm</span>
+        </mat-error>
+      </mat-form-field>
+      <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
+      </button>
+    </ng-container>
+  </div>
+  <div *ngIf="harvestStarted">
+    <form [formGroup]="form" (ngSubmit)="submitHarvest()">
+      <mat-form-field>
+        <input matInput placeholder="Date" value="{{today}}" disabled>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Harvest Coordinator" formControlName="harvester" required>
+          <mat-option *ngFor="let harvester of harvesters" [value]="harvester._id">{{harvester.firstName}} {{harvester.lastName}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="form.controls['harvester'].touched && !form.controls['harvester'].valid">Please select a harvester</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Crop" formControlName="crop" required (change)="onCropChanged($event)">
+          <mat-option *ngFor="let crop of crops" [value]="crop._id">{{crop.name}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="form.controls['crop'].touched && !form.controls['crop'].valid">Please select a Crop</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="form.controls['crop'].value">
+        <mat-select placeholder="Variety" formControlName="variety" required>
+          <mat-option *ngFor="let variety of varieties" [value]="variety">{{variety}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="form.controls['variety'].touched && !form.controls['crop'].valid">Please select a variety</span>
+        </mat-error>
+      </mat-form-field>
+
+      <label for="weightSlider" class="weightLabel">Weight</label>
+      <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100"
+                  step="0.25" formControlName="pounds"
+                  (change)="onPoundChanged($event)"></mat-slider>
+
+      <mat-form-field class="priceTotal">
+        <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal">
+      </mat-form-field>
+
+      <mat-form-field class="comments">
+        <textarea matInput placeholder="Comments" formControlName="comment"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Recipient" formControlName="recipient" required>
+          <mat-option *ngFor="let org of organizations" [value]="org._id">
+            {{ org.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!form.controls['recipient'].valid && form.controls['recipient'].touched">Please Select a Recipient</span>
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="!editMode" class="center-align buttons">
+        <button mat-button type="button" class="btn-primary" (click)="submitEntry();" [disabled]="!form.valid">Next
+          Entry
+        </button>
+
+        <button mat-button type="submit" class="btn-secondary" *ngIf="firstEntry">Submit Harvest <span
+          *ngIf="firstEntry">({{entryCounts}})</span></button>
+      </div>
+      <mat-card *ngIf="firstEntry" class="alert-danger">Attention: To save the current entry to this harvest, please hit
+        Next Entry then
+        Submit Harvest.
+      </mat-card>
+    </form>
+  </div>
+</div>

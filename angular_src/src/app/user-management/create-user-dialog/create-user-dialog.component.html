@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Create new user</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Username" type="text" name="username" id="username" [(ngModel)]="user.username">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" type="password" name="password" id="password" [(ngModel)]="user.password">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Confirm Password" type="password" name="confirm-password" id="confirm-password" [(ngModel)]="confirmPassword">
+  </mat-form-field>
+  <br/>
+  <mat-radio-group>
+    <mat-radio-button value="Admin" (change)="changed($event);" [checked]="user.role.toString() == 'Admin'">Admin</mat-radio-button>
+    <mat-radio-button value="User" (change)="changed($event);" [checked]="user.role.toString() == 'User'">User</mat-radio-button>
+  </mat-radio-group>
+  <ng-container *ngIf="user.password != confirmPassword && user.password != ''">
+    <p class="non-matching">Passwords do not match.</p>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="user" [disabled]="user.password != confirmPassword || user.password == ''">Submit</button>
+</mat-dialog-actions>

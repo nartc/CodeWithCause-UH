@@ -1,0 +1,105 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+$brand-green: #4bb758;
+$brand-grey: #4b4d4f;
+$brand-pink: #ad2679;
+$brand-orange: #f27f30;
+$brand-yellow: #fce363;
+
+// HEADER AND FOOTER VARIABLES
+$header-height: 60px;
+$header-color: darken($brand-green, 5);
+$header-border-color: darken($header-color, 10);
+$header-border-width: 3px;
+
+$footer-height: 40px;
+$footer-color: $header-color;
+$footer-border-color: $header-border-color;
+$footer-border-width: $header-border-width;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* needed for container min-height */
+}
+
+.btn-primary {
+  background-color: $brand-orange !important;
+  border-color: #c16626 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.btn-primary:hover {
+  background-color: #db732b !important;
+  border-color: #b86124 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+// Represents a custom unit standing for "content-width" which is equivalent to the entire viewport width MINUS the
+// left and right padding added by bootstrap all divided by 100, thus slicing up the valid content width into hundredths.
+// Usage (in a .scss file):
+// @import "path/to/styles.css";
+// .something {
+//    width: calc(10 * #{$cw});
+// }
+$cw: calc((100vw - 15px - 15px) / 100);
+
+// UTILITY CLASSES
+.center-align {
+  text-align: center;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.max-height {
+  height: 100%;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.inline {
+  display: inline;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+// SNACK BAR CLASSES
+.snack-bar-success {
+  background-color: $brand-green;
+
+  * {
+    color: white;
+  }
+}
+
+.snack-bar-danger {
+  background-color: $brand-pink;
+
+  * {
+    color: white;
+  }
+}

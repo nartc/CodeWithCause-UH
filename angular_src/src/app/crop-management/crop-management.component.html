@@ -1,0 +1,26 @@
+<h2 class="center-align">Crop Management</h2>
+<button type="button" class="btn btn-success max-width add-new-crop-button" (click)="createNewCrop();" [disabled]="loading">Add New Crop</button>
+<ng-container *ngIf="loading">
+  <div class="center-align">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <mat-accordion>
+    <ng-container *ngFor="let crop of crops">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{crop.name}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Varieties:</p>
+        <div *ngFor="let variety of crop.variety; let i = index">
+          <p class="varietyList">{{variety}}</p>
+        </div>
+        <p>Price Per Pound: {{crop.pricePerPound | currency}}</p>
+        <button type="button" (click)="deleteCrop(crop);" class="btn btn-danger">Delete</button>
+        <button type="button" (click)="editCrop(crop);" class="btn btn-info">Edit</button>
+      </mat-expansion-panel>
+    </ng-container>
+    <div id="spacer"></div>
+  </mat-accordion>
+</ng-container>

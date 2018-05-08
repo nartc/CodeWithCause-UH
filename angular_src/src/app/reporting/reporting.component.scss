@@ -1,0 +1,12 @@
+@media screen and (max-width: 320px) {
+  .pieChart {
+    visibility: hidden;
+  }
+}
+
+@media screen and (min-width: 1030px) {
+  .pieChart {
+    height: 500px;
+    width: 850px;
+  }
+}

@@ -5,18 +5,24 @@ import {IOrganization, OrganizationSchema, OrganizationVm} from './Organization'
 import {IBaseModel, IBaseModelVm} from './BaseModel';
 
 export const EntrySchema = new Schema({
-    crop: CropSchema,
+    crop: {
+        type: CropSchema
+    },
     pounds: {
         type: Number,
     },
     priceTotal: {
         type: Number,
     },
-    harvester: HarvesterSchema,
+    harvester: {
+        type: HarvesterSchema
+    },
     comments: {
         type: String,
     },
-    recipient: OrganizationSchema,
+    recipient: {
+        type: OrganizationSchema
+    },
     createdOn: {
         type: Date,
         default: Date.now()
@@ -25,7 +31,9 @@ export const EntrySchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    selectedVariety: String
+    selectedVariety: {
+        type: String
+    }
 });
 
 export interface IEntry extends IBaseModel {

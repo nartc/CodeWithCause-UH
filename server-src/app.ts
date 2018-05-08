@@ -23,6 +23,7 @@ import './controllers/ReportingController';
 import './controllers/SystemController';
 import {RegisterRoutes} from './routes';
 import {authenticateUser} from './middleware/security/passport';
+import {join} from 'path';
 
 class App {
     public mongooseConnection: Connection;
@@ -81,13 +82,16 @@ class App {
                 : `https://${get('express.host')}/api/docs/swagger.json`
         }));
 
-        // Test Index
-        this.app.get('/', (req: Request, res: Response) => {
-            res.send('Code with a Cause started');
-        });
+        // Static
+        this.app.use(express.static(join(__dirname, '../public')));
 
         // Load Routes
         RegisterRoutes(this.app);
+
+        // Catch ALL
+        this.app.all('**', (req: Request, res: Response) => {
+            res.sendFile(join(__dirname, '../public/index.html'));
+        });
     }
 
     private static onMongoConnection() {
@@ -105,8 +109,6 @@ class App {
       `
         );
     }
-
-
 }
 
 export default new App();

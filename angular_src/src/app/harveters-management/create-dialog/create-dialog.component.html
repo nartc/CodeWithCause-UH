@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Create new user</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="First Name" type="text" name="firstName" id="firstName" [(ngModel)]="user.firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Last Name" type="text" name="lastName" id="lastName" [(ngModel)]="user.lastName">
+  </mat-form-field>
+  <br/>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="user" >Submit</button>
+</mat-dialog-actions>

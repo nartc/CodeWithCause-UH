@@ -54,7 +54,7 @@ export class EntryController extends BaseController {
         newEntry.comments = newEntryParams.comments;
         newEntry.selectedVariety = newEntryParams.selectedVariety;
 
-        return await <EntryVm>this._entryRepository.create(newEntry);
+        return await this._entryRepository.create(newEntry) as EntryVm;
     }
 
     /**
@@ -65,7 +65,7 @@ export class EntryController extends BaseController {
     @Get('getAll')
     @Tags('Entry')
     public async getAll(): Promise<EntryVm[]> {
-        return await <EntryVm[]>this._entryRepository.getAll();
+        return await this._entryRepository.getAll() as EntryVm[];
     }
 
     /**
@@ -75,23 +75,25 @@ export class EntryController extends BaseController {
     @Get('{id}')
     @Tags('Entry')
     public async getSingleEntry(@Path() id: string): Promise<EntryVm> {
-        return await <EntryVm>this._entryRepository.getResourceById(id);
+        return await this._entryRepository.getResourceById(id) as EntryVm;
     }
 
     /**
      *
-     * @param id
-     * @param updatedEntryParams
+     * @param {string} harvestId
+     * @param {NewEntryParams} updatedEntryParams
+     * @param {number} entryIndex
+     * @returns {Promise<HarvestVm>}
      */
-    @Put('{id}')
+    @Put('{harvestId}')
     @Tags('Entry')
-    public async updateEntry(@Path() id: string, @Body() updatedEntryParams: NewEntryParams, @Query() harvestId: string): Promise<HarvestVm> {
+    public async updateEntry(@Path() harvestId: string, @Body() updatedEntryParams: NewEntryParams, @Query() entryIndex: number): Promise<HarvestVm> {
         const harvest: IHarvest = await this._harvestRepository.getResourceById(harvestId);
 
         if (!harvest)
             throw EntryController.resolveErrorResponse(null, `Harvest with ${harvestId} not found`);
 
-        const existed: IEntry = await this._entryRepository.getResourceById(id);
+        const existed: IEntry = await this._entryRepository.getResourceById(harvest.entries[entryIndex]._id);
 
         if (!existed)
             throw EntryController.resolveErrorResponse(null, 'Entry not found');
@@ -123,10 +125,10 @@ export class EntryController extends BaseController {
         updatedEntry.selectedVariety = updatedEntryParams.selectedVariety;
         updatedEntry.priceTotal = crop.pricePerPound * updatedEntryParams.pounds;
 
-        harvest.entries.splice(harvest.entries.findIndex(entry => entry._id === updatedEntry._id), 1, updatedEntry)
+        harvest.entries.splice(entryIndex, 1, updatedEntry);
         const updatedHarvest: IHarvest = await harvest.save();
         await this._entryRepository.update(updatedEntry._id, updatedEntry);
-        return <HarvestVm> this._harvestRepository.getResourceById(updatedHarvest._id);
+        return this._harvestRepository.getResourceById(updatedHarvest._id) as HarvestVm;
     }
 
     /**
@@ -136,6 +138,6 @@ export class EntryController extends BaseController {
     @Delete('{id}')
     @Tags('Entry')
     public async deleteEntry(@Path() id: string): Promise<EntryVm> {
-        return await <EntryVm>this._entryRepository.delete(id);
+        return await this._entryRepository.delete(id) as EntryVm;
     }
 }

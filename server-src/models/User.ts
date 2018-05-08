@@ -38,7 +38,6 @@ export interface UserVm extends IBaseModelVm {
     role?: UserRole;
 }
 
-
 export enum UserRole {
     Admin = 'Admin' as any,
     User = 'User' as any
