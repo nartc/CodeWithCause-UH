@@ -5,8 +5,11 @@
   </mat-form-field>
   <br/>
   <mat-radio-group>
-    <mat-radio-button value="Admin" (change)="changed($event);" [checked]="user.role.toString() == 'Admin'">Admin</mat-radio-button>
-    <mat-radio-button value="User" (change)="changed($event);" [checked]="user.role.toString() == 'User'">User</mat-radio-button>
+    <mat-radio-button [value]="userRole.Admin" (change)="changed($event);" [checked]="user.role === userRole.Admin">
+      Admin
+    </mat-radio-button>
+    <mat-radio-button [value]="userRole.User" (change)="changed($event);" [checked]="user.role === userRole.User">User
+    </mat-radio-button>
   </mat-radio-group>
 </mat-dialog-content>
 <mat-dialog-actions>
