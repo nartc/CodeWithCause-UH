@@ -60,12 +60,6 @@ export class HarvestController extends BaseController {
         return await this._harvestRepository.getAll() as HarvestVm[];
     }
 
-    // @Get('getQuery')
-    // @Tags('Harvest')
-    // public async getByDate(@Query() date: Date): Promise<HarvestVm[]> {
-    //     return await <HarvestVm[]>this._harvestRepository.findByDate(date);
-    // }
-
     @Get('{id}')
     @Tags('Harvest')
     public async getHarvestById(@Path() id: string): Promise<HarvestVm> {
@@ -85,6 +79,10 @@ export class HarvestController extends BaseController {
 
         if (!farm || farm === null) {
             throw HarvestController.resolveErrorResponse(null, 'Farm not found');
+        }
+
+        if (harvest && harvest.entries && harvest.entries.length === 0) {
+            throw HarvestController.resolveErrorResponse(null, 'Cannot save Harvest without Entries');
         }
 
         harvest.farm = farm;
