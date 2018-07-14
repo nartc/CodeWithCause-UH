@@ -1,4 +1,4 @@
-# codewithcause-backend
+# CodeWithCause-UH (TODO)
 Node backend for Code with a Cause project
 
 # Technologies

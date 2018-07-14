@@ -1592,6 +1592,41 @@
 				]
 			}
 		},
+		"/system/uploadFile": {
+			"post": {
+				"operationId": "System_UploadFile",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "object"
+						}
+					}
+				},
+				"consumes": [
+					"multipart/form-data"
+				],
+				"tags": [
+					"System"
+				],
+				"security": [
+					{
+						"JWT": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "formData",
+						"name": "csv",
+						"required": true,
+						"type": "file"
+					}
+				]
+			}
+		},
 		"/system/importCrops": {
 			"get": {
 				"operationId": "System_ImportCrops",

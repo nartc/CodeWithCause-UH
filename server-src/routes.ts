@@ -13,6 +13,14 @@ import { ReportingController } from './controllers/ReportingController';
 import { SystemController } from './controllers/SystemController';
 import * as passport from 'passport';
 import { expressAuthentication } from './middleware/security/passport';
+import * as multer from 'multer';
+const storage = multer.diskStorage({
+    destination: './assets/',
+    filename: (req, file, callback) => {
+        callback(null, 'CropData.csv');
+    }
+});
+const upload = multer({storage});
 
 const models: TsoaRoute.Models = {
     "UserRole": {
@@ -873,6 +881,28 @@ export function RegisterRoutes(app: any) {
 
 
             const promise = controller.getTotalWeightOrValue.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    app.post('/api/system/uploadFile',
+        authenticateMiddleware([{ "name": "JWT" }]),
+        upload.single('csv'),
+        function(request: any, response: any, next: any) {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+                csv: { "in": "formData", "name": "csv", "required": true, "dataType": "file" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new SystemController();
+
+
+            const promise = controller.uploadFile.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
     app.get('/api/system/importCrops',
