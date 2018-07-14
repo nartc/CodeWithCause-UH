@@ -1,4 +1,4 @@
-import {Get, Query, Request, Response, Route, Security, Tags} from 'tsoa';
+import {FormFile, Get, Post, Query, Request, Response, Route, Security, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
 import {Crop, CropVm, ICrop} from '../models/Crop';
@@ -10,15 +10,17 @@ import {OrganizationRepository} from '../repositories/OrganizationRepository';
 import {Organization} from '../models/Organization';
 import {Connection} from 'mongoose';
 import {Request as ExpressRequest} from 'express';
+import * as multer from 'multer';
+import * as csv2json from 'csvtojson';
 
 import App from '../app';
-import {readFileSync} from 'fs';
 import {filter, map, uniq} from 'lodash';
 import {join} from 'path';
 import {BaseController} from './BaseController';
 import {IUser, UserRole} from '../models/User';
 import {DbCollectionName} from '../models/requests/DbCollectionName';
 import {ClearDbResponse} from '../models/responses/ClearDbResponse';
+import {FileParameter} from '../models/requests/FileParameter';
 
 @Route('system')
 @Tags('System')
@@ -28,6 +30,25 @@ export class SystemController extends BaseController {
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
     private readonly _mongooseConnection: Connection = App.mongooseConnection;
 
+    @Post('uploadFile')
+    @Security('JWT')
+    public async uploadFile(@Request() request: ExpressRequest, @FormFile('csv') csv: FileParameter): Promise<any> {
+        if (!csv.originalname.match(/\.(csv)$/)) {
+            throw SystemController.resolveErrorResponse(null, 'CSV Format only');
+        }
+
+        if (!request.user || request.user.role !== UserRole.Admin) {
+            throw SystemController.resolveErrorResponse(null, 'Unauthorized');
+        }
+
+        return {
+            success: true,
+            fileName: csv.filename,
+            originalName: csv.originalname,
+            destination: csv.destination
+        }
+    }
+
     @Get('importCrops')
     @Security('JWT')
     public async importCrops(@Request() request: ExpressRequest): Promise<CropVm[]> {
@@ -36,23 +57,44 @@ export class SystemController extends BaseController {
         if (currentUser.role !== UserRole.Admin) {
             throw SystemController.resolveErrorResponse(null, 'Unauthorized');
         }
+
+        const csvFilePath = join(__dirname, '../../assets/CropData.csv');
+        let cropCSVData;
+
+        try {
+            cropCSVData = await csv2json().fromFile(csvFilePath);
+        } catch (e) {
+            throw SystemController.resolveErrorResponse(e, 'Error reading CropData');
+        }
+
         // Check Crop collection
-        const cropCollection = await this._mongooseConnection.db.listCollections({name: 'crops'}).toArray();
-        if (cropCollection.length > 0) {
+        // const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
+        const crops = await this._cropRepository.getAll();
+
+        if (cropCSVData.length === crops.length) {
             await this._mongooseConnection.db.dropCollection('crops');
         }
 
-        const cropCSVData = JSON.parse(readFileSync(join(__dirname, '../../assets/CropCSV.json'), {encoding: 'utf8'}));
         const cropTypes: string[] = uniq(map(cropCSVData, 'Crop'));
-        cropTypes.forEach(async type => {
-            const variety = [...map(filter(cropCSVData, c => c.Crop === type), 'Variety')];
-            const pricePerPound = filter(cropCSVData, c => c.Crop === type)[0].Price.slice(1);
-            const newCrop: ICrop = new Crop();
-            newCrop.name = type;
-            newCrop.variety = !variety[0] ? ['Unknown'] : variety;
-            newCrop.pricePerPound = parseFloat(pricePerPound);
+        cropTypes.forEach(async (type) => {
+            const existCropWithType = await this._cropRepository.findByCrop(type);
+            const variety = [...map(filter<any>(cropCSVData, (c) => c.Crop === type), 'Variety')];
+            const pricePerPound = filter<any>(cropCSVData, (c) => c.Crop === type)[0].Price.slice(1);
+            if (!existCropWithType) {
 
-            await this._cropRepository.create(newCrop);
+                const newCrop: ICrop = new Crop();
+                newCrop.name = type;
+                newCrop.variety = !variety[0] ? ['Unknown'] : variety;
+                newCrop.pricePerPound = parseFloat(pricePerPound);
+
+                await this._cropRepository.create(newCrop);
+            } else {
+                const updatedCrop: ICrop = await this._cropRepository.getResourceById(existCropWithType.id);
+                updatedCrop.variety = !variety[0] ? ['Unknown'] : variety;
+                updatedCrop.pricePerPound = parseFloat(pricePerPound);
+
+                await this._cropRepository.update(updatedCrop.id, updatedCrop);
+            }
         });
 
         return new Promise<CropVm[]>(((resolve, reject) => {
@@ -74,7 +116,7 @@ export class SystemController extends BaseController {
         const collections = collection.toString().split(',');
         if (collections.length > 1) {
             const results: ClearDbResponse[] = [];
-            collections.forEach(async col => {
+            collections.forEach(async (col) => {
                 let result: ClearDbResponse;
                 if (col === DbCollectionName.User.toString()) {
                     if (dropUser) {
@@ -86,8 +128,7 @@ export class SystemController extends BaseController {
                             collection: col
                         };
                         results.push(result);
-                    }
-                    else
+                    } else
                         throw SystemController.resolveErrorResponse(null, 'Cannot drop User without consent');
                 }
 
@@ -100,7 +141,7 @@ export class SystemController extends BaseController {
                     collection: col
                 });
             });
-            return new Promise<ClearDbResponse[]>(resolve => {
+            return new Promise<ClearDbResponse[]>((resolve) => {
                 setTimeout(() => {
                     resolve(results);
                 }, 500)

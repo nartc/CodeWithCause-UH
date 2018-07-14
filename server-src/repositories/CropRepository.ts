@@ -10,4 +10,9 @@ export class CropRepository extends BaseRepository<ICrop> implements ICropReposi
         super(cropModel);
         this._cropModel = cropModel;
     }
+
+    async findByCrop(crop: string): Promise<ICrop> {
+        // noinspection TypeScriptValidateTypes
+        return this._cropModel.findOne({name: crop});
+    }
 }

@@ -43,7 +43,7 @@
       </mat-form-field>
 
       <mat-form-field *ngIf="form.controls['crop'].value">
-        <mat-select placeholder="Variety" formControlName="variety" required>
+        <mat-select placeholder="Variety" formControlName="variety">
           <mat-option *ngFor="let variety of varieties" [value]="variety">{{variety}}</mat-option>
         </mat-select>
         <mat-error>

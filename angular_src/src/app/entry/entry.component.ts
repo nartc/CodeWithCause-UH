@@ -230,7 +230,11 @@ export class EntryComponent implements OnInit, OnDestroy {
 
   onCropChanged($event) {
     this.cropTest = this.crops.filter(c => c._id === $event.value)[0];
-    this.varieties = this.cropTest.variety;
+    if (!this.cropTest.variety.includes('Unknown')) {
+      this.varieties = ['Unknown', ...this.cropTest.variety];
+    } else {
+      this.varieties = this.cropTest.variety;
+    }
   }
 
   onPoundChanged($event) {
