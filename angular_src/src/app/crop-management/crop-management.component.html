@@ -1,5 +1,7 @@
 <h2 class="center-align">Crop Management</h2>
 <button type="button" class="btn btn-success max-width add-new-crop-button" (click)="createNewCrop();" [disabled]="loading">Add New Crop</button>
+<button type="button" class="btn btn-success max-width add-new-crop-button" (click)="fileInput.click();" [disabled]="loading">Update Crop</button>
+<input type="file" hidden accept="text/csv" (change)="onSelectFile($event)" #fileInput>
 <ng-container *ngIf="loading">
   <div class="center-align">
     <p-progressSpinner></p-progressSpinner>

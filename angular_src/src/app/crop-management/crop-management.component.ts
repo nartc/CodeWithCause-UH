@@ -4,7 +4,8 @@ import {CreateCropDialogComponent} from './create-crop-dialog/create-crop-dialog
 import {ConfirmDeleteCropDialogComponent} from './confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
 import {EditCropDialogComponent} from './edit-crop-dialog/edit-crop-dialog.component';
 import {FormGroup} from '@angular/forms';
-import {CropClient, CropVm, NewCropParams} from '../app.api';
+import {CropClient, CropVm, NewCropParams, SystemClient} from '../app.api';
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
   selector: 'app-crop-management',
@@ -18,7 +19,8 @@ export class CropManagementComponent implements OnInit, OnDestroy {
 
   constructor(private cropService: CropClient,
               private matDialog: MatDialog,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private systemService: SystemClient) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
   }
@@ -47,6 +49,18 @@ export class CropManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.cropService.configuration.apiKeys['Authorization'] = null;
+  }
+
+  onSelectFile(event): void {
+    const file = event.target.files[0];
+    this.loading = false;
+    this.systemService.uploadFile(file)
+      .mergeMap(() => {
+        return this.systemService.importCrops();
+      })
+      .subscribe((data) => {
+        this.loading = true;
+      });
   }
 
   createNewCrop(): void {
