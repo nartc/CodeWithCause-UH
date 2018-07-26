@@ -17,6 +17,6 @@ export class CreateOrganizationDialogComponent implements OnInit {
   }
 
   changed(event: any) {
-    // this.organization.orgType = event.value;
+    this.organization.orgType = event.value;
   }
 }
