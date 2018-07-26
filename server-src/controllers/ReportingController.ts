@@ -40,7 +40,7 @@ export class ReportingController extends BaseController {
         }
 
         const percentage: string = ((queried.length / allEntries.length) * 100).toFixed(2);
-        return  {
+        return {
             createdOn: moment().toDate(),
             type: percentageType,
             percentage
@@ -69,9 +69,15 @@ export class ReportingController extends BaseController {
             allHarvests.forEach((harvest) => {
                 totalEntries += filter(harvest.entries, (entry) => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal).length;
                 const poundsArr = map(
-                    filter(harvest.entries, (entry) => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), (entry) => entry.pounds)
+                    filter(
+                        harvest.entries,
+                        (entry) => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal),
+                    (entry) => entry.pounds);
                 const priceArr = map(
-                    filter(harvest.entries, (entry) => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal), (entry) => entry.priceTotal)
+                    filter(
+                        harvest.entries,
+                        (entry) => entry.recipient.orgType === OrganizationType.Donated || entry.recipient.orgType === OrganizationType.Internal),
+                    (entry) => entry.priceTotal);
                 if (poundsArr && poundsArr.length > 0) {
                     totalWeight += poundsArr.reduce((cur, acc) => cur + acc);
                 }
@@ -102,7 +108,7 @@ export class ReportingController extends BaseController {
                     percentageByEntry: ((totalDonatedEntries / totalEntries) * 100).toFixed(2),
                     percentageByPound: ((totalFarmWeight / totalWeight) * 100).toFixed(2),
                     percentageByPrice: ((totalFarmPrice / totalPrice) * 100).toFixed(2)
-                }
+                };
                 result.push(donatedResult);
             });
         } else if (reportType === PercentageReportType.Purchased) {
@@ -140,7 +146,7 @@ export class ReportingController extends BaseController {
                     percentageByEntry: ((totalPurchasedEntries / totalEntries) * 100).toFixed(2),
                     percentageByPound: ((totalFarmWeight / totalWeight) * 100).toFixed(2),
                     percentageByPrice: ((totalFarmPrice / totalPrice) * 100).toFixed(2)
-                }
+                };
                 result.push(purchasedResult);
             });
         }
