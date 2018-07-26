@@ -2,13 +2,17 @@ import {Body, Delete, Get, Path, Post, Put, Route, Tags} from 'tsoa';
 import {MongoError} from 'mongodb';
 import {IOrganizationRepository} from '../repositories/interfaces/IOrganizationRepository';
 import {OrganizationRepository} from '../repositories/OrganizationRepository';
-import {IOrganization, OrganizationVm, Organization, OrganizationType} from '../models/Organization';
+import {IOrganization, Organization, OrganizationType, OrganizationVm} from '../models/Organization';
 import {NewOrganizationParams} from '../models/requests/index.requests';
 import {BaseController} from './BaseController';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
+import {HarvestRepository} from '../repositories/HarvestRepository';
+import {Harvest} from '../models/Harvest';
 
 @Route('organization')
 export class OrganizationController extends BaseController {
     private readonly _organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
+    private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
 
     /**
      *
@@ -46,7 +50,7 @@ export class OrganizationController extends BaseController {
         updateOrganization._id = id;
         updateOrganization.orgType = newOrganizationParams.orgType;
         updateOrganization.name = newOrganizationParams.name;
-
+        await this._harvestRepository.syncDataOnUpdate(id, 'organization');
         return await this._organizationRepository.update(id, updateOrganization);
     }
 

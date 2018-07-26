@@ -1,14 +1,18 @@
 import {Body, Delete, Get, Path, Post, Put, Route, Security, Tags} from 'tsoa';
 import {ICropRepository} from '../repositories/interfaces/ICropRepository';
 import {CropRepository} from '../repositories/CropRepository';
-import {Crop, ICrop, CropVm} from '../models/Crop';
+import {Crop, CropVm, ICrop} from '../models/Crop';
 import {NewCropParams} from '../models/requests/NewCropParams';
 import {BaseController} from './BaseController';
+import {IHarvestRepository} from '../repositories/interfaces/IHarvestRepository';
+import {HarvestRepository} from '../repositories/HarvestRepository';
+import {Harvest} from '../models/Harvest';
 import moment = require('moment');
 
 @Route('crops')
 export class CropController extends BaseController {
     private readonly _cropRepository: ICropRepository = new CropRepository(Crop);
+    private readonly _harvestRepository: IHarvestRepository = new HarvestRepository(Harvest);
 
     /**
      *
@@ -56,7 +60,7 @@ export class CropController extends BaseController {
         updatedCrop.name = updateCropParams.name;
         updatedCrop.pricePerPound = updateCropParams.pricePerPound;
         updatedCrop.variety = updateCropParams.variety;
-
+        await this._harvestRepository.syncDataOnUpdate(id, 'crop');
         return await <CropVm>this._cropRepository.update(id, updatedCrop);
     }
 
