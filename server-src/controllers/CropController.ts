@@ -60,8 +60,9 @@ export class CropController extends BaseController {
         updatedCrop.name = updateCropParams.name;
         updatedCrop.pricePerPound = updateCropParams.pricePerPound;
         updatedCrop.variety = updateCropParams.variety;
+        await <CropVm>this._cropRepository.update(id, updatedCrop);
         await this._harvestRepository.syncDataOnUpdate(id, 'crop');
-        return await <CropVm>this._cropRepository.update(id, updatedCrop);
+        return await this._cropRepository.getResourceById(id);
     }
 
     @Delete('{id}')

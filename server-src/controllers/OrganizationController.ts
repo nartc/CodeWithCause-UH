@@ -50,8 +50,9 @@ export class OrganizationController extends BaseController {
         updateOrganization._id = id;
         updateOrganization.orgType = newOrganizationParams.orgType;
         updateOrganization.name = newOrganizationParams.name;
+        await this._organizationRepository.update(id, updateOrganization);
         await this._harvestRepository.syncDataOnUpdate(id, 'organization');
-        return await this._organizationRepository.update(id, updateOrganization);
+        return await this._organizationRepository.getResourceById(id);
     }
 
     @Delete('{id}')
