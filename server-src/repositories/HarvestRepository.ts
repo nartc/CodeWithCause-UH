@@ -35,22 +35,29 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
     async syncDataOnUpdate(id: string, type?: 'harvester' | 'crop' | 'organization'): Promise<boolean> {
         try {
             const harvests = await this.getAll();
-            harvests.forEach((harvest) => {
+            harvests.forEach(async (harvest) => {
                 harvest.entries.forEach(async (entry) => {
                     switch (type) {
                         case 'harvester':
-                            entry.harvester = await this.harvesterRepository.getResourceById(id);
+                            if (entry.harvester._id === id) {
+                                entry.harvester = await this.harvesterRepository.getResourceById(id);
+                            }
                             break;
                         case 'crop':
-                            entry.crop = await this.cropRepository.getResourceById(id);
+                            if (entry.crop._id === id) {
+                                entry.crop = await this.cropRepository.getResourceById(id);
+                            }
                             break;
                         case 'organization':
-                            entry.recipient = await this.organizationRepository.getResourceById(id);
+                            if (entry.recipient._id === id) {
+                                entry.recipient = await this.organizationRepository.getResourceById(id);
+                            }
                             break;
                         default:
                             return false;
                     }
                 });
+                await harvest.save();
             });
             return true;
         } catch (e) {
