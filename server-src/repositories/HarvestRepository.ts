@@ -11,6 +11,9 @@ import {IHarvesterRepository} from './interfaces/IHarvesterRepository';
 import {Organization} from '../models/Organization';
 import {ICropRepository} from './interfaces/ICropRepository';
 import {Types} from 'mongoose';
+import {IEntryRepository} from './interfaces/IEntryRepository';
+import {EntryRepository} from './EntryRepository';
+import {Entry} from '../models/Entry';
 
 export class HarvestRepository extends BaseRepository<IHarvest> implements IHarvestRepository {
     private _harvestModel: HarvestModel;
@@ -18,6 +21,7 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
     private readonly organizationRepository: IOrganizationRepository = new OrganizationRepository(Organization);
     private readonly cropRepository: ICropRepository = new CropRepository(Crop);
     private readonly harvesterRepository: IHarvesterRepository = new HarvesterRepository(Harvester);
+    private readonly entryRepository: IEntryRepository = new EntryRepository(Entry);
 
     constructor(harvestModel: HarvestModel) {
         super(harvestModel);
@@ -44,6 +48,8 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
                         {
                             arrayFilters: [{'elem.recipient._id': Types.ObjectId(id)}]
                         });
+
+                    await this.entryRepository.updateMany({'recipient._id': Types.ObjectId(id)}, {$set: {recipient: org}});
                     break;
                 }
                 case 'harvester':
@@ -55,6 +61,7 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
                             arrayFilters: [{'elem.harvester._id': id}],
                             new: true
                         });
+                    await this.entryRepository.updateMany({'harvester._id': Types.ObjectId(id)}, {$set: {harvester}});
                     break;
                 case 'crop':
                     const crop = await this.cropRepository.getResourceById(id);
@@ -65,6 +72,7 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
                             arrayFilters: [{'elem.crop._id': id}],
                             new: true
                         });
+                    await this.entryRepository.updateMany({'crop._id': Types.ObjectId(id)}, {$set: {crop}});
                     break;
                 default:
                     break;

@@ -34,9 +34,9 @@ export class ReportingController extends BaseController {
         let queried: EntryVm[];
 
         if (percentageType === PercentageReportType.Donated) {
-            queried = await allEntries.filter((e) => e.recipient.orgType === OrganizationType.Donated || e.recipient.orgType === OrganizationType.Internal);
+            queried = allEntries.filter((e) => e.recipient.orgType === OrganizationType.Donated || e.recipient.orgType === OrganizationType.Internal);
         } else if (percentageType === PercentageReportType.Purchased) {
-            queried = await allEntries.filter((e) => e.recipient.orgType === OrganizationType.Purchased);
+            queried = allEntries.filter((e) => e.recipient.orgType === OrganizationType.Purchased);
         }
 
         const percentage: string = ((queried.length / allEntries.length) * 100).toFixed(2);
