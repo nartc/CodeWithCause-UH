@@ -33,23 +33,19 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
     }
 
     async syncDataOnUpdate(id: string, type?: 'harvester' | 'crop' | 'organization'): Promise<boolean> {
-        let resource;
         try {
             const harvests = await this.getAll();
             harvests.forEach((harvest) => {
                 harvest.entries.forEach(async (entry) => {
                     switch (type) {
                         case 'harvester':
-                            resource = await this.harvesterRepository.getResourceById(id);
-                            entry.harvester = resource.toJSON();
+                            entry.harvester = await this.harvesterRepository.getResourceById(id);
                             break;
                         case 'crop':
-                            resource = await this.cropRepository.getResourceById(id);
-                            entry.crop = resource.toJSON();
+                            entry.crop = await this.cropRepository.getResourceById(id);
                             break;
                         case 'organization':
-                            resource = await this.organizationRepository.getResourceById(id);
-                            entry.recipient = resource.toJSON();
+                            entry.recipient = await this.organizationRepository.getResourceById(id);
                             break;
                         default:
                             return false;
