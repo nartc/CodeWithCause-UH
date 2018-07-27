@@ -39,17 +39,17 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
                 harvest.entries.forEach(async (entry) => {
                     switch (type) {
                         case 'harvester':
-                            if (entry.harvester._id === id) {
+                            if (entry.harvester._id.toString() === id) {
                                 entry.harvester = await this.harvesterRepository.getResourceById(id);
                             }
                             break;
                         case 'crop':
-                            if (entry.crop._id === id) {
+                            if (entry.crop._id.toString() === id) {
                                 entry.crop = await this.cropRepository.getResourceById(id);
                             }
                             break;
                         case 'organization':
-                            if (entry.recipient._id === id) {
+                            if (entry.recipient._id.toString() === id) {
                                 entry.recipient = await this.organizationRepository.getResourceById(id);
                             }
                             break;
