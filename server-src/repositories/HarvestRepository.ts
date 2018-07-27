@@ -10,6 +10,7 @@ import {IOrganizationRepository} from './interfaces/IOrganizationRepository';
 import {IHarvesterRepository} from './interfaces/IHarvesterRepository';
 import {Organization} from '../models/Organization';
 import {ICropRepository} from './interfaces/ICropRepository';
+import {Types} from 'mongoose';
 
 export class HarvestRepository extends BaseRepository<IHarvest> implements IHarvestRepository {
     private _harvestModel: HarvestModel;
@@ -34,31 +35,40 @@ export class HarvestRepository extends BaseRepository<IHarvest> implements IHarv
 
     async syncDataOnUpdate(id: string, type?: 'harvester' | 'crop' | 'organization'): Promise<boolean> {
         try {
-            const harvests = await this.getAll();
-            harvests.forEach(async (harvest) => {
-                harvest.entries.forEach(async (entry) => {
-                    switch (type) {
-                        case 'harvester':
-                            if (entry.harvester._id.toString() === id) {
-                                entry.harvester = await this.harvesterRepository.getResourceById(id);
-                            }
-                            break;
-                        case 'crop':
-                            if (entry.crop._id.toString() === id) {
-                                entry.crop = await this.cropRepository.getResourceById(id);
-                            }
-                            break;
-                        case 'organization':
-                            if (entry.recipient._id.toString() === id) {
-                                entry.recipient = await this.organizationRepository.getResourceById(id);
-                            }
-                            break;
-                        default:
-                            return false;
-                    }
-                });
-                await harvest.save();
-            });
+            switch (type) {
+                case 'organization': {
+                    const org = await this.organizationRepository.getResourceById(id);
+                    await this._harvestModel.updateMany(
+                        {},
+                        {$set: {'entries.$[elem].recipient': org}},
+                        {
+                            arrayFilters: [{'elem.recipient._id': Types.ObjectId(id)}]
+                        });
+                    break;
+                }
+                case 'harvester':
+                    const harvester = await this.harvesterRepository.getResourceById(id);
+                    await this._harvestModel.updateMany(
+                        {},
+                        {$set: {'entries.$[elem].harvester': harvester}},
+                        {
+                            arrayFilters: [{'elem.harvester._id': id}],
+                            new: true
+                        });
+                    break;
+                case 'crop':
+                    const crop = await this.cropRepository.getResourceById(id);
+                    await this._harvestModel.updateMany(
+                        {},
+                        {$set: {'entries.$[elem].crop': crop}},
+                        {
+                            arrayFilters: [{'elem.crop._id': id}],
+                            new: true
+                        });
+                    break;
+                default:
+                    break;
+            }
             return true;
         } catch (e) {
             return false;
