@@ -177,9 +177,9 @@ export class ReportingComponent implements OnInit, OnDestroy {
             hoverBackgroundColor: bgColor
           }]
       };
-      this.csvData = this.weightTotal;
+      this.csvData = this.amountTotal;
       this.csvHeaders = Object.keys(this.csvData[0]);
-      this.csvFilename = `Total_Weight_${moment().format('YYYY-MM-DD')}`;
+      this.csvFilename = `Total_Amount_${moment().format('YYYY-MM-DD')}`;
       this.orgTypeReport = false;
     } else if (this.selected === 'Weight') {
       this.data = {
@@ -191,9 +191,9 @@ export class ReportingComponent implements OnInit, OnDestroy {
             hoverBackgroundColor: bgColor
           }]
       };
-      this.csvData = this.amountTotal;
+      this.csvData = this.weightTotal;
       this.csvHeaders = Object.keys(this.csvData[0]);
-      this.csvFilename = `Total_Amount_${moment().format('YYYY-MM-DD')}`;
+      this.csvFilename = `Total_Weight_${moment().format('YYYY-MM-DD')}`;
       this.orgTypeReport = false;
     } else if (this.selected === 'Donated') {
       this.orgTypeData = [];
