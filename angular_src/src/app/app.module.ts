@@ -20,7 +20,10 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatGridListModule,
+  MatTableModule,
+  MatTabsModule
 } from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
@@ -75,6 +78,7 @@ import {EditEntryComponent} from './harvest-edit/edit-entry/edit-entry.component
 import {HarvetersManagementComponent} from './harveters-management/harveters-management.component';
 import {ConfirmDeleteComponent} from './harveters-management/confirm-delete/confirm-delete.component';
 import {CreateDialogComponent} from './harveters-management/create-dialog/create-dialog.component';
+import {ConfirmDeleteEntryDialogComponent} from './entry/confirm-delete-entry-dialog/confirm-delete-entry-dialog.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +114,7 @@ import {CreateDialogComponent} from './harveters-management/create-dialog/create
     HarvetersManagementComponent,
     ConfirmDeleteComponent,
     CreateDialogComponent,
+    ConfirmDeleteEntryDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -137,6 +142,7 @@ import {CreateDialogComponent} from './harveters-management/create-dialog/create
     MatFormFieldModule,
     MatExpansionModule,
     MatDialogModule,
+    MatGridListModule,
     MatFormFieldModule,
     MatSnackBarModule,
     MatChipsModule,
@@ -150,7 +156,9 @@ import {CreateDialogComponent} from './harveters-management/create-dialog/create
     ProgressSpinnerModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatTabsModule
   ],
   providers: [
     {provide: API_BASE_URL, useFactory: baseUrl},
@@ -185,6 +193,7 @@ import {CreateDialogComponent} from './harveters-management/create-dialog/create
     GenerateReportDialogComponent,
     ConfirmLogoutDialogComponent, ConfirmDeleteComponent,
     CreateDialogComponent,
+    ConfirmDeleteEntryDialogComponent
   ]
 })
 export class AppModule {

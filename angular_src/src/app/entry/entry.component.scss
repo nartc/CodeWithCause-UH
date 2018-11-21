@@ -1,48 +1,190 @@
-mat-form-field, mat-slider {
-  width:100%;
-}
+@import "../../styles";
 
-.date {
-  width: 50%;
-  align-self: right;
-  margin: 0 4vh 0 2vh;
-}
+* {
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+  }
 
-.farmField {
-  width: 80% !important;
-  padding-bottom: 2vh;
-}
+  img {
+    height: 192px;
+    margin-bottom: 16px;
+  }
+  
+  mat-form-field {
+    width:100%;
+  }
 
-.frame {
-  padding: 2vh;
-}
+  mat-cell:last-child,
+  mat-header-cell:last-child {
+    flex: 0 0 20%;
+  }
 
-.buttons {
-  margin: 1vh;
-}
+  mat-row:nth-last-child(2) {
+    border-color: $brand-grey;
+  }
 
-.weightLabel {
-  color: #767676;
-  font-family: Roboto,"Helvetica Neue",sans-serif;
-  margin-bottom: -.5vh;
-  font-weight: 100;
-}
+  mat-row:last-child {
+    position: sticky;
+    bottom: 0;
+    margin-bottom: 16px;
+    border-bottom: solid 1px rgba(0,0,0,0.12);
+    background-color: #e4e4e4;
+  }
 
-.start {
-  margin: 20vh 0 30vh 0;
-}
+  .tab-wrapper {
+    width: 80%;
+    margin-left: 10%;
+  }
+  
+  .farmField, .coordinatorField {
+    width: 80%;
+    padding-bottom: 1vh;
+  }
 
-.startButton {
-  height: 8vh;
-  width: 60vw;
-}
+  .submit-button {
+    height: 8vh;
+    width: 80%;
+  }
 
-.backButton {
-  margin-right: 2vh;
-}
+  .submit-button-1 {
+    height: 8vh !important;
+    width: 60% !important;
+    margin-left: 20% !important;
+    margin-bottom: 2px;
+  }
 
-/deep/ .mat-slider-thumb-label-text {
-  font-family: Roboto,"Helvetica Neue",sans-serif;
-  font-size: 8pt !important;
-  font-weight: 500;
+  .mat-column-right {
+    text-align: center;
+  }
+
+  .form-container {
+    width: 40%;
+    min-width: 512px;
+    margin: 0 auto;
+    margin-top: 64px;
+    padding: 16px 16px 96px 16px;
+  }
+
+  .form-container-1 {
+    width: 100%;
+    padding: 16px 16px 16px 16px;
+  }
+
+  .table-wrapper {
+    max-height: 480px;
+    padding-bottom: 16px;
+    overflow-y: auto;
+  }
+
+  ::ng-deep .mat-tab-label {
+    margin-top: 32px;
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    color: #fff;
+    background-color: $brand-grey !important;
+    opacity: 1;
+  }
+
+  ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    margin-top: 32px;
+    color: #fff;
+    background-color: rrgba(75, 77, 79, 0.8) !important;
+    opacity: 1;
+  }
+  
+  ::ng-deep .mat-ink-bar {
+    background-color: $brand-grey !important;
+  }
+
+  ::ng-deep .mat-tab-group.mat-primary .mat-tab-label:focus, 
+  .mat-tab-group.mat-primary .mat-tab-link:focus, 
+  .mat-tab-nav-bar.mat-primary .mat-tab-label:focus, 
+  .mat-tab-nav-bar.mat-primary .mat-tab-link:focus {
+    background-color: transparent;
+  }
+
+  // MOBILE SPECS
+
+  .mobile-label {
+    display: none;
+  }
+
+@media(max-width: 550px) {
+
+  img {
+    height: 128px;
+  }
+
+  mat-row:last-child mat-cell:nth-child(1), 
+  mat-row:last-child mat-cell:nth-child(2), 
+  mat-row:last-child mat-cell:nth-child(3)  {
+    display: none;
+  }
+
+  mat-cell:last-child .mobile-label {
+    display: none;
+  }
+
+  mat-form-field {
+    font-size: 12px;
+  }
+
+  .farmField, .coordinatorField {
+    width: 100%;
+    padding-bottom: 1vh;
+  }
+
+  .tab-wrapper {
+    width: 100%;
+    margin: 0;
+  }
+
+  .form-container {
+    width: 90%;
+    min-width: 128px;
+    margin: 0 auto;
+    padding: 16px 16px 32px 16px;
+
+    font-size: 14px;
+  }
+
+  .form-container-1 {
+    width: 100%;
+    min-width: 196px;
+    padding: 16px 16px 16px 16px;
+
+    font-size: 14px;
+  }
+
+  .mobile-label {
+    width: 80px;
+    display: inline-block;
+        font-weight: bold;
+  }
+
+  .mat-header-row {
+    display: none !important;
+  }
+
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+
+  .mat-elevation-z8 {
+    box-shadow: none !important;
+  }
+
+  ::ng-deep .mat-tab-label {
+    margin-top: 16px;
+    font-size: 12px;
+  }
+
+  ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    margin-top: 16px;
+    font-size: 12px;
+  }
 }

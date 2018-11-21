@@ -1,49 +1,82 @@
 @import "../../styles";
 
-$content-width-per-card-small: 43;
-$padding-per-card-small: (100 - ($content-width-per-card-small * 2) - 5) / 4;
-$content-width-per-card-large: 20;
-$padding-per-card-large: (100 - ($content-width-per-card-large * 4) - 12) / 4;
-
 mat-card {
   background-color: lighten($brand-grey, 55) !important;
   color: darken($brand-green, 15) !important;
-
+  
   display: inline-block;
+  min-width: 256px;
 
   p {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 0 auto 20px !important;
   }
+
+  img {
+    position: absolute;
+  }
+
 }
 
 mat-card.small {
-  width: calc(#{$content-width-per-card-small} * #{$cw});
-  height: calc(#{$content-width-per-card-small} * #{$cw});
-  margin: calc(#{$padding-per-card-small} * #{$cw});
+
+width: calc(96 * #{$cw});
+height: calc(8.5 * #{$cw});
+margin: calc(.5 * #{$cw});
+
+  border-radius: 10px;
 
   p {
     font-size: 4vw;
+    padding-left: 24vw;
+    margin: 0 auto 9px !important;
   }
 
-  i {
-    font-size: 10vw;
+  img {
+    top: calc(1 * #{$cw});
+    height: 42px;
+    padding-top: calc(1 * #{$cw});
+    margin: 0 auto 0 !important;
   }
 }
 
 mat-card.large {
-  width: calc(#{$content-width-per-card-large} * #{$cw});
-  height: calc(#{$content-width-per-card-large} * #{$cw});
-  margin: calc(#{$padding-per-card-large} * #{$cw});
+
+ width: calc(47.5 * #{$cw});
+ height: calc(8 * #{$cw});
+ margin: calc(.5 * #{$cw});
+
+  border-radius: 10px;
 
   p {
-    font-size: 2vw;
+    font-size: 2.2vw;
+    padding-left: 10vw;
+    margin: 0 auto 2vw !important;
   }
 
-  i {
-    font-size: 6vw;
+  img {
+    top: calc(1 * #{$cw});
+    height: calc(6 * #{$cw});
+    margin: 0 auto !important;
   }
+
+}
+
+mat-card:hover {
+  cursor: pointer;
+}
+
+mat-card.small.top-card {
+  margin-top: 4vw;
+}
+
+mat-card.large.top-card {
+  margin-top: 2vw;
+}
+
+.mat-card {
+  font-weight: 400 !important;
+  font-family: 'Montserrat', sans-serif;
 }

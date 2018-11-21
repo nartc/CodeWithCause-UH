@@ -1,4 +1,4 @@
-@import "../styles";
+@import "../styles.scss";
 
 .header {
   height: $header-height;
@@ -13,7 +13,7 @@
 .content {
   margin: $header-height 0 $footer-height;
   height: calc(100vh - #{$header-height} - #{$footer-height});
-   overflow-y:scroll;
+  overflow-y:scroll;
   // // overflow-y: auto;
   // overflow-x: hidden;
 }
@@ -26,4 +26,7 @@
 
   position: fixed;
   bottom: 0; /* stick to bottom */
+
+  font-weight: 500 !important;
+  font-family: 'Montserrat', sans-serif;
 }

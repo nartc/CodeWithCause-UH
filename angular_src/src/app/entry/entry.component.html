@@ -1,47 +1,107 @@
-<div class="frame">
-  <div *ngIf="!harvestStarted" class="start text-center mx-auto">
-    <ng-container *ngIf="!doneLoading">
-      <div class="center-align">
-        <p-progressSpinner></p-progressSpinner>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="doneLoading">
-      <mat-form-field class="farmField">
-        <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" required #farmField="ngModel">
-          <mat-option *ngFor="let farm of farms" [value]="farm">{{farm.name}}</mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="!farmField.valid && farmField.touched">Please select a farm</span>
-        </mat-error>
-      </mat-form-field>
-      <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
-      </button>
-    </ng-container>
-  </div>
-  <div *ngIf="harvestStarted">
-    <form [formGroup]="form" (ngSubmit)="submitHarvest()">
-      <mat-form-field>
-        <input matInput placeholder="Date" value="{{today}}" disabled>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Harvest Coordinator" formControlName="harvester" required>
-          <mat-option *ngFor="let harvester of harvesters" [value]="harvester._id">{{harvester.firstName}} {{harvester.lastName}}
-          </mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="form.controls['harvester'].touched && !form.controls['harvester'].valid">Please select a harvester</span>
-        </mat-error>
-      </mat-form-field>
+<ng-container>
+        <div *ngIf="!harvestStarted" class="text-center mx-auto form-container mat-elevation-z8">
+        <ng-container *ngIf="!doneLoading"> 
+            <div class="center-align">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="doneLoading">
+            <div><img src="../../assets/icons/harvest.png"></div>
+            
+            <mat-form-field class="farmField">
+            <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" required #farmField="ngModel">
+                <mat-option *ngFor="let farm of farms" [value]="farm">{{farm.name}}</mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="!farmField.valid && farmField.touched">Please select a farm</span>
+            </mat-error>
+            </mat-form-field>
+        
+            <mat-form-field class="coordinatorField">
+            <mat-select placeholder="Harvest Coordinator" name="coordinator" [(ngModel)]="selectedCoordinator" required #coordinatorField="ngModel">
+                <mat-option *ngFor="let harvester of harvesters" [value]="harvester">{{harvester.firstName}} {{harvester.lastName}}</mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="!coordinatorField.valid && coordinatorField.touched">Please select a Coordinator</span>
+            </mat-error>
+            </mat-form-field>
+                    
+            <button *ngIf="farmField.valid && coordinatorField.valid" mat-raised-button class="btn-primary submit-button" (click)="startHarvest()">Begin Harvest
+            </button>
 
-      <mat-form-field>
-        <mat-select placeholder="Crop" formControlName="crop" required (change)="onCropChanged($event)">
-          <mat-option *ngFor="let crop of crops" [value]="crop._id">{{crop.name}}</mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="form.controls['crop'].touched && !form.controls['crop'].valid">Please select a Crop</span>
-        </mat-error>
-      </mat-form-field>
+        </ng-container>
+        </div>
+            
+        <div *ngIf="harvestStarted">
+        <div class="tab-wrapper">
+        <mat-tab-group>
+        <mat-tab label="Entry Form">
+            <div class="form-container-1 mat-elevation-z8">
+            <form [formGroup]="form" (ngSubmit)="submitHarvest()">
+            
+            <mat-form-field>
+                <input matInput placeholder="Date" value="{{today}}" disabled>
+            </mat-form-field>
+                
+            <mat-form-field>
+            <mat-select placeholder="Crop" formControlName="crop" required (change)="onCropChanged($event)">
+                <mat-option *ngFor="let crop of crops" [value]="crop._id">{{crop.name}}</mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="form.controls['crop'].touched && !form.controls['crop'].valid">Please select a Crop</span>
+            </mat-error>
+            </mat-form-field>
+        
+            <mat-form-field *ngIf="form.controls['crop'].value">
+            <mat-select placeholder="Variety" formControlName="variety" required>
+                <mat-option *ngFor="let variety of varieties" [value]="variety">{{variety}}</mat-option>
+            </mat-select>
+            
+            <mat-error>
+                <span *ngIf="form.controls['variety'].touched && !form.controls['crop'].valid">Please select a variety</span>
+            </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field>
+            <input matInput type="number" placeholder="Weight (pounds)" 
+                   step="0.25" formControlName="pounds" (input)="onPoundChanged()" required>
+            <mat-error>
+                <span *ngIf="form.controls['pounds'].touched && !form.controls['pounds'].valid">Please enter weight.<br></span>
+            </mat-error>
+            </mat-form-field>
+    
+            <mat-form-field class="priceTotal">
+                <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal">
+            </mat-form-field>
+            
+            <mat-form-field class="comments">
+                <textarea matInput placeholder="Comments" formControlName="comment"></textarea>
+            </mat-form-field>
+            
+            <mat-form-field>
+            <mat-select placeholder="Recipient" formControlName="recipient" (change)="onRecipientChanged($event)" required>
+                <mat-option *ngFor="let org of organizations" [value]="org._id">
+                {{ org.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="!form.controls['recipient'].valid && form.controls['recipient'].touched">Please Select a Recipient</span>
+            </mat-error>
+            </mat-form-field>
+        
+            <div *ngIf="!editMode">
+            <button mat-raised-button type="button" class="btn-primary submit-button-1" (click)="submitEntry();" [disabled]="!form.valid">
+                Submit Entry
+            </button>
+            </div>
+            </form>
+            </div>
+        </mat-tab>
+        <mat-tab *ngIf="hasEntry" label="Harvest Entries ({{entryCounts}})">
+            <div class="table-wrapper">
+            <mat-table #table [dataSource]="dataSource" [class.isMobile]="isMobile">
 
+<<<<<<< Updated upstream
       <mat-form-field *ngIf="form.controls['crop'].value">
         <mat-select placeholder="Variety" formControlName="variety">
           <mat-option *ngFor="let variety of varieties" [value]="variety">{{variety}}</mat-option>
@@ -50,43 +110,68 @@
           <span *ngIf="form.controls['variety'].touched && !form.controls['crop'].valid">Please select a variety</span>
         </mat-error>
       </mat-form-field>
+=======
+                <ng-container matColumnDef="crop">
+                    <mat-header-cell *matHeaderCellDef> Crop </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <span class="mobile-label">Crop</span>
+                        <span *ngIf="(entry.crop !== 'Total')">{{entry.crop}}</span>
+                        <span *ngIf="(entry.crop === 'Total')">Total ({{entry.entryNum}})</span>
+                    </mat-cell>
+                </ng-container>
+>>>>>>> Stashed changes
 
-      <label for="weightSlider" class="weightLabel">Weight</label>
-      <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100"
-                  step="0.25" formControlName="pounds"
-                  (change)="onPoundChanged($event)"></mat-slider>
+                <ng-container matColumnDef="variety">
+                    <mat-header-cell *matHeaderCellDef> Variety </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <span class="mobile-label">Variety</span> 
+                        {{entry.variety}} 
+                    </mat-cell>
+                </ng-container>
 
-      <mat-form-field class="priceTotal">
-        <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal">
-      </mat-form-field>
+                <ng-container matColumnDef="recipient">
+                    <mat-header-cell *matHeaderCellDef> Recipient </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <span class="mobile-label">Recipient</span> 
+                        {{entry.recipient}} 
+                    </mat-cell>
+                </ng-container>
 
-      <mat-form-field class="comments">
-        <textarea matInput placeholder="Comments" formControlName="comment"></textarea>
-      </mat-form-field>
+                <ng-container matColumnDef="pounds">
+                    <mat-header-cell *matHeaderCellDef> Pounds </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <span class="mobile-label">Pounds</span>
+                        {{entry.pounds}} 
+                    </mat-cell>
+                </ng-container>
 
-      <mat-form-field>
-        <mat-select placeholder="Recipient" formControlName="recipient" required>
-          <mat-option *ngFor="let org of organizations" [value]="org._id">
-            {{ org.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="!form.controls['recipient'].valid && form.controls['recipient'].touched">Please Select a Recipient</span>
-        </mat-error>
-      </mat-form-field>
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                    <mat-cell *matCellDef="let entry">
+                        <span class="mobile-label">Price</span> 
+                        ${{entry.price}} 
+                    </mat-cell>
+                </ng-container>
 
-      <div *ngIf="!editMode" class="center-align buttons">
-        <button mat-button type="button" class="btn-primary" (click)="submitEntry();" [disabled]="!form.valid">Next
-          Entry
-        </button>
+               <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="mat-column-right"> Actions </mat-header-cell>
+                    <mat-cell *matCellDef="let entry; let i = index" class="mat-column-right">
+                        <ng-container *ngIf="(entry.crop !== 'Total')">
+                            <span class="mobile-label"><br></span>
+                            <button mat-button color="warn" (click)="deleteEntry(entry, i);"> Delete </button>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
 
-        <button mat-button type="submit" class="btn-secondary" *ngIf="firstEntry">Submit Harvest <span
-          *ngIf="firstEntry">({{entryCounts}})</span></button>
-      </div>
-      <mat-card *ngIf="firstEntry" class="alert-danger">Attention: To save the current entry to this harvest, please hit
-        Next Entry then
-        Submit Harvest.
-      </mat-card>
-    </form>
-  </div>
-</div>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
+            </mat-table>
+            </div>
+            <button mat-raised-button type="submit" class="btn-primary submit-button-1" *ngIf="hasEntry" (click)="submitHarvest();">
+                Submit Harvest 
+            </button>
+        </mat-tab>
+    </mat-tab-group>
+    </div>
+    </div>
+</ng-container>

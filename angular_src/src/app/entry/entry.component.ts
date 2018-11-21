@@ -20,9 +20,20 @@ import {
   OrganizationVm,
   SwaggerException,
 } from '../app.api';
-import {MatSlider, MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatDialog} from '@angular/material';
 import {of} from 'rxjs/observable/of';
 import {combineLatest} from 'rxjs/observable/combineLatest';
+import {MatTableDataSource} from '@angular/material';
+import {ConfirmDeleteEntryDialogComponent} from './confirm-delete-entry-dialog/confirm-delete-entry-dialog.component';
+
+export interface TableList {
+  entryNum: number;
+  crop: string;
+  variety: string;
+  recipient: string;
+  pounds: number;
+  price: number;
+}
 
 @Component({
   selector: 'app-entry',
@@ -30,7 +41,12 @@ import {combineLatest} from 'rxjs/observable/combineLatest';
   styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements OnInit, OnDestroy {
-  @ViewChild('slider') slider: MatSlider;
+
+  windowWidth: number = window.innerWidth;
+  tableData: TableList[] = [];
+  cropName: string;
+  orgName: string;
+  loading: boolean;
 
   today: string;
   harvestStarted: boolean;
@@ -46,23 +62,29 @@ export class EntryComponent implements OnInit, OnDestroy {
   selectedFarm: FarmVm;
   harvest: HarvestVm;
   cropTest: CropVm;
+  orgTest: OrganizationVm;
 
-
+  entryToUpdate: EntryVm[];
+  selectedCoordinator: HarvesterVm;
+  coordinatorId: string;
   harvester: string;
   pounds = 0;
   priceTotal = 0;
   farm: string;
   comment: string;
-  firstEntry = false;
+  hasEntry = false;
   entryCounts = 0;
 
   doneLoading = false;
 
   varieties: string[];
 
+  displayedColumns: string[] = ['crop', 'variety', 'recipient', 'pounds', 'price', 'actions'];
+  dataSource = new MatTableDataSource<TableList>(this.tableData);
   entryIdArray: any[] = [];
 
   form: FormGroup;
+  editForm: FormGroup;
 
   constructor(private entryService: EntryClient,
               private farmService: FarmClient,
@@ -72,6 +94,7 @@ export class EntryComponent implements OnInit, OnDestroy {
               private harvestService: HarvestClient,
               private router: Router,
               private fb: FormBuilder,
+              private matDialog: MatDialog,
               private snackBar: MatSnackBar) {
   }
 
@@ -83,11 +106,13 @@ export class EntryComponent implements OnInit, OnDestroy {
 
     combineLatest(
       this.farmService.getAll(),
-      this.cropService.getAll()
-    ).subscribe((data: [FarmVm[], CropVm[]]) => {
-      const [farms, crops] = data;
+      this.cropService.getAll(),
+      this.harvesterService.getAll()
+    ).subscribe((data: [FarmVm[], CropVm[], HarvesterVm[]]) => {
+      const [farms, crops, harvesters] = data;
       this.farms = farms;
       this.crops = crops;
+      this.harvesters = harvesters;
       this.doneLoading = true;
     });
 
@@ -99,12 +124,11 @@ export class EntryComponent implements OnInit, OnDestroy {
   initForm() {
     this.form = this.fb.group({
       crop: ['', Validators.required],
-      harvester: [''],
       farm: [''],
       variety: [''],
       recipient: [''],
       comment: [''],
-      pounds: [{value: 0, disabled: true}],
+      pounds: [{value: null, disabled: true}],
       priceTotal: [{value: 0, disabled: true}]
     });
   }
@@ -113,6 +137,7 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   startHarvest() {
+    this.coordinatorId = this.selectedCoordinator._id;
     const newHarvest: HarvestParams = new HarvestParams();
     newHarvest.farmId = this.selectedFarm._id;
     this.harvestService.registerHarvest(newHarvest)
@@ -122,7 +147,6 @@ export class EntryComponent implements OnInit, OnDestroy {
         localStorage.setItem('harvest_id', JSON.stringify({harvest: this.harvest._id}));
         this.harvestStarted = true;
         return combineLatest(
-          this.harvesterService.getAll(),
           this.organizationService.getAll(),
         );
       })
@@ -141,9 +165,8 @@ export class EntryComponent implements OnInit, OnDestroy {
           }
         );
         return of();
-      }).subscribe((data: [HarvesterVm[], OrganizationVm[]]) => {
-      const [harvesters, organizations] = data;
-      this.harvesters = harvesters;
+      }).subscribe((data: [OrganizationVm[]]) => {
+      const [organizations] = data;
       this.organizations = organizations;
     });
 
@@ -156,7 +179,7 @@ export class EntryComponent implements OnInit, OnDestroy {
       recipientId: this.form.get('recipient').value,
       pounds: this.form.get('pounds').value,
       comments: this.form.get('comment').value,
-      harvesterId: this.form.get('harvester').value
+      harvesterId: this.coordinatorId
     });
 
     this.entryService.registerEntry(newEntry)
@@ -167,14 +190,15 @@ export class EntryComponent implements OnInit, OnDestroy {
         localStorage.setItem('entry_id', JSON.stringify({
           entries: this.entryIdArray
         }));
-        if (!this.firstEntry) {
-          this.firstEntry = true;
+        if (!this.hasEntry) {
+          this.hasEntry = true;
         }
         this.entryCounts++;
+        this.addEntryToTableData();
+        this.addFooterToTableData(false);
         this.form.reset();
         this.priceTotal = 0;
         this.pounds = 0;
-        this.slider.value = 0;
       }, (err: SwaggerException) => {
         let msg = 'Server error occurred';
         if (err) {
@@ -193,8 +217,58 @@ export class EntryComponent implements OnInit, OnDestroy {
       });
   }
 
+  deleteEntry(entry: TableList, index: number): void {
+    const dialogRef = this.matDialog.open(ConfirmDeleteEntryDialogComponent,
+      {
+        width: '90vw',
+        data: entry
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      (confirm: boolean): void => {
+        if (confirm) {
+          this.loading = true;
+          this.entryService.deleteEntry(this.entryIdArray[index]).subscribe (
+            (res: any): void => {
+              this.entryIdArray.splice(index, 1);
+              localStorage.setItem('entry_id', JSON.stringify({
+               entries: this.entryIdArray
+              }));
+              this.tableData.splice(index, 1);
+              this.addFooterToTableData(true);
+              this.entryCounts--;
+              this.loading = false;
+              if (this.entryCounts === 0) { this.hasEntry = false; }
+                  this.snackBar.open(
+                    'Entry deleted',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: 'snack-bar-success'
+                    }
+                  );
+            },
+            (error: Error): void => {
+              console.log(error);
+              this.loading = false;
+              this.snackBar.open(
+                'Failed to delete Entry',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: 'snack-bar-danger'
+                }
+              );
+            }
+          );
+        }
+      }
+    );
+  }
+
   submitHarvest() {
-    if (!this.firstEntry) {
+    if (!this.hasEntry) {
       return;
     }
 
@@ -230,18 +304,71 @@ export class EntryComponent implements OnInit, OnDestroy {
 
   onCropChanged($event) {
     this.cropTest = this.crops.filter(c => c._id === $event.value)[0];
+<<<<<<< Updated upstream
     if (!this.cropTest.variety.includes('Unknown')) {
       this.varieties = ['Unknown', ...this.cropTest.variety];
     } else {
       this.varieties = this.cropTest.variety;
     }
+=======
+    this.cropName = this.cropTest.name;
+    this.varieties = this.cropTest.variety;
+>>>>>>> Stashed changes
   }
 
-  onPoundChanged($event) {
-    if ($event.value > 0 && this.cropTest) {
-      this.pounds = $event.value;
+  onPoundChanged() {
+    if (this.form.get('pounds').value > 0 && this.cropTest) {
+      this.pounds = this.form.get('pounds').value;
       this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
       this.form.get('priceTotal').setValue(this.priceTotal);
     }
   }
+
+  onRecipientChanged($event) {
+    this.orgTest = this.organizations.filter(c => c._id === $event.value)[0];
+    this.orgName = this.orgTest.name;
+    console.log('Works ' + this.orgName);
+  }
+
+  getTotalPounds() {
+    return this.tableData.map(t => t.pounds).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalPrice() {
+    return this.tableData.map(t => t.price).reduce((acc, value) => acc + value, 0);
+  }
+
+  addEntryToTableData () {
+    // remove the previous footer
+    this.tableData.splice(-1, 1);
+    // add the newest entry
+    this.tableData.push(
+      {
+        entryNum: this.entryCounts,
+        crop: this.cropName,
+        variety: this.form.get('variety').value,
+        recipient: this.orgName,
+        pounds: this.form.get('pounds').value,
+        price: this.priceTotal
+      }
+    );
+  }
+
+  addFooterToTableData (removePrevious: boolean) {
+    if (removePrevious === true) {
+      this.tableData.splice(-1, 1);
+    }
+    this.tableData.push(
+      {
+        entryNum: this.entryCounts,
+        crop: 'Total',
+        variety: '',
+        recipient: '',
+        pounds: this.getTotalPounds(),
+        price: this.getTotalPrice(),
+      }
+    );
+
+    this.dataSource = new MatTableDataSource<TableList>(this.tableData);
+  }
+
 }

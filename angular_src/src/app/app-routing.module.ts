@@ -42,8 +42,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard]
   },
   {
-    path:'harvesters-management',
-    component:HarvetersManagementComponent,
+    path: 'harvesters-management',
+    component: HarvetersManagementComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   {

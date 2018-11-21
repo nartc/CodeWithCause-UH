@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Confirm Entry Deletion</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to delete {{entry.crop}} from current harvest?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" [mat-dialog-close]="false">Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="true">Delete</button>
+</mat-dialog-actions>

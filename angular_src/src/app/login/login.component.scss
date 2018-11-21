@@ -1,6 +1,49 @@
 @import "../../styles";
 
+img {
+  height: 192px;
+  margin-left: calc(50% - 96px);
+}
+
+button {
+  min-width: 128px;
+  margin-left: calc(50% - 64px);
+}
+
+.form-container {
+  width: 40%;
+  min-width: 512px;
+  margin: 0 auto;
+  margin-top: 64px;
+  padding: 16px 16px 96px 16px;
+  background-color: #fff;
+}
+
 .username, .password {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   display: block;
+}
+
+@media(max-width: 550px) {
+  img {
+    height: 128px;
+    margin-left: calc(50% - 64px);
+  }
+
+  .form-container {
+    width: 90%;
+    min-width: 196px;
+    margin: 0 auto;
+    padding: 16px 16px 32px 16px
+  }
+  
+  .username, .password {
+    width: 100%;
+    display: block;
+  }
+
+  .mat-elevation-z8 {
+    box-shadow: none !important;
+  }
 }

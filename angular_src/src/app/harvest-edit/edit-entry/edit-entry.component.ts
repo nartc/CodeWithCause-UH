@@ -25,7 +25,7 @@ import {combineLatest} from 'rxjs/observable/combineLatest';
   styleUrls: ['./edit-entry.component.scss']
 })
 export class EditEntryComponent implements OnInit {
-  @ViewChild('slider') slider: MatSlider;
+  // @ViewChild('slider') slider: MatSlider;
 
   harvestId: string;
   entryIndex: number;

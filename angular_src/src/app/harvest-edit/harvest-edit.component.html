@@ -19,11 +19,12 @@
     </div>
 
     <div *ngFor="let harvest of harvests; let i = index; trackBy:trackByIndex" class="mt-2">
+      <div *ngIf="1 == 1">
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Harvest {{i+1}}
+             Harvest No. {{i}}
             </mat-panel-title>
             <mat-panel-description>
 
@@ -32,7 +33,7 @@
           <div *ngFor="let entry of harvest.entries;let i = index; trackBy:trackByIndex ">
             <hr>
             <p>
-              <strong> Entry {{i+1}} </strong><br>
+              <strong> Entry {{i+1}} - {{entry.crop.name}} </strong><br>
               Farm: <i>{{harvest.farm.name}} </i><br>
               Created: <i>{{harvest.createdOn | date:'short'}}</i> <br>
               Total Price: ${{entry.priceTotal}} <br>
@@ -49,11 +50,8 @@
       </mat-accordion>
     </div>
   </div>
-  <div *ngIf="!harvests.length>0">
+  
+  <div *ngIf="!harvests.length > 0">
     <h3 class="center">No Records found</h3>
   </div>
 </div>
-
-
-
-
