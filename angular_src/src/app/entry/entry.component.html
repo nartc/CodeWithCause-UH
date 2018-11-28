@@ -73,11 +73,7 @@
             <mat-form-field class="priceTotal">
                 <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal">
             </mat-form-field>
-            
-            <mat-form-field class="comments">
-                <textarea matInput placeholder="Comments" formControlName="comment"></textarea>
-            </mat-form-field>
-            
+
             <mat-form-field>
             <mat-select placeholder="Recipient" formControlName="recipient" (change)="onRecipientChanged($event)" required>
                 <mat-option *ngFor="let org of organizations" [value]="org._id">
@@ -87,6 +83,10 @@
             <mat-error>
                 <span *ngIf="!form.controls['recipient'].valid && form.controls['recipient'].touched">Please Select a Recipient</span>
             </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="comments">
+                <textarea matInput placeholder="Comments" formControlName="comment"></textarea>
             </mat-form-field>
         
             <div *ngIf="!editMode">
@@ -101,16 +101,6 @@
             <div class="table-wrapper">
             <mat-table #table [dataSource]="dataSource" [class.isMobile]="isMobile">
 
-<<<<<<< Updated upstream
-      <mat-form-field *ngIf="form.controls['crop'].value">
-        <mat-select placeholder="Variety" formControlName="variety">
-          <mat-option *ngFor="let variety of varieties" [value]="variety">{{variety}}</mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="form.controls['variety'].touched && !form.controls['crop'].valid">Please select a variety</span>
-        </mat-error>
-      </mat-form-field>
-=======
                 <ng-container matColumnDef="crop">
                     <mat-header-cell *matHeaderCellDef> Crop </mat-header-cell>
                     <mat-cell *matCellDef="let entry">
@@ -119,7 +109,6 @@
                         <span *ngIf="(entry.crop === 'Total')">Total ({{entry.entryNum}})</span>
                     </mat-cell>
                 </ng-container>
->>>>>>> Stashed changes
 
                 <ng-container matColumnDef="variety">
                     <mat-header-cell *matHeaderCellDef> Variety </mat-header-cell>
