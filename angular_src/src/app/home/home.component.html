@@ -58,9 +58,9 @@
             </mat-card>
         
     </ng-container>
-    <ng-container *ngIf="!isAdmin" (onload) = "cardSelected('entry');">
+    <ng-container *ngIf="!isAdmin">
 
-        <mat-card class="small top-card"  (onload)="cardSelected('entry');">
+        <mat-card class="small top-card"  (click)="cardSelected('entry');">
             <mat-card-content>
                 <img class ="float-left" src="../../assets/icons/harvest.png">
                 <p>Harvest Entry</p>
